@@ -11,7 +11,6 @@ require("dotenv").config();
 //CORS
 var cors = require("cors");
 app.use(cors());
-app.get('/',(req,res)=> res.send("Hello from viet"))
 
 var productRouter = require('./router/productRouter');
 app.use("/api/product",productRouter)
@@ -25,6 +24,7 @@ mongoose
         console.log("MongoDB is connected!");
     })
     .catch((err)=>console.log(err));
+app.get('/',(req,res)=> res.send("Hello from viet"))
 
 app.use("/home", home);
 
