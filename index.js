@@ -13,7 +13,21 @@ var cors = require("cors");
 app.use(cors());
 app.get('/',(req,res)=> res.send("Hello from viet"))
 
+var productRouter = require('./router/productRouter');
+app.use("/api/product",productRouter)
+
+mongoose
+    .connect(process.env.connectionString, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
+    .then( ()=>{
+        console.log("MongoDB is connected!");
+    })
+    .catch((err)=>console.log(err));
+
 app.use("/home", home);
+
 const port = process.env.PORT || 5001
 var server = app.listen(port,()=>{
     var port = server.address().port;
