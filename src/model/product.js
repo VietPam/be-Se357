@@ -2,62 +2,46 @@ const mongoose= require("mongoose");
 var uniqueValidator = require("mongoose-unique-validator")
 const Schema = mongoose.Schema;
 
-//Category
-let Category_Schema = new Schema({
-    name:{
-        type: String,
-        required: true,
-        unique: true,
-    },
-});
-
 //Product
 let product_Schema = new Schema({
-    categoryId: {
+    typeId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: "Category",
+        ref: "TypeProduct",
     },
-    name: {
+    nameProduct: {
         type: String,
-        requiered: true,
-        unique: true,
+        requiered: true
     },
-    originPrice:{
-        type: Number,
-        required: true,
-    },
-    costPrice:{
-        type: Number,
-        required: true,
-    },
-    discount: {
+    price:{
         type: Number,
         default: 0,
     },
-    salePrice:{
-        type: Number,
-        required: true,
-    },
-    imageDisplay:{
+    image:{
         type:String,
+        default:''
     },
-    Option: [
-        {
-            size: {
-                type: String,
-                required: true,
-            },
-            quantity:{
-                type: Number,
-                required: true,
-            },
-        }
-    ],
+    description:{
+        type: String,
+        default:''
+    },
+    createAt:{
+        type: Date, 
+        require: true,
+        default:Date.now,
+    },
+    size:{
+        type:String,
+        default:'',
+    },
+    status:{
+        type:String,
+        enum:['SELLING','SOLD'],
+        default:'SELLING'
+    }
+
 });
 
-Category_Schema.plugin(uniqueValidator);
-product_Schema.plugin(uniqueValidator);
 
-exports.Category = mongoose.model("Category",Category_Schema)
+product_Schema.plugin(uniqueValidator);
 exports.Product=mongoose.model("Product",product_Schema);
