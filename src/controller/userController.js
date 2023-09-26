@@ -54,12 +54,13 @@ class UserController{
                         .status(400)
                         .json({success: false, message:'Email already taken'});
             }
-            
             //All good til now
 
             const hashedPassword = await argon2.hash(password)
-            const newUser = new userModel({email,password:hashedPassword, nameAccount, phone, role})
-            await newUser.save;
+            //khong hashed
+            //const newUser = new userModel({email,password:hashedPassword, nameAccount, phone, role})
+            const newUser = new userModel({email,password, nameAccount, phone, role})
+            await newUser.save();
             
             console.log(process.env.ACCESS_TOKEN_SECRET);
 
@@ -85,7 +86,7 @@ class UserController{
         try{
             //Check for existing user
             const user = await userModel.findOne({email})
-            if(!user)
+            if(user)
                 return res
                         .status(400)
                         .json({success:false,message:"Incorrect username or password"})

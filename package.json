@@ -15,6 +15,7 @@
   "author": "quangviet",
   "license": "ISC",
   "dependencies": {
+    "argon2": "^0.31.1",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "dotnet": "^1.1.4",
