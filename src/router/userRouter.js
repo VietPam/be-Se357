@@ -7,5 +7,5 @@ router.get('/verify',verifyToken, userController.getUser)
 
 
 router.post('/register',userController.Register)
-
+router.post('/login',userController.Login);
 module.exports =router

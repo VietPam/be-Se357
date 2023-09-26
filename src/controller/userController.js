@@ -86,14 +86,18 @@ class UserController{
         try{
             //Check for existing user
             const user = await userModel.findOne({email})
-            if(user)
+            if(!user)
                 return res
                         .status(400)
                         .json({success:false,message:"Incorrect username or password"})
             
             //All good
             //return token
-            
+            res.json({
+                user,
+                success:true,
+                message:"User logged in successfully"
+            })
         }catch(err){
             throw new Error(err);
         }
