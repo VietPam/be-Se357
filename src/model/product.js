@@ -3,7 +3,7 @@ var uniqueValidator = require("mongoose-unique-validator")
 const Schema = mongoose.Schema;
 
 //Product
-let product_Schema = new Schema({
+let productSchema = new Schema({
     typeId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
@@ -43,5 +43,5 @@ let product_Schema = new Schema({
 });
 
 
-product_Schema.plugin(uniqueValidator);
-exports.Product=mongoose.model("Product",product_Schema);
+productSchema.plugin(uniqueValidator);
+module.exports=mongoose.model("Product",productSchema);
