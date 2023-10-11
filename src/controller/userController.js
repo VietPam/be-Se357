@@ -82,7 +82,7 @@ class UserController{
             return res
                     .status(400)
                     .json({success: false, message: 'Missing username and/or password'});
-
+       
         try{
             //Check for existing user
             const user = await userModel.findOne({email})
@@ -90,7 +90,12 @@ class UserController{
                 return res
                         .status(400)
                         .json({success:false,message:"Incorrect username or password"})
-            
+            if (password !== user.password) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Wrong password"
+                });
+            }
             //All good
             //return token
             res.json({
