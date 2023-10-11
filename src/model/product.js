@@ -9,10 +9,11 @@ let productSchema = new Schema({
         required: true,
         ref: "TypeProduct",
     },
-    typeRoute:[{
-        type: String,
-        default: "",
-    },],
+
+    // typeRoute:[{
+    //     type: String,
+    //     default: "",
+    // },],
     nameProduct: {
         type: String,
         required: true
@@ -27,12 +28,13 @@ let productSchema = new Schema({
         max: 0,
         default:0,
     },
-    salePrice:{
-        type:Number,
-        default:function(){
-            return this.price * (1-this.sale/100)
-        },
-    },
+    // Phần này Frontend tự tính được
+    // salePrice:{
+    //     type:Number,
+    //     default:function(){
+    //         return this.price * (1-this.sale/100)
+    //     },
+    // },
     image:[{
         type:String,
         default:''

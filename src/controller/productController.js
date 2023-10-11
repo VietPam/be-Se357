@@ -1,5 +1,4 @@
 const productSchema = require('../model/product')
-const typeProductSchema = require('../model/typeProduct')
 
 class ProductController{
     async getAllProducts(req,res){
@@ -11,14 +10,7 @@ class ProductController{
             throw new Error(err);
         }
     }
-    async getAllProductType(req,res){//done
-        try{
-            const findProductType = await typeProductSchema.find({}).select();
-            res.send(findProductType);
-        }catch(err){
-            throw new Error(err);
-        }
-    }
+    
     async createProduct(req,res,next){
         const product =await new productSchema({
             typeId:req.body.typeId,

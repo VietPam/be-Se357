@@ -5,6 +5,14 @@ const typeProductSchema = new mongoose.Schema({
         required: true,
         unique: true,    
     },
+    parentId:{
+        type:String,
+        default:null,
+    },
+    childrenId:[{
+        type:String,
+        default:null,
+    }],
     note:{
         type: String,
         default: '',
