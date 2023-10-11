@@ -9,37 +9,82 @@ let productSchema = new Schema({
         required: true,
         ref: "TypeProduct",
     },
+    typeRoute:[{
+        type: String,
+        default: "",
+    },],
     nameProduct: {
         type: String,
-        requiered: true
+        required: true
     },
     price:{
         type: Number,
         default: 0,
     },
-    image:{
+    sale:{
+        type:Number,
+        min: 0,
+        max: 0,
+        default:0,
+    },
+    salePrice:{
+        type:Number,
+        default:function(){
+            return this.price * (1-this.sale/100)
+        },
+    },
+    image:[{
         type:String,
         default:''
-    },
+    },],
     description:{
         type: String,
         default:''
     },
     createAt:{
         type: Date, 
-        require: true,
+        required: true,
         default:Date.now,
     },
-    size:{
-        type:String,
-        default:'',
+    option:{
+        type: Map,
+        of: [String],
+        default: {
+            "Dung lượng": [ "8GB l 256GB", "8GB-128GB" ]
+        }
+    },
+    details:{
+        type: Map,
+        of: String,
+        default:{
+            "Thương hiệu": "Samsung"
+        }
     },
     status:{
         type:String,
         enum:['SELLING','SOLD'],
         default:'SELLING'
-    }
-
+    }, 
+    avrRating:{
+        type: Number,
+        default: 0,
+    },
+    // reviews:{
+    //     default:[
+    //     {},
+    // ]
+    // },//sau này bỏ reviews vào sau
+    
+    similarProducts: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: "Product",
+    },
+    // business:{
+    //     name: String,
+    //     id: String,
+    //     avatar: String,
+    // }// sau này bỏ id của shop
 });
 
 
