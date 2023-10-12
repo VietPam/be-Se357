@@ -9,11 +9,6 @@ let productSchema = new Schema({
         required: true,
         ref: "TypeProduct",
     },
-
-    // typeRoute:[{
-    //     type: String,
-    //     default: "",
-    // },],
     nameProduct: {
         type: String,
         required: true
@@ -28,13 +23,6 @@ let productSchema = new Schema({
         max: 0,
         default:0,
     },
-    // Phần này Frontend tự tính được
-    // salePrice:{
-    //     type:Number,
-    //     default:function(){
-    //         return this.price * (1-this.sale/100)
-    //     },
-    // },
     image:[{
         type:String,
         default:''
@@ -77,15 +65,12 @@ let productSchema = new Schema({
     // ]
     // },//sau này bỏ reviews vào sau
     
-    similarProducts: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: "Product",
-    },
+    // similarProducts: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     required: true,
+    //     ref: "Product",
+    // },
     // business:{
-    //     name: String,
-    //     id: String,
-    //     avatar: String,
     // }// sau này bỏ id của shop
 });
 
