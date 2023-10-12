@@ -65,11 +65,11 @@ let productSchema = new Schema({
     // ]
     // },//sau này bỏ reviews vào sau
     
-    similarProducts: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: "Product",
-    },
+    // similarProducts: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     required: true,
+    //     ref: "Product",
+    // },
     // business:{
     // }// sau này bỏ id của shop
 });
