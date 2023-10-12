@@ -14,11 +14,9 @@ class ProductController{
     async createProduct(req,res,next){
         const product =await new productSchema({
             typeId:req.body.typeId,
-            typeRoute: req.body.typeRoute,
             nameProduct: req.body.nameProduct,
             price: req.body.price,
             sale: req.body.sale,
-            salePrice: req.body.salePrice,
             image: req.body.image,
             description:req.body.description,
             status:req.body.status,
