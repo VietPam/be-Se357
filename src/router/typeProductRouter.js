@@ -3,7 +3,8 @@ const router = express.Router();
 const typeProductController = require("../controller/typeProductController");
 
 router.get('/getAllProductType',typeProductController.getAllProductType)
-router.get('/:id',typeProductController.getTypeProductPath)
+router.get('/getAllChildrenIdByParentId',typeProductController.getAllChildrenIdByParentId)
+router.get('/getAllParentId',typeProductController.getAllParentId)
 
-router.post('/',typeProductController.addTypeProduct)
+router.post('/addTypeProduct',typeProductController.addTypeProduct)
 module.exports =router
