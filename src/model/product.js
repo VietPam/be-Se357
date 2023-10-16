@@ -17,6 +17,11 @@ let productSchema = new Schema({
         type: Number,
         default: 0,
     },
+    isSaled:{
+        type: Boolean,
+        required: true,
+        default: false,
+    },
     sale:{
         type:Number,
         min: 0,
@@ -45,7 +50,7 @@ let productSchema = new Schema({
         type: Map,
         of: [String],
         default: {
-            "Dung lượng": [ "8GB l 256GB", "8GB-128GB" ]
+            "Size": [ "S", "L","XL" ]
         }
     },
     details:{
@@ -64,6 +69,10 @@ let productSchema = new Schema({
         type: Number,
         default: 0,
     },
+    productInventory:{
+        type: Number,
+        default:1
+    }
     // reviews:{
     //     default:[
     //     {},
