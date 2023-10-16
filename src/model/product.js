@@ -17,16 +17,26 @@ let productSchema = new Schema({
         type: Number,
         default: 0,
     },
+    isSaled:{
+        type: Boolean,
+        required: true,
+        default: false,
+    },
     sale:{
         type:Number,
         min: 0,
-        max: 0,
+        max: 100,
         default:0,
     },
-    image:[{
+    images:[{
         type:String,
         default:''
-    },],
+        },
+    ],
+    imageDisplay:{
+        type: String,
+        default:''
+    },
     description:{
         type: String,
         default:''
@@ -40,7 +50,7 @@ let productSchema = new Schema({
         type: Map,
         of: [String],
         default: {
-            "Dung lượng": [ "8GB l 256GB", "8GB-128GB" ]
+            "Size": [ "S", "L","XL" ]
         }
     },
     details:{
@@ -52,26 +62,23 @@ let productSchema = new Schema({
     },
     status:{
         type:String,
-        enum:['SELLING','SOLD'],
+        enum:['SELLING','SOLD','DRAFT'],
         default:'SELLING'
     }, 
     avrRating:{
         type: Number,
         default: 0,
     },
+    productInventory:{
+        type: Number,
+        default:1
+    }
     // reviews:{
     //     default:[
     //     {},
     // ]
     // },//sau này bỏ reviews vào sau
     
-    // similarProducts: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     required: true,
-    //     ref: "Product",
-    // },
-    // business:{
-    // }// sau này bỏ id của shop
 });
 
 
