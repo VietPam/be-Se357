@@ -20,13 +20,18 @@ let productSchema = new Schema({
     sale:{
         type:Number,
         min: 0,
-        max: 0,
+        max: 100,
         default:0,
     },
-    image:[{
+    images:[{
         type:String,
         default:''
-    },],
+        },
+    ],
+    imageDisplay:{
+        type: String,
+        default:''
+    },
     description:{
         type: String,
         default:''
@@ -52,7 +57,7 @@ let productSchema = new Schema({
     },
     status:{
         type:String,
-        enum:['SELLING','SOLD'],
+        enum:['SELLING','SOLD','DRAFT'],
         default:'SELLING'
     }, 
     avrRating:{
@@ -65,13 +70,6 @@ let productSchema = new Schema({
     // ]
     // },//sau này bỏ reviews vào sau
     
-    // similarProducts: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     required: true,
-    //     ref: "Product",
-    // },
-    // business:{
-    // }// sau này bỏ id của shop
 });
 
 
