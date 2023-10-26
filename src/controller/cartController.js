@@ -17,8 +17,10 @@ class CartController{
         //check for existing cart by userId
         //if cart exist, return cart
         //else create new cart
-        const findCart= cartSchema.find({userId:req.body.userId})
+        const {userId}=req.body.userId
+        const findCart= cartSchema.findOne({userId:userId})
         if(findCart){
+            console.log(1)
             return res.status(400).json({success:false,message:"Cart already exist"})
         }
         const cart =await new cartSchema({
