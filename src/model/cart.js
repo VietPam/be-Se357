@@ -9,7 +9,7 @@ let cartSchema = new Schema({
         required: true,
         ref: "User"
     },
-    items:[cartItemSchema]
+    items:[]
     
 });
 
