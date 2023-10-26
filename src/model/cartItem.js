@@ -7,9 +7,19 @@ function getDefaultProductDeliveryDate() {
     const currentDate = new Date();
     currentDate.setDate(currentDate.getDate() + 2); // Thêm 2 ngày
     const formattedDeliveryDate = moment(currentDate).format("dddd, DD/M");
-    return `Giao ${formattedDeliveryDate}`;
+    return ` ${formattedDeliveryDate}`;
 }
 let cartItemSchema = new Schema({
+    userId:{
+        type:mongoose.Schema.Types.ObjectId,
+        require:true,
+        ref:"User",
+    },
+    cartId:{
+        type:mongoose.Schema.Types.ObjectId,
+        require:true,
+        ref:"Cart",
+    },
     productId:{
         type: mongoose.Schema.Types.ObjectId,
         required: true,

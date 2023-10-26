@@ -9,7 +9,10 @@ let cartSchema = new Schema({
         required: true,
         ref: "User"
     },
-    items:[]
+    test:{
+        type:String,
+        default:"test"
+    },
     
 });
 
