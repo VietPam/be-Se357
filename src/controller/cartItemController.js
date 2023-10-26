@@ -67,17 +67,15 @@ class CartItemController{
           res.status(500).json({ message: "Internal server error" });
         }
       }
-    async deleteCartItem(req,res){
-        const {cartItemId}=req.body
-        const cartItemObjectId =new mongoose.Types.ObjectId(cartItemId)
+    async deleteCartItem(req, res) {
+        const { cartItemId } = req.body;
         try {
-            const cartItem = await cartItemSchema.findByIdAndDelete({_id:cartItemObjectId});
-            const temp = await cartItem.delete()
-            res.status(200).json({message:"success",temp})
+            const cartItem = await cartItemSchema.findByIdAndDelete(cartItemId);
+            res.status(200).json({ message: "success", cartItem });
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: "Internal server error" });
-        }// chưa test
+        }
     }
     
 }
