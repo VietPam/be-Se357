@@ -2,23 +2,11 @@ const mongoose= require("mongoose");
 var uniqueValidator = require("mongoose-unique-validator")
 const moment = require("moment");
 const Schema = mongoose.Schema;
-// hàm này để tính ngày giao hàng mặc định(2 ngày kể từ ngày hôm nay)
-function getDefaultProductDeliveryDate() {
-    const currentDate = new Date();
-    currentDate.setDate(currentDate.getDate() + 2); // Thêm 2 ngày
-    const formattedDeliveryDate = moment(currentDate).format("dddd, DD/M");
-    return ` ${formattedDeliveryDate}`;
-}
 let cartItemSchema = new Schema({
     userId:{
         type:mongoose.Schema.Types.ObjectId,
         require:true,
         ref:"User",
-    },
-    cartId:{
-        type:mongoose.Schema.Types.ObjectId,
-        require:true,
-        ref:"Cart",
     },
     productId:{
         type: mongoose.Schema.Types.ObjectId,
@@ -36,21 +24,28 @@ let cartItemSchema = new Schema({
     productDelivery:{ // ngày giao hàng
         type: Date,
         required:true,
-        default:getDefaultProductDeliveryDate
+        default:Date()
     },
     imageDisplay: {
         type: String,
         default:'',
     },
+    option:{
+        type: Map,
+        of: String,
+        default: {
+            "Size":  "S"
+        }
+    },
     
 });
-cartItemSchema.virtual("option", {
-    ref: "Product",
-    localField: "productId",
-    foreignField: "_id",
-    justOne: true,
-    options: { select: "option" }
-});
+// cartItemSchema.virtual("option", {
+//     ref: "Product",
+//     localField: "productId",
+//     foreignField: "_id",
+//     justOne: true,
+//     options: { select: "option" }
+// });
 
 
 cartItemSchema.plugin(uniqueValidator);

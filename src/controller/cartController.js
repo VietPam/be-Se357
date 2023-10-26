@@ -1,11 +1,14 @@
 const cartSchema = require('../model/cart')
-
+const cartItemSchema= require('../model/cartItem')
 class CartController{
     async getCartByUserId(req,res){
         const {userId}=req.body
+        console.log(userId)
         try{
-            const cart = await cartSchema.findOne({userId:userId})
-            res.json({success:true,cart})
+            const cartItems = await cartItemSchema.find({userId})
+        console.log(cartItems)
+
+            res.json({success:true,cartItems})
         } catch (err){
             throw new Error(err);
         }
