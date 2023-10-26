@@ -6,7 +6,7 @@ let orderSchema= new Schema({
         required: true,
         ref: "User" 
     },
-    cartItemId:[{
+    cartItemsId:[{
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: "CartItem"
@@ -16,6 +16,25 @@ let orderSchema= new Schema({
         required:true,
         default:Date.now
     },
-    addre
-}
-)
+    address:{
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: "Address"
+    },
+    paymenMethod:{
+        type:String,
+        required:true,
+        default:'COD'
+    },
+    status:{
+        type:String,
+        required:true,
+        enum:['PENDING','DELIVERED','CANCEL','PROCESSING'],
+        default:'PENDING'
+    },
+    total:{
+        type:Number,
+        required:true,
+        default:0
+    }
+})
