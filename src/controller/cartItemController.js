@@ -39,20 +39,46 @@ class CartItemController{
         }
     }
     
-    async updateCartItem(req,res){
-        const {cartItemId,productQuantity}=req.body
+    // async updateCartItem(req,res){
+    //     const {cartItemId,productQuantity}=req.body
+    //     const cartItemObjectId =new mongoose.Types.ObjectId(cartItemId)
+    //     try {
+    //         const cartItem = await cartItemSchema.findOne({_id:cartItemObjectId});
+    //         cartItem.productQuantity=productQuantity
+    //         const temp = await cartItem.save()
+    //         res.status(200).json({message:"success",temp})
+    //     } catch (error) {
+    //         console.error(error);
+    //         res.status(500).json({ message: "Internal server error" });
+    //     }
+    // }
+    async updateCartItem(req, res) {
+        const { cartItemId, productQuantity } = req.body;
+        const cartItemObjectId = new mongoose.Types.ObjectId(cartItemId);
+        try {
+          const cartItem = await cartItemSchema.findOneAndUpdate(
+            { _id: cartItemObjectId },
+            { productQuantity: productQuantity },
+            { new: true }
+          );
+          res.status(200).json({ message: "success", cartItem });
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({ message: "Internal server error" });
+        }
+      }
+    async deleteCartItem(req,res){
+        const {cartItemId}=req.body
         const cartItemObjectId =new mongoose.Types.ObjectId(cartItemId)
         try {
-            const cartItem = await cartItemSchema.findOne({_id:cartItemObjectId});
-            cartItem.productQuantity=productQuantity
-            const temp = await cartItem.save()
+            const cartItem = await cartItemSchema.findByIdAndDelete({_id:cartItemObjectId});
+            const temp = await cartItem.delete()
             res.status(200).json({message:"success",temp})
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: "Internal server error" });
-        }
+        }// chưa test
     }
-    
     
 }
 module.exports= new CartItemController;
