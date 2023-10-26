@@ -17,6 +17,12 @@ let cartSchema = new Schema({
         required: true,
         ref: "User"
     },
+    cartItems:[{
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        default: [],
+        ref: "CartItem"
+    }],
     total:{
         type:Number,
         default:0
