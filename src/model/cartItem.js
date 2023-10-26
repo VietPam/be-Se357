@@ -30,6 +30,10 @@ let cartItemSchema = new Schema({
         type: String,
         default:'',
     },
+    price:{
+        type: Number,
+        default:0,
+    },
     option:{
         type: Map,
         of: String,

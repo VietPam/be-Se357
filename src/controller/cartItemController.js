@@ -4,7 +4,7 @@ const cartItemSchema = require('../model/cartItem')
 
 class CartItemController {
     async addCartItem(req, res, next) {
-        const { userId, productId, nameProduct, imageDisplay, option } = req.body
+        const { userId, productId, nameProduct,price, imageDisplay, option } = req.body
         const existingCartItem = await cartItemSchema.findOne({
             userId: new mongoose.Types.ObjectId(userId),
             productId: new mongoose.Types.ObjectId(productId),
@@ -22,24 +22,25 @@ class CartItemController {
             nameProduct: nameProduct,
             imageDisplay: imageDisplay,
             option: option,
+            price:price
         })
         try {
             const temp = await cartItem.save()
             res.status(200).json({ message: "Added successfully!", temp })
         } catch (e) {
             console.log(e);
-            res.status(500).json({ message: "Internal server error" });
+            res.status(500).json({ errCode: 500, errMessage: "Internal server error" });
         }
     }
-    async findAllCartItem(req, res) {
-        try {
-            const cartItems = await cartItemSchema.find();
-            res.json(cartItems);
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ message: "Internal server error" });
-        }
-    }
+    // async findAllCartItem(req, res) {
+    //     try {
+    //         const cartItems = await cartItemSchema.find();
+    //         res.json(cartItems);
+    //     } catch (error) {
+    //         console.error(error);
+    //         res.status(500).json({ errCode: 500, errMessage: "Internal server error" });
+    //     }
+    // }
     async findCartItemsByUserId(req, res) {
         const { userId } = req.body
         const userIdObjectId = new mongoose.Types.ObjectId(userId)
@@ -48,7 +49,7 @@ class CartItemController {
             res.json(cartItems);
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: "Internal server error" });
+            res.status(500).json({ errCode: 500, errMessage: "Internal server error" });
         }
     }
 
@@ -64,7 +65,7 @@ class CartItemController {
             res.status(200).json({ message: "success", cartItem });
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: "Internal server error" });
+            res.status(500).json({ errCode: 500, errMessage: "Internal server error" });
         }
     }
     async deleteCartItem(req, res) {
@@ -74,7 +75,7 @@ class CartItemController {
             if (!cartItem) {
                 return res.status(404).json({ errCode: 404, errMessage: "Cart item not found" });
             }
-            res.status(200).json({ message: "success", cartItem });
+            res.status(200).json({ message: "Delete cartItem successfully", cartItem });
         } catch (error) {
             console.error(error);
             res.status(500).json({ errCode: 500, errMessage: "Internal server error" });
