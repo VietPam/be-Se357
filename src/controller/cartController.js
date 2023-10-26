@@ -2,9 +2,12 @@ const cartSchema = require('../model/cart')
 
 class CartController{
     async getCartByUserId(req,res){
-        const {userId}=req.params.userId
+        console.log(1)
+
+        const {userId}=req.body.userId
         try{
             const cart = await cartSchema.find({userId:userId})
+            console.log(cart)
             res.json(cart)
         } catch (err){
             throw new Error(err);
