@@ -43,13 +43,7 @@ let cartItemSchema = new Schema({
     },
     
 });
-// cartItemSchema.virtual("option", {
-//     ref: "Product",
-//     localField: "productId",
-//     foreignField: "_id",
-//     justOne: true,
-//     options: { select: "option" }
-// });
+
 
 
 cartItemSchema.plugin(uniqueValidator);
