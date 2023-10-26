@@ -29,7 +29,7 @@ class CartItemController{
     }   
     async findCartItemsByUserId(req,res){
         const {userId}=req.body
-        const userIdObjectId = mongoose.Types.ObjectId(userId)
+        const userIdObjectId =new mongoose.Types.ObjectId(userId)
         try {
             const cartItems = await cartItemSchema.find({userId:userIdObjectId});
             res.json(cartItems);
