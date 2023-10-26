@@ -27,7 +27,7 @@ mongoose
         console.log("MongoDB is connected!");
     })
     .catch((err)=>console.log(err));
-app.get('/',(req,res)=> res.send("Hello from viet"))
+app.get('/',(req,res)=> res.send("Server khỏe vcl"))
 
 /** Swagger Initialization - START */
 const swaggerOption = {
