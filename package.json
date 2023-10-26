@@ -25,6 +25,8 @@
     "mongoose": "^7.5.2",
     "mongoose-unique-validator": "^4.0.0",
     "morgan": "^1.10.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
     "vercel": "^32.3.1"
   }
 }
