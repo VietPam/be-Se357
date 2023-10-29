@@ -62,7 +62,7 @@ class CartItemController {
                 { productQuantity: productQuantity },
                 { new: true }
             );
-            res.status(200).json({ message: "success", cartItem });
+            res.status(200).json({ message: "CartItem updated successfully", cartItem });
         } catch (error) {
             console.error(error);
             res.status(500).json({ errCode: 500, errMessage: "Internal server error" });
