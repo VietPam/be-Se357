@@ -2,6 +2,7 @@ const mongoose= require("mongoose");
 var uniqueValidator = require("mongoose-unique-validator")
 const moment = require("moment");
 const Schema = mongoose.Schema;
+
 let cartItemSchema = new Schema({
     userId:{
         type:mongoose.Schema.Types.ObjectId,
@@ -32,6 +33,7 @@ let cartItemSchema = new Schema({
     },
     price:{
         type: Number,
+        required: true,
         default:0,
     },
     option:{

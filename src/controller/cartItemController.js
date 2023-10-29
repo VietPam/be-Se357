@@ -81,6 +81,19 @@ class CartItemController {
             res.status(500).json({ errCode: 500, errMessage: "Internal server error" });
         }
     }
+    async findCartItemById(req,res){
+        const {cartItemId} = req.body
+        try{
+            const cartItem = await cartItemSchema.findById(cartItemId)
+            if(!cartItem){
+                return res.status(404).json({errCode:404,errMessage:"Cart item not found"})
+            }
+            res.status(200).json({message:"Found cart item successfully",cartItem})
+        }catch(error){
+            console.error(error);
+            res.status(500).json({ errCode: 500, errMessage: "Internal server error" });
+        }
+    }
 
 }
 module.exports = new CartItemController;
