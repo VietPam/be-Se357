@@ -21,7 +21,7 @@ let orderSchema= new Schema({
         required: true,
         ref: "Address"
     },
-    paymenMethod:{
+    paymentMethod:{
         type:String,
         required:true,
         default:'COD'
@@ -38,3 +38,4 @@ let orderSchema= new Schema({
         default:0
     }
 })
+module.exports = mongoose.model('Order',orderSchema)
