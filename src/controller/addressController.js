@@ -23,17 +23,18 @@ class addressController {
 
         try {
             // Find the address by ID
-            const address = await addressSchema.findById(addressId);
-            // Update the address fields
-            address.nameAdress = nameAdress;
-            address.city = city;
-            address.district = district;
-            address.street = street;
-            address.detailLocation = detailLocation;
-
-            // Save the updated address to the database
-            const updatedAddress = await address.save();
-
+            const address = await addressSchema.findByIdAndUpdate(
+                { _id: addressId },
+                {
+                    nameAdress: nameAdress,
+                    city: city,
+                    district: district,
+                    street: street,
+                    detailLocation: detailLocation
+                },
+                { new: true }
+            )
+            
             // Return the updated address object
             res.status(200).json({ message: "Address updated successfully", address: updatedAddress });
         } catch (error) {
@@ -41,6 +42,15 @@ class addressController {
             res.status(500).json({ message: "Internal server error" });
         }
     }
-
+    async getAllAddressByUserId(req, res) {
+        const { userId } = req.body
+        try {
+            const address = await addressSchema.find({ userId: userId });
+            res.json(address);
+        } catch (error) {
+            console.error(error);   
+            res.status(500).json({ errCode: 500, errMessage: "Internal server error" });
+        }
+    }
 }
 module.exports = new addressController;
