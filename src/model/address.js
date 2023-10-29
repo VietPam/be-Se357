@@ -7,7 +7,7 @@ let addressSchema = new Schema({
         required: true,
         ref: "User"
     },
-    name:{
+    nameAdress:{
         type: String,
         required: true
     },
@@ -23,10 +23,13 @@ let addressSchema = new Schema({
         type: String,
         required: true
     },
-    location:{
+    detailLocation:{
         type:String,
         reuired:true
     },
+    /*
+   
+    Tạm thời chưa thêm type vào    
     typeAddress:{
         type:Boolean,
         required:true,
@@ -34,6 +37,8 @@ let addressSchema = new Schema({
         // true là nhà riêng / chung cư
         // false là cơ quan / công ty
     }
+    
+    */
 
     // isMainAddress:{              cái này bỏ cho đỡ rắc rối
     //     type:Boolean,
