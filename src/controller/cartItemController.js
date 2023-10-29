@@ -75,7 +75,7 @@ class CartItemController {
             if (!cartItem) {
                 return res.status(404).json({ errCode: 404, errMessage: "Cart item not found" });
             }
-            res.status(200).json({ message: "Delete cartItem successfully", cartItem });
+            res.status(200).json({ message: "Deleted cartItem successfully", cartItem });
         } catch (error) {
             console.error(error);
             res.status(500).json({ errCode: 500, errMessage: "Internal server error" });

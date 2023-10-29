@@ -52,5 +52,18 @@ class addressController {
             res.status(500).json({ errCode: 500, errMessage: "Internal server error" });
         }
     }
+    async deleteAddress(req, res) {
+        const { addressId } = req.body;
+        try {
+            const address = await addressSchema.findByIdAndDelete(addressId);
+            if (!address) {
+                return res.status(404).json({ errCode: 404, errMessage: "Address not found" });
+            }
+            res.status(200).json({ message: "Deleted address successfully", address });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ errCode: 500, errMessage: "Internal server error" });
+        }
+    }
 }
 module.exports = new addressController;
