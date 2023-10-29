@@ -55,10 +55,10 @@ class CartItemController {
 
     async updateCartItem(req, res) {
         const { cartItemId, productQuantity } = req.body;
-        const cartItemObjectId = new mongoose.Types.ObjectId(cartItemId);
         try {
-            const cartItem = await cartItemSchema.findOneAndUpdate(
-                { _id: cartItemObjectId },
+
+            const cartItem = await cartItemSchema.findByIdAndUpdate(
+                { _id: cartItemId },
                 { productQuantity: productQuantity },
                 { new: true }
             );
