@@ -43,9 +43,9 @@ class addressController {
         }
     }
     async getAllAddressByUserId(req, res) {
-        const { userId } = req.body
+        const id = req.params.id;
         try {
-            const address = await addressSchema.find({ userId: userId });
+            const address = await addressSchema.find({ userId: id });
             res.json(address);
         } catch (error) {
             console.error(error);   
