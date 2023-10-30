@@ -42,7 +42,7 @@ class CartItemController {
     //     }
     // }
     async findCartItemsByUserId(req, res) {
-        const { userId } = req.body
+        const userId  = req.params.id
         const userIdObjectId = new mongoose.Types.ObjectId(userId)
         try {
             const cartItems = await cartItemSchema.find({ userId: userIdObjectId });
@@ -82,7 +82,7 @@ class CartItemController {
         }
     }
     async findCartItemById(req,res){
-        const {cartItemId} = req.body
+        const cartItemId = req.params.id
         try{
             const cartItem = await cartItemSchema.findById(cartItemId)
             if(!cartItem){

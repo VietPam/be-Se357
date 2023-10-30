@@ -4,7 +4,7 @@ const { default: mongoose } = require('mongoose')
 const cartItemSchema = require('../model/cartItem')
 class CartController {
     async getCartByUserId(req, res) {
-        const { userId } = req.body
+        const  userId  = req.params.id
         try {
             const userIdObjectId = new mongoose.Types.ObjectId(userId)
 
