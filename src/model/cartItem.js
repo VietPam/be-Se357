@@ -1,6 +1,7 @@
 const mongoose= require("mongoose");
 var uniqueValidator = require("mongoose-unique-validator")
 const moment = require("moment");
+const Product = require("./product");
 const Schema = mongoose.Schema;
 
 let cartItemSchema = new Schema({
@@ -16,7 +17,6 @@ let cartItemSchema = new Schema({
     },
     nameProduct: {
         type: String,
-        required: true
     },
     productQuantity:{
         type: Number,
@@ -29,7 +29,6 @@ let cartItemSchema = new Schema({
     },
     imageDisplay: {
         type: String,
-        default:'',
     },
     price:{
         type: Number,
@@ -45,7 +44,20 @@ let cartItemSchema = new Schema({
     },
     
 });
-
+cartItemSchema.pre('save', async function(next) {
+    try{
+    const cartItem = this
+    const product = await Product.findById(cartItem.productId)
+    console.log("product.nameProduct:",product.nameProduct)
+    if (product){
+        cartItem.nameProduct= product.nameProduct;
+        cartItem.price= product.price * cartItem.productQuantity;
+        cartItem.imageDisplay= product.imageDisplay;
+    }
+    next();
+}catch(error){
+    next("Lỗi middleware pre save in cart item .js, " + error);
+}});
 
 
 cartItemSchema.plugin(uniqueValidator);
