@@ -7,7 +7,7 @@ const Schema = mongoose.Schema;
     const cartItems = await cartItemSchema.find({userId:userId});
     let total = 0;
     cartItems.forEach(cartItem => {
-        total += cartItem.productQuantity * cartItem.option.price
+        total += cartItem.productQuantity * cartItem.option.productPrice
     });
     return total;
 }

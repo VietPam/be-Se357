@@ -15,7 +15,7 @@ let cartItemSchema = new Schema({
         required: true,
         ref: "Product"
     },
-    nameProduct: {
+    productName: {
         type: String,
     },
     productQuantity:{
@@ -32,10 +32,10 @@ let cartItemSchema = new Schema({
             return `Giao vào ${formattedDate}`;
           }
     },
-    imageDisplay: {
+    productImg: {
         type: String,
     },
-    price:{
+    productPrice:{
         type: Number,
         required: true,
         default:0,
@@ -47,18 +47,22 @@ let cartItemSchema = new Schema({
             "Size":  "S"
         }
     },
+    productInventory:{
+        type: Number,
+    }
     
 });
-//truoc khi luu thi ghep' nameProduct + image display 
+//truoc khi luu thi ghep' productName + image display 
 cartItemSchema.pre('save', async function(next) {
     try{
     const cartItem = this
     const product = await Product.findById(cartItem.productId)
-    console.log("product.nameProduct:",product.nameProduct)
+    console.log("product.productName:",product.productName)
     if (product){
-        cartItem.nameProduct= product.nameProduct;
-        cartItem.price= product.price * cartItem.productQuantity;
-        cartItem.imageDisplay= product.imageDisplay;
+        cartItem.productName= product.productName;
+        cartItem.productPrice= product.productPrice * cartItem.productQuantity;
+        cartItem.productImg= product.productImg;
+        cartItem.productInventory= product.productInventory;
     }
     next();
 }catch(error){
@@ -66,7 +70,7 @@ cartItemSchema.pre('save', async function(next) {
 }});
 
 /**
- * pre update => check lai price
+ * pre update => check lai productPrice
 
  */
 
