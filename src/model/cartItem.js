@@ -23,9 +23,14 @@ let cartItemSchema = new Schema({
         default:1
     },
     productDelivery:{ // ngày giao hàng
-        type: Date,
+        type: String,
         required:true,
-        default:Date()
+        default: function () {
+            const today = new Date();
+            today.setDate(today.getDate() + 2);
+            const formattedDate = today.toLocaleDateString('vi-VN', { weekday: 'long', day: '2-digit', month: '2-digit' });
+            return `Giao vào ${formattedDate}`;
+          }
     },
     imageDisplay: {
         type: String,
