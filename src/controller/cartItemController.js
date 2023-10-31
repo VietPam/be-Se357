@@ -44,9 +44,8 @@ class CartItemController {
     async findCartItemsByUserId(req, res) {
         const userId  = req.query.userId
         console.log(userId);
-        const userIdObjectId = new mongoose.Types.ObjectId(userId)
         try {
-            const cartItems = await cartItemSchema.find({ userId: userIdObjectId });
+            const cartItems = await cartItemSchema.find({ userId: userId });
             res.status(200).json(cartItems);
         } catch (error) {
             console.error(error);
