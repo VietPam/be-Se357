@@ -42,11 +42,12 @@ class CartItemController {
     //     }
     // }
     async findCartItemsByUserId(req, res) {
-        const userId  = req.params.id
+        const userId  = req.query.userId
+        console.log(userId);
         const userIdObjectId = new mongoose.Types.ObjectId(userId)
         try {
             const cartItems = await cartItemSchema.find({ userId: userIdObjectId });
-            res.json(cartItems);
+            res.status(200).json(cartItems);
         } catch (error) {
             console.error(error);
             res.status(500).json({ errCode: 500, errMessage: "Internal server error" });
