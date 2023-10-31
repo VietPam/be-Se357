@@ -4,27 +4,27 @@ const typeProductSchema = require('../model/typeProduct')
 class TypeProductController{
     async getAllProductType(req,res){//done
         try{
-            const findProductType = await typeProductSchema.find({}).select();
-            res.send(findProductType);
+            const data = await typeProductSchema.find({}).select();
+            res.status(200).json({errCode:0, errMessage:"Get all product type successfully!",data});
         }catch(err){
-            throw new Error(err);
+            res.status(500).json({errCode:-1, errMessage:"Error from server"})
         }
     }
     async getAllChildrenIdByParentId(req,res){
-        const {parentId}=req.body
+        const parentId=req.query.parentId
         try{
-            const ChildrenTypeProducts = await typeProductSchema.find({parentId:parentId})
-            res.json(ChildrenTypeProducts)
+            const data = await typeProductSchema.find({parentId:parentId})
+            res.status(200).json({errCode:0, errMessage:"Get product type by parentId successfully!",data});
         } catch(e){
-            res.status(500).json({error:e.message})
+            res.status(500).json({errCode:-1, errMessage:"Error from server"})
         }
     }
     async getAllParentId(req,res){
         try{
-            const parentTypeProducts = await typeProductSchema.find({parentId:null})
-            res.json(parentTypeProducts)
+            const data = await typeProductSchema.find({parentId:null})
+            res.status(200).json({errCode:0, errMessage:"Get parentId product type successfully!",data});
         } catch(e){
-            res.status(500).json({error:e.message})
+            res.status(500).json({errCode:-1, errMessage:"Error from server"})
         }
     }
     async addTypeProduct(req,res){
@@ -33,10 +33,10 @@ class TypeProductController{
             const newTypeProduct = new typeProductSchema({
                 nameType,parentId,note
             });
-            const savedTypeProduct =await newTypeProduct.save();
-            res.json(savedTypeProduct);
+            const data =await newTypeProduct.save();
+            res.status(200).json({errCode:0, errMessage:"Add product type successfully!",data});
         } catch(e){
-            res.status(500).json({error: e.message})
+            res.status(500).json({errCode:-1, errMessage:"Error from server"})
         }
     }
     
