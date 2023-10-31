@@ -10,4 +10,6 @@ router.get('/findCartItemById/:id',cartItemController.findCartItemById)
 router.patch('/updateCartItem',cartItemController.updateCartItem)
 router.delete('/deleteOneCartItem',cartItemController.deleteOneCartItem)
 router.delete('/deleteAllCartItemByUserId',cartItemController.deleteAllCartItemByUserId)
+
+router.get('/cleanCartItem',cartItemController.removeCartiTemWhichHasRemovedProductID)
 module.exports = router;

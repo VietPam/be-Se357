@@ -32,7 +32,7 @@ class ProductController {
                 sold:req.body.sold,
                 productImg:req.body.productImg,
                 description:req.body.description,
-                option:req.body,
+                option:req.body.option,
                 details:req.body.details,
                 productStatus:req.body.productStatus,
                 avrRating:req.body.avrRating,
@@ -59,4 +59,5 @@ class ProductController {
         }
     }
 }
+
 module.exports = new ProductController;
