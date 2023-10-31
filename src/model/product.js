@@ -60,7 +60,7 @@ let productSchema = new Schema({
             size: [ "S", "L","XL" ]
         }
     }],
-    details:[{
+    details:{
         type: Map,
         of: String,
         default:{
@@ -68,7 +68,7 @@ let productSchema = new Schema({
             isWarranty: "Có",
             warrantyLast:"12 tháng",
         }
-    }],
+    },
     productStatus:{
         type:String,
         enum:['SELLING','SOLD','DRAFT'],
