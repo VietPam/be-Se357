@@ -1,5 +1,4 @@
 const mongoose= require("mongoose");
-var uniqueValidator = require("mongoose-unique-validator")
 const Schema = mongoose.Schema;
 
 //Product
@@ -8,32 +7,40 @@ let productSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: "TypeProduct",
+        default:"65410eef6ade14bab2b2b897"
     },
-    nameProduct: {
+    productName: {
         type: String,
         required: true
     },
-    price:{
+    productPrice:{
         type: Number,
-        default: 0,
+        default: 999999,
     },
-    isSaled:{
-        type: Boolean,
-        required: true,
-        default: false,
-    },
-    sale:{
+    discount:{
         type:Number,
         min: 0,
         max: 100,
+        default:10,
+    },
+    productSalePrice:{
+        type:Number,
         default:0,
     },
-    images:[{
-        type:String,
-        default:''
-        },
-    ],
-    imageDisplay:{
+    sold:{
+        type: Number,
+        default: 5000,
+    },
+    productImgList:{
+        type:[String],
+        default: [
+            "https://product.hstatic.net/1000284478/product/0000_black_m9160c_1_da1c1e61bbf44183940afe225b3f5f75_large.jpg",
+            "https://product.hstatic.net/1000284478/product/0000_black_m9160c_1_da1c1e61bbf44183940afe225b3f5f75_large.jpg",
+            "https://product.hstatic.net/1000284478/product/0000_black_m9160c_1_da1c1e61bbf44183940afe225b3f5f75_large.jpg",
+            "https://product.hstatic.net/1000284478/product/0000_black_m9160c_1_da1c1e61bbf44183940afe225b3f5f75_large.jpg"
+            ],
+    },
+    productImg:{
         type: String,
         default:''
     },
@@ -46,41 +53,43 @@ let productSchema = new Schema({
         required: true,
         default:Date.now,
     },
-    option:{
+    option:[{
         type: Map,
         of: [String],
         default: {
-            "Size": [ "S", "L","XL" ]
+            size: [ "S", "L","XL" ]
         }
-    },
-    details:{
+    }],
+    details:[{
         type: Map,
         of: String,
         default:{
-            "Thương hiệu": "Samsung"
+            brand: "Samsung",
+            isWarranty: "Có",
+            warrantyLast:"12 tháng",
         }
-    },
-    status:{
+    }],
+    productStatus:{
         type:String,
         enum:['SELLING','SOLD','DRAFT'],
         default:'SELLING'
     }, 
     avrRating:{
         type: Number,
-        default: 0,
+        default: 4.5,
     },
     productInventory:{
         type: Number,
-        default:1
+        default:10
     }
-    // reviews:{
-    //     default:[
-    //     {},
-    // ]
-    // },//sau này bỏ reviews vào sau
     
 });
+productSchema.pre('save', function(next) {
+    this.productSalePrice = (100 - this.discount) / 100 * this.productPrice;
+    if(this.productImgList.length>0){
+        this.productImg=this.productImgList[0];
+    }
+    next();
+  });
 
-
-productSchema.plugin(uniqueValidator);
 module.exports=mongoose.model("Product",productSchema);
