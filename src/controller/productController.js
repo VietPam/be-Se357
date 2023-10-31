@@ -4,10 +4,11 @@ class ProductController{
     async getAllProducts(req,res){
         //add order filter and typeId filter
         try{
-            const findProducts = await productSchema.find({}).select();
-            res.send(findProducts)
+            const data = await productSchema.find({}).select();
+            res.status(200).json({errCode: 0, message:"Find Product successfully", data});
         } catch (err){
-            throw new Error(err);
+            res.status(500).json({errCode: -1, message:"Error from the server"});
+
         }
     }
     
@@ -25,10 +26,21 @@ class ProductController{
         })
 
         try{
-            const temp = await product.save()
-            res.json(temp)
-        } catch(e){ console.log(e);}
+            const data = await product.save()
+            res.status(200).json({errCode: 0, message:"Find Product successfully", data});
+        } catch(e){ 
+            res.status(500).json({errCode: -1, message:"Error from the server"});
+        }
     }
     
+    async findProductByProductId(req,res){
+        const id = req.query.productId
+        try{
+            const data = await productSchema.findById(id);
+            res.status(200).json({errCode: 0, message:"Find Product successfully", data});
+        } catch (err){
+            res.status(500).json({errCode: -1, message:"Error from the server"});
+        }
+    }
 }
 module.exports= new ProductController;
