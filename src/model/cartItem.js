@@ -44,6 +44,7 @@ let cartItemSchema = new Schema({
     },
     
 });
+//truoc khi luu thi ghep' nameProduct + image display 
 cartItemSchema.pre('save', async function(next) {
     try{
     const cartItem = this
@@ -58,6 +59,11 @@ cartItemSchema.pre('save', async function(next) {
 }catch(error){
     next("Lỗi middleware pre save in cart item .js, " + error);
 }});
+
+/**
+ * pre update => check lai price
+
+ */
 
 
 cartItemSchema.plugin(uniqueValidator);

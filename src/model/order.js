@@ -35,5 +35,8 @@ let orderSchema= new Schema({
   
     }
 })
-
+/**
+ * pre update
+ * check lai total
+ */
 module.exports = mongoose.model('Order',orderSchema)
