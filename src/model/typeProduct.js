@@ -8,11 +8,8 @@ const typeProductSchema = new mongoose.Schema({
     parentId:{
         type:String,
         default:null,
+        // nếu parentId mà khác null thì chứng tỏ nó là category con chứ còn gì lữa :))
     },
-    childrenId:[{
-        type:String,
-        default:null,
-    }],
     note:{
         type: String,
         default: '',
