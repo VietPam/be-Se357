@@ -60,7 +60,7 @@ class ProductController {
     }
     async getProductInHomePage(req, res) {
         try {
-            const data = await productSchema.find({}).select('productName productPrice productSalePrice productImgList sold avrRating').limit(30);
+            const data = await productSchema.find({}).select('productName discount productPrice productSalePrice productImg sold avrRating').limit(30);
             res.status(200).json({ errCode: 0, message: "Find Product successfully", data });
         } catch (err) {
             res.status(500).json({ errCode: -1, message: "Error from the server" });
