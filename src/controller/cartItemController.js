@@ -5,6 +5,9 @@ const userSchema = require('../model/user')
 const { default: axios } = require('axios')
 class CartItemController {
     async removeCartiTemWhichHasRemovedProductID(req, res) { // chir mới clean product đã bị xóa
+        //return 1 là có xóa
+        //return 0 là không có xóa
+        //return -1 lỗi
         try {
             const cartItems = await cartItemSchema.find({  });
             const products = await productSchema.find({  });
@@ -19,38 +22,39 @@ class CartItemController {
             /* bước 1. lọc ra các prd id hợp lệ từ productSchema(gọi là a)
             và prd id trong tất cả các cartItem(gọi là b) - lưu ý b có thể có phần tử trùng, có thể có phần tử hợp lệ*/
             let valid_productIds = products.map(product => product._id.toString());
-            console.log("valid_productIds: "+ valid_productIds);
+            console.log("   valid_productIds: "+ valid_productIds);
 
             let invalid_productIds = cartItems.map(cartItem => cartItem.productId.toString());
-            console.log("productIds_in_cartItems: "+ invalid_productIds); // có phần tử trùng nhau
+            console.log("   productIds_in_cartItems: "+ invalid_productIds); // có phần tử trùng nhau
 
             //bước 2. sau đó lấy b lọc các phần tử trùng ra, chỉ còn phần tử unique
             let unique_invalid_productIds = Array.from(new Set(invalid_productIds));
-            console.log("unique_productIds_in_cartItems: "+ unique_invalid_productIds); // không có phần tử trùng nhau
+            console.log("   unique_productIds_in_cartItems: "+ unique_invalid_productIds); // không có phần tử trùng nhau
 
             /*bước 3. sau đó filter lấy ra được một mảng chỉ chứa các phần tử từ b mà không có trong a
             mảng cuối cùng được gọi là invalid_product_Ids*/
             const invalid_product_Ids = unique_invalid_productIds.filter(x => !valid_productIds.includes(x));
-            console.log("invalid_product_Ids: "+ invalid_product_Ids);
+            console.log("   invalid_product_Ids: "+ invalid_product_Ids);
             try{
                 if(invalid_product_Ids.length===0){
                     console.log("No cartItem has been removed")
+                    return 0;
                     //return res.status(404).json({ errCode: 404, errMessage: "No cartItem has been removed" })
                 }
             invalid_product_Ids.forEach(async (productId1) => {
                 
                 const deleted= await cartItemSchema.deleteMany({ productId: productId1 })
-                console.log(" id: "+ deleted)
-                console.log("deleted: "+ deleted)
+                console.log("deleted: "+ deleted._id)
+                return 1
                 //res.status(200).json({ message: "Deleted redundant cartItems successfully", deleted })
             })} catch (error) {
-                console.error(error);
                 console.log("error: "+ error)
+                return -1;
                 //res.status(500).json({ errCode: 500, errMessage: "Internal server error" });
             }
         } catch (error) {
-            console.error(error);
             console.log("error: "+ error)
+            return -1;
             //res.status(500).json({ errCode: 500, errMessage: "Internal server error" });
         }
     }
@@ -93,14 +97,17 @@ class CartItemController {
     async findCartItemsByUserId(req, res) {
         const userId = req.query.userId
         //console.log(userId);
-        await CartItemController.prototype.removeCartiTemWhichHasRemovedProductID();
+        //const result_Clean= await CartItemController.prototype.removeCartiTemWhichHasRemovedProductID();
+        if(result_Clean===-1){
+            console.log("Internal server error")
+        }else{
         try {
             const data = await cartItemSchema.find({ userId: userId });
             res.status(200).json({ errCode: 0, message: "Find cart by UserId successfully", data });
         } catch (error) {
             console.error(error);
             res.status(500).json({ errCode: 500, errMessage: "Internal server error" });
-        }
+        }}
     }
 
     async updateCartItem(req, res) {
