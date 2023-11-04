@@ -54,7 +54,7 @@ class CartItemController {
     async updateCartItem(req, res) {
         const { cartItemId, productQuantity } = req.body;
         try {
-            const cartItem = await cartItemSchema.findByIdAndUpdate(
+            const cartItem = await cartItemSchema.findOneAndUpdate(
                 { _id: cartItemId },
                 { productQuantity: productQuantity },
                 { new: true }
@@ -140,7 +140,7 @@ class CartItemController {
                 
                 const deleted= await cartItemSchema.deleteMany({ productId: productId1 })
                 console.log(" id: "+ deleted)
-                res.status(200).json({ message: "Deleted cartItems successfully", deleted })
+                res.status(200).json({ message: "Deleted redundant cartItems successfully", deleted })
             })} catch (error) {
                 console.error(error);
                 res.status(500).json({ errCode: 500, errMessage: "Internal server error" });
