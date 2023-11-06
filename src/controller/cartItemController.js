@@ -98,16 +98,16 @@ class CartItemController {
         const userId = req.query.userId
         //console.log(userId);
         //const result_Clean= await CartItemController.prototype.removeCartiTemWhichHasRemovedProductID();
-        if(result_Clean===-1){
-            console.log("Internal server error")
-        }else{
+        // if(result_Clean===-1){
+        //     console.log("Internal server error")
+        // }else{
         try {
             const data = await cartItemSchema.find({ userId: userId });
             res.status(200).json({ errCode: 0, message: "Find cart by UserId successfully", data });
         } catch (error) {
             console.error(error);
             res.status(500).json({ errCode: 500, errMessage: "Internal server error" });
-        }}
+        }
     }
 
     async updateCartItem(req, res) {
