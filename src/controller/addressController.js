@@ -56,13 +56,14 @@ class addressController {
         }
     }
     async deleteAddress(req, res) {
-        const { addressId } = req.body;
+        const addressId  = req.query.addressId;
+        console.log(addressId);
         try {
-            const address = await addressSchema.findByIdAndDelete(addressId);
-            if (!address) {
+            const data = await addressSchema.findByIdAndDelete(addressId);
+            if (!data) {
                 return res.status(404).json({ errCode: 404, errMessage: "Address not found" });
             }
-            res.status(200).json({ message: "Deleted address successfully", address });
+            res.status(200).json({ message: "Deleted address successfully", data });
         } catch (error) {
             console.error(error);
             res.status(500).json({ errCode: 500, errMessage: "Internal server error" });
