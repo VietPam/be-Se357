@@ -3,8 +3,12 @@ const argon2= require('argon2')
 
 class UserController{
     async getUser(req,res) {
+        const userId = req.query.userId
+        console.log(req.query.userId)
+
         try{
-            const user = await userModel.findById(req.userId).select('-password')
+            const user = await userModel.findById(userId).select('-password')
+            console.log(user)
             if(!user)
                 return res.status(400).json({success: false, message: 'User not found'})
             res.json({success: true, user})
@@ -14,26 +18,26 @@ class UserController{
     }
     
     //users?role=admin,customer
-    async getAllUser(req,res) {
-        let query =req.query;
+    // async getAllUser(req,res) {
+    //     let query =req.query;
 
-        if(req.query.role){
-            query.role = req.query.role.toUpperCase().split(',')
-        }
+    //     if(req.query.role){
+    //         query.role = req.query.role.toUpperCase().split(',')
+    //     }
 
-        if(req.query.textSearch){
-            query.nameAccount ={
-                $regex: req.query.textSearch
-            };
-        };
+    //     if(req.query.textSearch){
+    //         query.nameAccount ={
+    //             $regex: req.query.textSearch
+    //         };
+    //     };
 
-        try {
-            const user = await userModel.find(query)
-            res.send(user)
-        } catch(err){
-            res.send({message: err.message})
-        }
-    }
+    //     try {
+    //         const user = await userModel.find(query)
+    //         res.send(user)
+    //     } catch(err){
+    //         res.send({message: err.message})
+    //     }
+    // }
 
     async Register(req,res){
         const {email,password, nameAccount,phone,role} = req.body;

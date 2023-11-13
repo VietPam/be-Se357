@@ -4,11 +4,12 @@ const verifyToken = require("../middleware/auth")
 const userController = require("../controller/userController");
 
 
-router.get('/verify',verifyToken, userController.getUser)
+//router.get('/verify',verifyToken, userController.getUser)
 
 
 router.post('/register',userController.Register)
 
 router.post('/login',userController.Login);
 
+router.get('/info',userController.getUser)
 module.exports =router
