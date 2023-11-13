@@ -65,7 +65,7 @@ class addressController {
             if (!data) {
                 return res.status(404).json({ errCode: 404, errMessage: "Address not found" });
             }
-            res.status(200).json({ message: "Deleted address successfully", data });
+            res.status(200).json({code:0, message: "Deleted address successfully", data });
         } catch (error) {
             console.error(error);
             res.status(500).json({ errCode: 500, errMessage: "Internal server error" });
