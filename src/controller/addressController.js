@@ -37,7 +37,9 @@ class addressController {
                 },
                 { new: true }
             )
-            
+            if(!address) {
+                return res.status(404).json({ errCode: 404, errMessage: "Address not found" });
+            }
             // Return the updated address object
             res.status(200).json({ message: "Address updated successfully", data: address });
         } catch (error) {
