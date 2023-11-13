@@ -7,7 +7,7 @@ let addressSchema = new Schema({
         required: true,
         ref: "User"
     },
-    nameAdress:{
+    nameAddress:{
         type: String,
         required: true
     },

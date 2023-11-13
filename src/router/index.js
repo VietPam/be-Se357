@@ -3,7 +3,7 @@ const productRouter = require('./productRouter')
 const typeProductRouter = require('./typeProductRouter')
 const cartRouter = require('./cartRouter')
 const cartItemRouter = require('./cartItemRouter')
-const addressRouter = require('./adressRouter')
+const addressRouter = require('./addressRouter')
 const orderRouter = require('./orderRouter')
 function route(app){
   

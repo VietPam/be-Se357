@@ -1,32 +1,35 @@
 const addressSchema = require('../model/address')
 class addressController {
     async addAddress(req, res) {
-        const { userId, nameAdress, city, district, street, detailLocation } = req.body
-
+        const { userId, nameAddress, city, district, street, detailLocation } = req.body
+        if (!userId || !nameAddress || !city || !district || !street || !detailLocation) {
+            console.log("Nhập thiếu")
+            return res.status(400).json({ errCode: 1, errMessage: "Missing required parameter" });
+        }
         const address = await new addressSchema({
             userId: userId,
-            nameAdress: nameAdress,
+            nameAddress: nameAddress,
             city: city,
             district: district,
             street: street,
             detailLocation: detailLocation
         })
         try {
-            const temp = await address.save()
-            res.status(200).json({ message: "Add new Adress successfully", temp })
+            const data = await address.save()
+            res.status(200).json({ code:0, message: "Add new Address successfully", data })
         } catch (e) {
-            res.status(500).json({ errCode: 500, errMessage: "Internal server error" });
+            res.status(500).json({ errCode: 1, errMessage: "Internal server error" });
         }
     }
     async updateAddress (req, res) {
-        const { addressId, nameAdress, city, district, street, detailLocation } = req.body;
+        const { addressId, nameAddress, city, district, street, detailLocation } = req.body;
 
         try {
             // Find the address by ID
             const address = await addressSchema.findByIdAndUpdate(
                 { _id: addressId },
                 {
-                    nameAdress: nameAdress,
+                    nameAddress: nameAddress,
                     city: city,
                     district: district,
                     street: street,
@@ -36,7 +39,7 @@ class addressController {
             )
             
             // Return the updated address object
-            res.status(200).json({ message: "Address updated successfully", address: updatedAddress });
+            res.status(200).json({ message: "Address updated successfully", data: address });
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: "Internal server error" });
@@ -49,7 +52,7 @@ class addressController {
             res.status(200).json({code: 0,message:"Get addresses by userId successful.", data: address});
         } catch (error) {
             console.error(error);   
-            res.status(500).json({ errCode: 500, errMessage: "Internal server error" });
+            res.status(500).json({ errCode: -1, errMessage: "Internal server error" });
         }
     }
     async deleteAddress(req, res) {
