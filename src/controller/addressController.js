@@ -43,10 +43,10 @@ class addressController {
         }
     }
     async getAllAddressByUserId(req, res) {
-        const id = req.params.id;
+        const id = req.query.userId;
         try {
             const address = await addressSchema.find({ userId: id });
-            res.json(address);
+            res.status(200).json({code: 0,message:"Get addresses by userId successful.", data: address});
         } catch (error) {
             console.error(error);   
             res.status(500).json({ errCode: 500, errMessage: "Internal server error" });
