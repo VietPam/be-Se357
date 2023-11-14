@@ -24,14 +24,10 @@ const userSchema = new mongoose.Schema({
         enum:['ADMIN','CUSTOMER'],
         default:'CUSTOMER',
     },
-    cart:{
-        type: [String],//productId
-        default:[]
-    },
     createAt:{
         type:Date,
         required:true,
         default:Date.now
     }
 })
-module.exports=mongoose.model('User',userSchema);
+module.exports=mongoose.model('User',userSchema); 
