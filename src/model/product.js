@@ -35,9 +35,6 @@ let productSchema = new Schema({
         type: [String],
         default: [
             "https://product.hstatic.net/1000284478/product/0000_black_m9160c_1_da1c1e61bbf44183940afe225b3f5f75_large.jpg",
-            "https://product.hstatic.net/1000284478/product/0000_black_m9160c_1_da1c1e61bbf44183940afe225b3f5f75_large.jpg",
-            "https://product.hstatic.net/1000284478/product/0000_black_m9160c_1_da1c1e61bbf44183940afe225b3f5f75_large.jpg",
-            "https://product.hstatic.net/1000284478/product/0000_black_m9160c_1_da1c1e61bbf44183940afe225b3f5f75_large.jpg"
         ],
     },
     productImg: {
@@ -55,7 +52,7 @@ let productSchema = new Schema({
     },
     option: [{
         type: Map,
-        of: [String],
+        of: String,
         default: {
             size: ["S", "L", "XL"]
         }
