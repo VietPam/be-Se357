@@ -7,7 +7,6 @@ let productSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: "TypeProduct",
-        default: "65410eef6ade14bab2b2b897"
     },
     productName: {
         type: String,
@@ -15,7 +14,7 @@ let productSchema = new Schema({
     },
     productPrice: {
         type: Number,
-        default: 999999,
+        default: 0,
     },
     discount: {
         type: Number,
@@ -42,7 +41,7 @@ let productSchema = new Schema({
         default: ''
     },
     description: {
-        type: String,
+        type: [String],
         default: ''
     },
     createAt: {
@@ -50,13 +49,13 @@ let productSchema = new Schema({
         required: true,
         default: Date.now,
     },
-    option: [{
+    option: {
         type: Map,
-        of: String,
+        of: [String],
         default: {
             size: ["S", "L", "XL"]
         }
-    }],
+    },
     details: {
         type: Map,
         of: String,
@@ -82,7 +81,7 @@ let productSchema = new Schema({
 
 });
 productSchema.pre('save', function (next) {
-    this.productSalePrice = (100 - this.discount) / 100 * this.productPrice;
+    this.productSalePrice = Math.floor((100 - this.discount) / 100 * this.productPrice);
     if (this.productImgList.length > 0) {
         this.productImg = this.productImgList[0];
     }
