@@ -13,6 +13,7 @@ class ProductController {
     }
 
     async createProduct(req, res, next) {
+        
         const duplicateProduct = await productSchema.findOne({ productName: req.body.productName })
         try {
             if (duplicateProduct) {
@@ -23,20 +24,20 @@ class ProductController {
         }
         try {
             const product = await new productSchema({
-                typeId: req.body.typeId,
-                productName:req.body.productName,
-                productPrice:req.body.productPrice,
-                discount:req.body.discount,
+                typeId: "65572eec3632afc337bd1b04",
+                productName:req.body.title,
+                productPrice:parseInt(req.body.price_discount),
+                discount:parseInt(req.body.discount),
                 productSalePrice:req.body.productSalePrice,
-                productImgList:req.body.productImgList,
-                sold:req.body.sold,
-                productImg:req.body.productImg,
-                description:req.body.description,
+                productImgList:req.body.imgs,
+                sold:5000,
+                productImg:req.body.img,
+                description:req.body.highlight,
                 option:req.body.option,
                 details:req.body.details,
                 productStatus:req.body.productStatus,
-                avrRating:req.body.avrRating,
-                productInventory:req.body.productInventory,
+                avrRating:4.5,
+                productInventory:200,
             })
 
 

@@ -10,6 +10,10 @@ const typeProductSchema = new mongoose.Schema({
         default:null,
         // nếu parentId mà khác null thì chứng tỏ nó là category con chứ còn gì lữa :))
     },
+    img:{
+        type:String,
+        default:null,
+    },
     note:{
         type: String,
         default: '',

@@ -6,5 +6,5 @@ router.get('/getAllProductType',typeProductController.getAllProductType)
 router.get('/getAllChildrenIdByParentId',typeProductController.getAllChildrenIdByParentId)
 router.get('/getAllParentId',typeProductController.getAllParentId)
 
-router.post('/addTypeProduct',typeProductController.addTypeProduct)
+router.post('/new',typeProductController.addTypeProduct)
 module.exports =router

@@ -3,7 +3,7 @@ const router = express.Router();
 
 const cartItemController = require('../controller/cartItemController')
 // bỏ thành CartItem, đổi thành danh từ cho phù hơp
-router.post('/addCartItem',cartItemController.addCartItem)
+router.post('/item',cartItemController.addCartItem)
 //router.get('/findAllCartItem',cartItemController.findAllCartItem)
 router.get('/findCartItemsByUserId',cartItemController.findCartItemsByUserId)
 router.get('/findCartItemById/:id',cartItemController.findCartItemById)
