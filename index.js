@@ -49,6 +49,5 @@ const swaggerOption = {
   /** Swagger Initialization - END */
 const port = process.env.PORT || 5001
 var server = app.listen(port,()=>{
-    var port = server.address().port;
     console.log("server listening on port ",port);
 })
