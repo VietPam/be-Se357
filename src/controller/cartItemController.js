@@ -132,8 +132,8 @@ class CartItemController {
             res.status(500).json({ errCode: 500, errMessage: "Internal server error" });
         }
     }
-    async deleteOneCartItem(req, res) {
-        const cartItemId = req.query.cartItemId;
+    async deleteById(req, res) {
+        const cartItemId = req.params.id;
         console.log(cartItemId);
         try {
             const cartItem = await cartItemSchema.findByIdAndDelete(cartItemId);

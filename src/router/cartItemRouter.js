@@ -8,7 +8,7 @@ router.post('/item',cartItemController.addCartItem)
 router.get('/findCartItemsByUserId',cartItemController.findCartItemsByUserId)
 router.get('/findCartItemById/:id',cartItemController.findCartItemById)
 router.patch('/updateCartItem',cartItemController.updateCartItem)
-router.delete('/deleteOneCartItem',cartItemController.deleteOneCartItem)
+router.delete('/deleteById/:id',cartItemController.deleteById)
 router.delete('/deleteAllCartItemByUserId',cartItemController.deleteAllCartItemByUserId)
 
 router.get('/cleanCartItem',cartItemController.removeCartiTemWhichHasRemovedProductID)
