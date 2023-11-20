@@ -4,11 +4,11 @@ const typeProductRouter = require('./typeProductRouter')
 const cartItemRouter = require('./cartItemRouter')
 const addressRouter = require('./addressRouter')
 const orderRouter = require('./orderRouter')
+
 function route(app){
   
     app.use('/user',userRouter)
     app.use('/cartItem',cartItemRouter)
-      
     app.use('/product',productRouter)
     app.use('/typeproduct',typeProductRouter)
     app.use('/address',addressRouter)

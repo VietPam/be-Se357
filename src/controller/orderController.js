@@ -1,6 +1,6 @@
 //implement controller for order
 const orderSchema = require('../model/order')
-const axios = require('axios');
+// const axios = require('axios');
 class orderController {
 
     //bấm thanh toán thì tạo order

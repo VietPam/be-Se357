@@ -1,0 +1,136 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        String  @id @default(dbgenerated("gen_random_uuid()")) @ignore @db.Uuid
+  email     String  @unique @db.VarChar(255)
+  password  String
+  name      String
+  bio       String?
+  is_active Boolean
+}
+
+model Buyer {
+  id           String     @id @default(dbgenerated("gen_random_uuid()")) @ignore @db.Uuid
+  email        String     @unique @db.VarChar(255)
+  is_active    Boolean
+  password     String
+  name         String
+  birthday     DateTime
+  isActive     Boolean
+  shoppingCart CartItem[]
+  orders       Order[]
+  addresses    Address[]
+  reviews  Review[]
+  createAt DateTime @default(now()) @ignore
+}
+
+model Address {
+  id       Int      @id @default(autoincrement()) @ignore
+  address  String
+  buyer    Buyer?    @relation(fields: [buyerId], references: [id])
+  buyerId  String? @db.Uuid
+  seller   Seller?   @relation(fields: [sellerId], references: [id])
+  sellerId String? @db.Uuid
+  createAt  DateTime    @default(now()) @ignore
+  updateAt  DateTime    @updatedAt @ignore
+}
+
+model Seller {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @ignore @db.Uuid
+  email     String    @unique @db.VarChar(255)
+  is_active Boolean
+  password  String
+  name      String
+  bio       String?
+  isActive  Boolean
+  products  Product[]
+  orders    Order[]
+  addresses Address[]
+}
+
+model CartItem {
+  id        Int     @id @default(autoincrement()) @ignore
+  buyer     Buyer   @relation(fields: [buyerId], references: [id])
+  buyerId   String  @db.Uuid
+  quantity  Int
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+}
+
+model Order {
+  id        Int         @id @default(autoincrement()) @ignore
+  owner     Buyer       @relation(fields: [buyerId], references: [id])
+  buyerId   String      @db.Uuid
+  quantity  Int
+  product   Product     @relation(fields: [productId], references: [id])
+  productId Int
+  status    OrderStatus
+  Seller    Seller?     @relation(fields: [sellerId], references: [id])
+  sellerId  String?     @db.Uuid
+  createAt  DateTime    @default(now()) @ignore
+  updateAt  DateTime    @updatedAt @ignore
+}
+
+model Product {
+  id         Int           @id @default(autoincrement()) @ignore
+  name       String
+  images     String
+  price      Int
+  stock      Int
+  saleOff    Int
+  desciption String
+  seller     Seller        @relation(fields: [sellerId], references: [id])
+  sellerId   String        @db.Uuid
+  category   Category
+  status     ProductStatus
+  cartItem   CartItem[]
+  orderItem  Order[]
+  reviews    Review[]
+  createAt   DateTime      @default(now()) @ignore
+  updateAt   DateTime      @updatedAt @ignore
+}
+
+model Review {
+  id        Int      @id @default(autoincrement()) @ignore
+  product   Product  @relation(fields: [productID], references: [id])
+  productID Int
+  Buyer     Buyer    @relation(fields: [buyerId], references: [id])
+  buyerId   String   @db.Uuid
+  rating    Int
+  content   String
+  createAt  DateTime @default(now()) @ignore
+}
+
+enum Category {
+  SHOES
+  CLOTH
+  BOOK
+  TOY
+  FOOD
+  ELECTRONIC
+}
+
+enum OrderStatus {
+  PENDING
+  CANCELED
+  CONFIRMED
+  SHIPPING
+  ARRIVED
+}
+
+enum ProductStatus {
+  PENDING
+  VERIFIED
+  REFUSED
+  CANCELED
+}

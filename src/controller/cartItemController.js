@@ -2,7 +2,7 @@ const { default: mongoose } = require('mongoose')
 const productSchema = require('../model/product')
 const cartItemSchema = require('../model/cartItem')
 const userSchema = require('../model/user')
-const { default: axios } = require('axios')
+// const { default: axios } = require('axios')
 class CartItemController {
     async removeCartiTemWhichHasRemovedProductID(req, res) { // chir mới clean product đã bị xóa
         //return 1 là có xóa
