@@ -1,8 +1,16 @@
+//public
 function getCredential(email, password) {}
-function removeCredentialByAccessToken(accessToken) {}
+function removeCredentialByUserID(userID) {}
+function refreshAccessToken(userID){}
+
+//private
+function storeAccessTokenToCache(accessToken){}
+function storeRefreshTokenToCache(refreshToken){}
+
 
 module.exports = {
   getCredential,
-  removeCredentialByAccessToken
+  removeCredentialByUserID,
+  refreshAccessToken
 };
 

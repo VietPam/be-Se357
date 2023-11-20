@@ -1,4 +1,4 @@
-function createNewSeller(email, password, name, bio) {}
+function createNewSeller(newSeller) {}
 function getSellerByID(sellerID) {}
 function getSellerByEmail(email) {}
 function updatePassword(sellerID, newPassword) {}

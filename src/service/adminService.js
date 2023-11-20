@@ -1,4 +1,4 @@
-function createNewAdmin(email, password, name, bio) {}
+function createNewAdmin(newAdmin) {}
 function getAdminByID(adminID) {}
 function getAdminByEmail(email) {}
 function updatePassword(adminID, newPassword) {}

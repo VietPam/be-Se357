@@ -1,31 +1,58 @@
-const express = require("express");
+//-----App-----//
+import express from "express";
+
+//-----config-----//
+import redisClient from "./src/config/connect_redis";
+
+//-----Internal modules-----//
+import { existsSync } from "fs";
+import path from "path";
+
+//-----Util-----//
+import { generateKeyPairAndSave } from "./src/util/generate-keypair";
+
+//-----Common-----//
+import {
+  accessTokenKeysFolderPath,
+  refreshTokenKeysFolderPath,
+} from "./src/common/tokenKeysFolderPaths";
+
+//-----Env-----//
+import dotenv from "dotenv";
+dotenv.config();
+
+const port = process.env.PORT || 3009;
 const app = express();
-const mongoose = require("mongoose");
-const morgan = require("morgan");
-const route = require("./src/router/index");
 
-app.use(morgan("tiny"));
+async function startServer() {
+  try {
+    if (
+      !existsSync(path.join(refreshTokenKeysFolderPath, "key.pem")) ||
+      !existsSync(path.join(refreshTokenKeysFolderPath, "key.pem.pub"))
+    ) {
+      console.log("Creating refresh token keys pair...");
+      generateKeyPairAndSave(refreshTokenKeysFolderPath);
+      console.log("Refresh token keys pair created successfully!");
+    }
+    if (
+      !existsSync(path.join(accessTokenKeysFolderPath, "key.pem")) ||
+      !existsSync(path.join(accessTokenKeysFolderPath, "key.pem.pub"))
+    ) {
+      console.log("Creating access token keys pair...");
+      generateKeyPairAndSave(accessTokenKeysFolderPath);
+      console.log("Access token keys pair created successfully!");
+    }
+    await redisClient.connect();
+    await redisClient.ping().then((res) => console.log(res));
+    app.listen(port, () => {
+      console.log(`Server is ready to use`);
+    });
+  } catch (error) {
+    console.error("We gonna close this server", error);
+    await redisClient.flushAll();
+    await redisClient.disconnect();
+    process.exit(1);
+  }
+}
 
-require("dotenv").config();
-
-const cors = require("cors");
-app.use(cors());
-app.use(express.json());
-route(app);
-
-mongoose
-  .connect(process.env.connectionMongoString, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log("MongoDB is connected!");
-  })
-  .catch((err) => console.log(err));
-
-const port = process.env.PORT || 5001;
-
-app.listen(port, () => {
-console.log("server listening on port ", port);
-});
-
+startServer();

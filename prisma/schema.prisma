@@ -52,7 +52,6 @@ model Seller {
   password  String
   name      String
   birthday  DateTime
-  bio       String?
   isActive  Boolean   @default(true)
   products  Product[]
   orders    Order[]
