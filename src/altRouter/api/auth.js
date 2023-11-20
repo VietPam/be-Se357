@@ -1,10 +1,25 @@
 const express = require("express");
 const router = express.Router();
-import {checkEmailValidation, checkUserValidation, verifyAccessToken, verifyRefreshToken } from "../Middleware/validation";
-import { NotAllowedMethodHandler, URLNotExistHandler } from "../Middleware/errorHandler";
+import { checkTokenAppearance,checkUserValidation } from "../../middleware/validation";
+import {
+  convertAccessTokenToUserID,
+  convertRefreshTokenToUserID,
+} from "../../middleware/modification";
+import {
+  NotAllowedMethodHandler,
+  URLNotExistHandler,
+} from "../../middleware/errorHandler";
 
+router.post("/login",);
+router.use("/login", NotAllowedMethodHandler);
 
-router.post("/login")
-router.post("/logout")
-router.post("/register")
-router.post("/accessToken/refresh")
+router.post("/logout",checkTokenAppearance,convertAccessTokenToUserID,);
+router.use("/logout", NotAllowedMethodHandler);
+
+router.post("/buyer/register",checkUserValidation);
+router.use("/buyer/register", NotAllowedMethodHandler);
+
+router.post("/accessToken/refresh");
+router.use("/accessToken/refresh", NotAllowedMethodHandler);
+
+router.use(URLNotExistHandler);

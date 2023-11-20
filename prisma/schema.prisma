@@ -11,12 +11,12 @@ datasource db {
 }
 
 model Admin {
-  id        String  @id @default(dbgenerated("gen_random_uuid()")) @ignore @db.Uuid
-  email     String  @unique @db.VarChar(255)
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @ignore @db.Uuid
+  email     String   @unique @db.VarChar(255)
   password  String
   name      String
-  bio       String?
-  is_active Boolean
+  birthday  DateTime
+  is_active Boolean  @default(true)
 }
 
 model Buyer {
@@ -26,23 +26,23 @@ model Buyer {
   password     String
   name         String
   birthday     DateTime
-  isActive     Boolean
+  isActive     Boolean    @default(true)
   shoppingCart CartItem[]
   orders       Order[]
   addresses    Address[]
-  reviews  Review[]
-  createAt DateTime @default(now()) @ignore
+  reviews      Review[]
+  createAt     DateTime   @default(now()) @ignore
 }
 
 model Address {
   id       Int      @id @default(autoincrement()) @ignore
   address  String
-  buyer    Buyer?    @relation(fields: [buyerId], references: [id])
-  buyerId  String? @db.Uuid
-  seller   Seller?   @relation(fields: [sellerId], references: [id])
-  sellerId String? @db.Uuid
-  createAt  DateTime    @default(now()) @ignore
-  updateAt  DateTime    @updatedAt @ignore
+  buyer    Buyer?   @relation(fields: [buyerId], references: [id])
+  buyerId  String?  @db.Uuid
+  seller   Seller?  @relation(fields: [sellerId], references: [id])
+  sellerId String?  @db.Uuid
+  createAt DateTime @default(now()) @ignore
+  updateAt DateTime @updatedAt @ignore
 }
 
 model Seller {
@@ -51,8 +51,9 @@ model Seller {
   is_active Boolean
   password  String
   name      String
+  birthday  DateTime
   bio       String?
-  isActive  Boolean
+  isActive  Boolean   @default(true)
   products  Product[]
   orders    Order[]
   addresses Address[]

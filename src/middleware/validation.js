@@ -1,38 +1,56 @@
-import jwt from "jsonwebtoken";
-
 //-----Common-----//
-import {
-  BadRequestError,
-  ForbiddenError,
-  UnauthorizedError,
-} from "../common/errors";
-import {
-  refreshTokenKeysFolderPath,
-  accessTokenKeysFolderPath,
-} from "../common/tokenKeysFolderPaths";
+import { UnauthorizedError } from "../common/errors";
 
-//-----Config-----//
-import cache from "../config/connect_redis";
-
-//-----Build_In-----//
-import path from "path";
-import fs from "fs";
-
-//-----Utils-----//
-import { isEmailValid } from "../util/check_email_validation";
+//-----Util-----//
 import { isDateValid } from "../util/check_date_validation";
+import { isEmailValid } from "../util/check_email_validation";
 
-const MISSING_TOKEN = "Token missing";
-const EXPIRED_TOKEN = "Expired token";
-const MISSING_OR_INVALID_PARAMETER = "parameters is missing or invalid";
-const NOT_LEGITIMATE_TOKEN = "Token is not legit";
+const MISSING_TOKEN = "Missing token";
+const MISSING_PARAMETERS = "Missing some parameters";
+const INVALID_PARAMETERS = "Some parameter is invalid";
 
-
-export const checkTokenExistence=(request, response, next)=>{
+export const checkTokenAppearance = (request, response, next) => {
   const token = request.headers["authorization"];
   if (!token) {
     const error = new UnauthorizedError(MISSING_TOKEN);
     return next(error);
   }
-  next();
-}
+  return next();
+};
+
+export const checkLoginValidation = (request, response, next) => {
+  if (!request.body.data.email || !request.body.data.password) {
+    const error = new BadRequestError(MISSING_PARAMETERS);
+    return next(error);
+  }
+  if (
+    !isEmailValid(request.body.data.email) ||
+    typeof request.body.data.password !== "string"
+  ) {
+    const error = new BadRequestError(INVALID_PARAMETERS);
+    return next(error);
+  }
+  return next();
+};
+
+export const checkUserValidation = (request, response, next) => {
+  if (
+    !request.body.data.email ||
+    !request.body.data.password ||
+    !request.body.data.name ||
+    !request.body.data.birthday
+  ) {
+    const error = new BadRequestError(MISSING_PARAMETERS);
+    return next(error);
+  }
+  if (
+    !isEmailValid(request.body.data.email) ||
+    !(typeof request.body.data.password === "string") ||
+    !(typeof request.body.data.name === "string") ||
+    !isDateValid(request.body.data.birthday)
+  ) {
+    const error = new BadRequestError(INVALID_PARAMETERS);
+    return next(error);
+  }
+  return next();
+};

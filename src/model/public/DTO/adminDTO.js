@@ -1,13 +1,11 @@
 export class Admin {
-  constructor(id,email,password,name,bio,inspectedproducts,modifiedBuyers,modifiedSellers)
+  constructor(id,email,password,name,birthday,isActive=true)
   {
     this.id=id;
     this.email=email;
     this.password=password;
     this.name=name;
-    this.bio=bio;
-    this.inspectedproducts=inspectedproducts;
-    this.modifiedBuyers=modifiedBuyers;
-    this.modifiedSellers=modifiedSellers;
+    this.birthday=birthday;
+    this.isActive=isActive
   }
 }

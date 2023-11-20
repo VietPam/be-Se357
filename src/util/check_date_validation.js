@@ -1,3 +1,3 @@
-export function isDateValid(date) {
-  return date instanceof Date && !isNaN(date);
+export function isDateValid(dateString) {
+  return !isNaN(Date.parse(dateString));
 }
