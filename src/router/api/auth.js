@@ -21,26 +21,13 @@ router.use("/login", NotAllowedMethodHandler);
 // router.post("/seller/login",checkLoginValidation,);
 // router.use("/seller/login", NotAllowedMethodHandler,);
 
-router.post(
-  "/logout",
-  checkTokenAppearance,
-  convertAccessTokenToUserID,
-  AuthController
-);
+router.post("/logout",checkTokenAppearance,convertAccessTokenToUserID,AuthController.logout);
 router.use("/logout", NotAllowedMethodHandler);
 
-router.post(
-  "/buyer/register",
-  checkUserValidation,
-  AuthController.buyerRegistation
-);
+router.post("/buyer/register",checkUserValidation, AuthController.registerBuyer);
 router.use("/buyer/register", NotAllowedMethodHandler);
 
-router.post(
-  "/seller/register",
-  checkUserValidation,
-  AuthController.sellerRegistation
-);
+router.post("/seller/register",checkUserValidation,AuthController.registerSeller);
 router.use("/seller/register", NotAllowedMethodHandler);
 
 // router.post("/admin/register",checkUserValidation,);
@@ -50,10 +37,10 @@ router.post(
   "/accessToken/refresh",
   checkTokenAppearance,
   convertRefreshTokenToUserID,
-  AuthController.refreshAccessToken
+  AuthController.generateNewAccessToken
 );
 router.use("/accessToken/refresh", NotAllowedMethodHandler);
 
 router.use(URLNotExistHandler);
 
-export router;
+export default router;

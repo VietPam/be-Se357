@@ -17,12 +17,21 @@ import {
   refreshTokenKeysFolderPath,
 } from "./src/common/tokenKeysFolderPaths";
 
+//-----Middleware-----//
+import {errorHandler} from "./src/middleware/errorHandler"
+
+//-----Router-----//
+import {wrapTheApp} from "./src/router";
+
 //-----Env-----//
 import dotenv from "dotenv";
 dotenv.config();
 
 const port = process.env.PORT || 3009;
 const app = express();
+
+wrapTheApp(app);
+
 
 async function startServer() {
   try {

@@ -1,6 +1,29 @@
-function createNewBuyer(newBuyer) {}
+const { BuyerDAO } = require("../model/private/DAO/buyerDAO");
+import { hashPassword } from "../helper/working_with_password";
+async function createNewBuyer(newBuyerData) {
+  try{
+    const buyerRepository = new BuyerDAO();
+    newBuyerData.password=await hashPassword(newBuyerData.password);
+    await buyerRepository.createBuyer(newBuyerData);
+  }
+  catch(e)
+  {
+    throw e
+  }
+}
+
 function getBuyerByID(buyerID) {}
-function getBuyerByEmail(email) {}
+async function getBuyerByEmail(email) {
+  try{
+    const buyerRepository = new BuyerDAO();
+    const buyer = await buyerRepository.getBuyerByEmail(email);
+    return buyer;
+  }
+  catch(e)
+  {
+    throw e
+  }
+}
 function updatePassword(buyerID, newPassword) {}
 function updateName(buyerID, newName) {}
 function updateBirthday(buyerID, newBirthday) {}

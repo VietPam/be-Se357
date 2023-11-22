@@ -45,7 +45,7 @@ export const convertAccessTokenToUserID = async (request, response, next) => {
         const error = new UnauthorizedError(EXPIRED_TOKEN);
         return next(error);
       } else {
-        request.headers["authorization"].userID = decoded;
+        request.headers["authorization"] = decoded;
         return next();
       }
     });
@@ -67,7 +67,7 @@ export const convertAccessTokenToUserID = async (request, response, next) => {
         const error = new UnauthorizedError(EXPIRED_TOKEN);
         return next(error);
       } else {
-        request.headers["authorization"].userID = decoded;
+        request.headers["authorization"] = decoded;
         return next();
       }
     });
