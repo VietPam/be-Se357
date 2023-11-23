@@ -18,10 +18,10 @@ import {
 } from "./src/common/tokenKeysFolderPaths.js";
 
 //-----Middleware-----//
-import {errorHandler} from "./src/middleware/errorHandler.js"
+import { errorHandler } from "./src/middleware/errorHandler.js";
 
 //-----Router-----//
-import {wrapTheApp} from "./src/router/index.js";
+import { wrapTheApp } from "./src/router/index.js";
 
 //-----Env-----//
 import dotenv from "dotenv";
@@ -32,16 +32,17 @@ const app = express();
 
 wrapTheApp(app);
 
-const MODULUS_LENGTH=2048
+const MODULUS_LENGTH = 2048;
 
 async function startServer() {
   try {
+    console.log("Lojo: ", path.join(refreshTokenKeysFolderPath, "key.pem"));
     if (
       !existsSync(path.join(refreshTokenKeysFolderPath, "key.pem")) ||
       !existsSync(path.join(refreshTokenKeysFolderPath, "key.pem.pub"))
     ) {
       console.log("Creating refresh token keys pair...");
-      generateKeyPairAndSave(refreshTokenKeysFolderPath,MODULUS_LENGTH);
+      await generateKeyPairAndSave(refreshTokenKeysFolderPath, MODULUS_LENGTH);
       console.log("Refresh token keys pair created successfully!");
     }
     if (
@@ -49,7 +50,7 @@ async function startServer() {
       !existsSync(path.join(accessTokenKeysFolderPath, "key.pem.pub"))
     ) {
       console.log("Creating access token keys pair...");
-      generateKeyPairAndSave(accessTokenKeysFolderPath,MODULUS_LENGTH);
+      generateKeyPairAndSave(accessTokenKeysFolderPath, MODULUS_LENGTH);
       console.log("Access token keys pair created successfully!");
     }
     await redisClient.connect();

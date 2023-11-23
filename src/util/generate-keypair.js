@@ -16,6 +16,6 @@ export function generateKeyPairAndSave(keysFolderPath,modulusLength) {
       });
 
     mkdirSync(keysFolderPath,{recursive:true});
-    writeFileSync(path.join(keysFolderPath, 'key.key'), privateKey);
-    writeFileSync(path.join(keysFolderPath, 'key.key.pub'), publicKey);
+    writeFileSync(path.join(keysFolderPath, 'key.pem'), privateKey);
+    writeFileSync(path.join(keysFolderPath, 'key.pem.pub'), publicKey);
 }
