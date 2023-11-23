@@ -1,6 +1,6 @@
-import buyerService from "../service/buyerService";
-import operationService from "../service/operationService";
-import sellerService from "../service/sellerService";
+import buyerService from "../service/buyerService.js";
+import operationService from "../service/operationService.js";
+import sellerService from "../service/sellerService.js";
 import StatusCodes from "http-status-codes";
 
 export default class AuthController {

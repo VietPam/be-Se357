@@ -1,19 +1,19 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-import AuthController from "../../controller/authController";
+import AuthController from "../../controller/authController.js";
 import {
   checkLoginValidation,
   checkTokenAppearance,
   checkUserValidation,
-} from "../../middleware/validation";
+} from "../../middleware/validation.js";
 import {
   convertAccessTokenToUserID,
   convertRefreshTokenToUserID,
-} from "../../middleware/modification";
+} from "../../middleware/modification.js";
 import {
   NotAllowedMethodHandler,
   URLNotExistHandler,
-} from "../../middleware/errorHandler";
+} from "../../middleware/errorHandler.js";
 
 router.post("/login", checkLoginValidation, AuthController.login);
 router.use("/login", NotAllowedMethodHandler);

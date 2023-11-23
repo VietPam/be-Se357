@@ -1,5 +1,5 @@
 //-----common-----//
-import { NotAllowedMethodError, NotFoundError } from "../common/errors";
+import { NotAllowedMethodError, NotFoundError } from "../common/errors.js";
 
 const NOT_FOUND_URL = "URL is not found";
 const NOT_ALLOWED_HTTP_METHOD = "This http method is not allowed";

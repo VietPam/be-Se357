@@ -1,9 +1,9 @@
 //-----Common-----//
-import { UnauthorizedError } from "../common/errors";
+import { UnauthorizedError } from "../common/errors.js";
 
 //-----Util-----//
-import { isDateValid } from "../util/check_date_validation";
-import { isEmailValid } from "../util/check_email_validation";
+import { isDateValid } from "../util/check_date_validation.js";
+import { isEmailValid } from "../util/check_email_validation.js";
 
 const MISSING_TOKEN = "Missing token";
 const MISSING_PARAMETERS = "Missing some parameters";

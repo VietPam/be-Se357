@@ -5,18 +5,18 @@ import {
   BadRequestError,
   ForbiddenError,
   UnauthorizedError,
-} from "../common/errors";
+} from "../common/errors.js";
 import {
   refreshTokenKeysFolderPath,
   accessTokenKeysFolderPath,
-} from "../common/tokenKeysFolderPaths";
+} from "../common/tokenKeysFolderPaths.js";
 
 //-----Config-----//
-import cache from "../config/connect_redis";
+import cache from "../config/connect_redis.js";
 
 //-----Utils-----//
-import { isEmailValid } from "../util/check_email_validation";
-import { isDateValid } from "../util/check_date_validation";
+import { isEmailValid } from "../util/check_email_validation.js";
+import { isDateValid } from "../util/check_date_validation.js";
 
 const EXPIRED_TOKEN = "Expired token";
 const NOT_LEGITIMATE_TOKEN = "Token is not legit";

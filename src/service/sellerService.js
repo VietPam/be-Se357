@@ -7,7 +7,7 @@ function updateBio(sellerID, newBio) {}
 function updateActivationStatus(sellerID, newActivationStatus) {}
 
 
-module.exports = {
+export default  {
   createNewSeller,
   getSellerByID,
   getSellerByEmail,

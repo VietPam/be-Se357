@@ -1,6 +1,6 @@
-import { errorHandler,URLNotExistHandler } from "../middleware/errorHandler";
+import { errorHandler,URLNotExistHandler } from "../middleware/errorHandler.js";
 import express from "express";
-import api from "./api"
+import api from "./api/index.js"
 
 export function wrapTheApp(app) {
   app.use(express.json());

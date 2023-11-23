@@ -1,5 +1,5 @@
-const { BuyerDAO } = require("../model/private/DAO/buyerDAO");
-import { hashPassword } from "../helper/working_with_password";
+import { BuyerDAO } from "../model/private/DAO/buyerDAO.js";
+import { hashPassword } from "../helper/working_with_password.js";
 async function createNewBuyer(newBuyerData) {
   try{
     const buyerRepository = new BuyerDAO();
@@ -36,7 +36,7 @@ function removeAddress(buyerID, address) {}
 function addNewReview(buyerID, newReviewID) {}
 function updateActivationStatus(buyerID, newActivationStatus) {}
 
-module.exports = {
+export default {
   createNewBuyer,
   getBuyerByID,
   getBuyerByEmail,
