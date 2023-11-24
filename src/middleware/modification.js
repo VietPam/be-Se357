@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
-
+import fs from "fs";
+import path from "path";
 //-----Common-----//
 import {
   BadRequestError,
@@ -32,7 +33,7 @@ export const standarlizeUserData = (request, response, next) => {
 export const convertAccessTokenToUserID = async (request, response, next) => {
     const token = request.headers["authorization"];
     const key = fs.readFileSync(
-      path.join(accessTokenKeysFolderPath, "key.key.pub"),
+      path.join(accessTokenKeysFolderPath, "key.pem.pub"),
       "utf8"
     );
   
@@ -54,7 +55,7 @@ export const convertAccessTokenToUserID = async (request, response, next) => {
   export const convertRefreshTokenToUserID = async (request, response, next) => {
     const token = request.headers["authorization"];
     const key = fs.readFileSync(
-      path.join(refreshTokenKeysFolderPath, "key.key.pub"),
+      path.join(refreshTokenKeysFolderPath, "key.pem.pub"),
       "utf8"
     );
   

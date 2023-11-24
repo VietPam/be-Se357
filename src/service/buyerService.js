@@ -12,7 +12,8 @@ async function createNewBuyer(newBuyerData) {
   }
 }
 
-function getBuyerByID(buyerID) {}
+async function getBuyerByID(buyerID) {}
+
 async function getBuyerByEmail(email) {
   try{
     const buyerRepository = new BuyerDAO();

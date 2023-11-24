@@ -9,6 +9,7 @@ import {
 import {
   convertAccessTokenToUserID,
   convertRefreshTokenToUserID,
+  standarlizeUserData
 } from "../../middleware/modification.js";
 import {
   NotAllowedMethodHandler,
@@ -24,10 +25,10 @@ router.use("/login", NotAllowedMethodHandler);
 router.post("/logout",checkTokenAppearance,convertAccessTokenToUserID,AuthController.logout);
 router.use("/logout", NotAllowedMethodHandler);
 
-router.post("/buyer/register",checkUserValidation, AuthController.registerBuyer);
+router.post("/buyer/register",checkUserValidation,standarlizeUserData, AuthController.registerBuyer);
 router.use("/buyer/register", NotAllowedMethodHandler);
 
-router.post("/seller/register",checkUserValidation,AuthController.registerSeller);
+router.post("/seller/register",checkUserValidation,standarlizeUserData,AuthController.registerSeller);
 router.use("/seller/register", NotAllowedMethodHandler);
 
 // router.post("/admin/register",checkUserValidation,);

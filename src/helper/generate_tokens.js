@@ -12,9 +12,11 @@ import {
 
 export const generateAccessToken = (userID) => {
   try {
+    console.log(userID);
     const payload = userID;
+    console.log(payload)
     const key = fs.readFileSync(
-      path.join(accessTokenKeysFolderPath, "key.key"),
+      path.join(accessTokenKeysFolderPath, "key.pem"),
       "utf8"
     );
     const accessToken = jwt.sign(payload, key, { algorithm: "RS256" });
@@ -28,7 +30,7 @@ export const generateRefreshToken = (userID) => {
   try {
     const payload=userID;
     const key = fs.readFileSync(
-      path.join(refreshTokenKeysFolderPath, "key.key"),
+      path.join(refreshTokenKeysFolderPath, "key.pem"),
       "utf8"
     );
     const refreshToken = jwt.sign(payload, key, { algorithm: "RS256" });

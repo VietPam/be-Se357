@@ -7,7 +7,7 @@ export default class AuthController {
   static async login(request, response, next) {
     try {
       const accountData = request.body.data;
-      const credentials = await operationService.getCredential(
+      const credentials = await operationService.getCredentialByEmailAndPassword(
         accountData.email,
         accountData.password
       );
@@ -26,12 +26,11 @@ export default class AuthController {
   static async logout(request, response, next) {
     try {
       const userID = request.headers["authorization"];
-      await operationService.removeCredentialByUserID(userID);
+      await operationService.removeCredentialInCacheByUserID(userID);
       return response.status(StatusCodes.OK).json({
         message: "Logout successfully",
       });
     } catch (e) {
-      console.log(e);
       next(e);
     }
   }
@@ -40,11 +39,12 @@ export default class AuthController {
     try {
       const buyerData = request.body.data;
       await buyerService.createNewBuyer(buyerData);
-      const credentials = await buyerService.getBuyerByEmail(buyerData.email);
+      const buyer = await buyerService.getBuyerByEmail(buyerData.email);
+      const credentials=await operationService.getCredentialByUserID(buyer.id);
       return response.status(StatusCodes.CREATED).json({
         data: {
           accessToken: credentials.accessToken,
-          refreshToken: credentials.refreshToken,
+          refreshToken: credentials.refreshToken
         },
       });
     } catch (e) {

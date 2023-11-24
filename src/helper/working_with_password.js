@@ -19,6 +19,7 @@ export const comparePasswords = async (password, savedHashedPassword) => {
         return await compare(password, savedHashedPassword);
     }
     catch (error) {
+      
         throw (error);
     }
 }

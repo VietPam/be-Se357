@@ -56,7 +56,7 @@ async function startServer() {
     await redisClient.connect();
     await redisClient.ping().then((res) => console.log(res));
     app.listen(port, () => {
-      console.log(`Server is ready to use`);
+      console.log(`Server is running on port ${port}`);
     });
   } catch (error) {
     console.error("We gonna close this server", error);

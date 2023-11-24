@@ -1,5 +1,5 @@
 //-----Common-----//
-import { UnauthorizedError } from "../common/errors.js";
+import { UnauthorizedError, BadRequestError } from "../common/errors.js";
 
 //-----Util-----//
 import { isDateValid } from "../util/check_date_validation.js";
