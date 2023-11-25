@@ -2,15 +2,19 @@ import buyerService from "../service/buyerService.js";
 import operationService from "../service/operationService.js";
 import sellerService from "../service/sellerService.js";
 import StatusCodes from "http-status-codes";
+import { ConflictError, NotFoundError } from "../../src/common/errors.js";
+
+const USER_NOT_FOUND = "This user is not found";
 
 export default class AuthController {
   static async login(request, response, next) {
     try {
       const accountData = request.body.data;
-      const credentials = await operationService.getCredentialByEmailAndPassword(
-        accountData.email,
-        accountData.password
-      );
+      const credentials =
+        await operationService.getCredentialByEmailAndPassword(
+          accountData.email,
+          accountData.password
+        );
       return response.status(StatusCodes.OK).json({
         data: {
           accessToken: credentials.accessToken,
@@ -40,11 +44,13 @@ export default class AuthController {
       const buyerData = request.body.data;
       await buyerService.createNewBuyer(buyerData);
       const buyer = await buyerService.getBuyerByEmail(buyerData.email);
-      const credentials=await operationService.getCredentialByUserID(buyer.id);
+      const credentials = await operationService.getCredentialByUserID(
+        buyer.id
+      );
       return response.status(StatusCodes.CREATED).json({
         data: {
           accessToken: credentials.accessToken,
-          refreshToken: credentials.refreshToken
+          refreshToken: credentials.refreshToken,
         },
       });
     } catch (e) {
@@ -57,9 +63,9 @@ export default class AuthController {
     try {
       const sellerData = request.body.data;
       await sellerService.createNewSeller(sellerData);
-      const credentials = await operationService.getCredential(
-        buyerData.email,
-        buyerData.password
+      const seller = await sellerService.getSellerByEmail(sellerData.email);
+      const credentials = await operationService.getCredentialByUserID(
+        seller.id
       );
       return response.status(StatusCodes.CREATED).json({
         data: {
@@ -76,11 +82,11 @@ export default class AuthController {
   static async generateNewAccessToken(request, response, next) {
     try {
       const userID = request.headers["authorization"];
-      const  accessToken=await operationService.generateNewAccessToken(userID);
+      const accessToken = await operationService.generateNewAccessToken(userID);
       return response.status(StatusCodes.OK).json({
         data: {
-          accessToken:accessToken
-        }
+          accessToken: accessToken,
+        },
       });
     } catch (e) {
       console.log(e);

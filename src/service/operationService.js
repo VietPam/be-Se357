@@ -42,6 +42,11 @@ async function getCredentialByEmailAndPassword(email, password) {
   }
 }
 
+/**
+ * WARNING: ONLY use this with valid userID
+ * @param {string} userID 
+ * @returns 
+ */
 async function getCredentialByUserID(userID) {
   try {
     const accessToken = generateAccessToken(userID);
@@ -60,9 +65,37 @@ async function removeCredentialInCacheByUserID(userID) {
     throw e;
   }
 }
-function generateNewAccessToken(userID) {}
+
+/**
+ * WARNING: ONLY use this with valid userID
+ * @param {string} userID 
+ * @returns 
+ */
+async function generateNewAccessToken(userID) 
+{
+  try {
+    const accessToken = generateAccessToken(userID);
+    await storeAccessTokenToCache(userID, accessToken);
+    return accessToken
+  } catch (e) {
+    throw e;
+  }
+}
 
 //private
+async function storeAccessTokenToCache(userID,accessToken)
+{
+  try {
+    await Cache.setEx(
+      `${userID}:accessToken`,
+      ACCESS_TOKEN_EXPIRATION_IN_SECONDS,
+      accessToken
+    );
+  } catch (e) {
+    throw e;
+  }
+}
+
 async function storeTokensToCache(userID, accessToken, refreshToken) {
   try {
     await Cache.setEx(
