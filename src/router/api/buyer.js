@@ -18,6 +18,7 @@ import {
 router.get("/");
 router.post("/");
 router.patch("/:buyerId/password");
+router.patch("/:buyerId/status");
 router.get("/:buyerId/gender");
 router.put("/:buyerId/gender");
 router.get("/:buyerId/phones");
@@ -37,5 +38,6 @@ router.patch("/:buyerId/cart-item/:cartItemId");
 router.delete("/:buyerId/cart-item/:cartItemId");
 
 //---------------------------//
-
 router.use(URLNotExistHandler);
+
+export default router;

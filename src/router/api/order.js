@@ -20,7 +20,9 @@ router.post("/");
 router.get("/:orderId");
 router.patch("/:orderId");
 
+router.use(URLNotExistHandler);
 
+export default router;
 
 
 

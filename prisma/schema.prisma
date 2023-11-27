@@ -48,10 +48,11 @@ model Buyer_Like_Product {
 }
 
 model Buyer_Follow_Seller {
-  buyer      Buyer    @relation(fields: [buyerId], references: [id])
-  buyerId    String   @db.Uuid
-  seller     Seller   @relation(fields: [sellerId], references: [id])
-  sellerId   String   @db.Uuid
+  buyer    Buyer  @relation(fields: [buyerId], references: [id])
+  buyerId  String @db.Uuid
+  seller   Seller @relation(fields: [sellerId], references: [id])
+  sellerId String @db.Uuid
+
   assignedAt DateTime @default(now()) @ignore
 
   @@id([buyerId, sellerId])
@@ -62,7 +63,8 @@ model Seller {
   email     String                @unique @db.VarChar(255)
   password  String
   name      String
-  isActive  Boolean               @default(true)
+  isActive  Boolean               @default(false)
+  bio       String
   products  Product[]
   orders    Order[]
   phones    String[]
