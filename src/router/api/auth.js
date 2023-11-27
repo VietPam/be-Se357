@@ -23,7 +23,7 @@ router.use("/login", NotAllowedMethodHandler);
 // router.use("/seller/login", NotAllowedMethodHandler,);
 
 router.post(
-  "/logout",
+  "/logout", 
   checkTokenAppearance,
   convertAccessTokenToUserPayload,
   AuthController.logout
