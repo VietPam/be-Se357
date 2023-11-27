@@ -17,13 +17,15 @@ import {
 
 
 router.post("/");
+router.use("/",NotAllowedMethodHandler);
+
 router.get("/:productId");
-router.patch("/:productId/quantity");
+router.patch("/:productId");
+router.use("/:productId",NotAllowedMethodHandler);
 
 router.use(URLNotExistHandler);
 
 export default router;
-
 
 
 

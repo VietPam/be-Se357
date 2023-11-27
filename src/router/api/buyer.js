@@ -14,39 +14,53 @@ import {
   NotAllowedMethodHandler,
   URLNotExistHandler,
 } from "../../middleware/errorHandler.js";
-
+/**
+ * return all except password, orders, reviews, favourite products,shopping cart
+ */
 router.post("/");
+router.patch("/");
 router.use("/",NotAllowedMethodHandler);
 
-router.get("/info");
-router.use("/info",NotAllowedMethodHandler);
-
 router.get("/:buyerId");
+router.patch("/:buyerId");
 router.use("/:buyerId",NotAllowedMethodHandler);
 
-router.patch("/password");
-router.patch("/:buyerId/password");
-router.patch("/:buyerId/activation-status");
-router.put("/gender");
-router.get("/phones");
-router.put("/phones");
-router.get("/:buyerId/phones");
-router.get("/addresses");
-router.put("/addresses");
 router.get("/favourite-products");
-router.get("/:buyerId/favourite-products");
 router.put("/favourite-products");
+router.use("/favourite-products",NotAllowedMethodHandler);
+
+router.get("/:buyerId/favourite-products");
+router.use("/:buyerId/favourite-products",NotAllowedMethodHandler);
+
 router.post("/favourite-products/product");
+router.use("/favourite-products/product",NotAllowedMethodHandler);
+
 router.delete("/favourite-products/product/:productId");
+router.use("/favourite-products/product/:productId",NotAllowedMethodHandler);
+
 router.get("/orders");
+router.use("/orders",NotAllowedMethodHandler);
+
 router.get("/:buyerId/orders");
+router.use("/:buyerId/orders",NotAllowedMethodHandler);
+
+
 router.get("/reviews");
+router.use("/reviews",NotAllowedMethodHandler);
+
 router.get("/:buyerId/reviews");
+router.use("/:buyerId/reviews",NotAllowedMethodHandler);
+
 router.get("/shopping-cart");
 router.put("/shopping-cart");
+router.use("/shopping-cart",NotAllowedMethodHandler);
+
 router.post("/shopping-cart/item");
-router.patch("/shopping-cart/item/:itemId/quantity");
+router.use("/shopping-cart/item",NotAllowedMethodHandler);
+
+router.patch("/shopping-cart/item/:itemId");
 router.delete("/shopping-cart/item/:itemId");
+router.use("/shopping-cart/item/:itemId",NotAllowedMethodHandler);
 
 //---------------------------//
 

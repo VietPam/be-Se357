@@ -16,12 +16,13 @@ import {
   URLNotExistHandler,
 } from "../../middleware/errorHandler.js";
 
-router.post("/");
 router.get("/");
-router.patch("/password");
-router.patch("/:adminId/password");
-router.patch("/name");
-router.patch("/:adminId/activation-status");
+router.post("/");
+router.patch("/");
+router.use("/",NotAllowedMethodHandler);
+
+router.patch("/:adminId");
+router.use("/:adminId",NotAllowedMethodHandler)
 
 router.use(URLNotExistHandler);
 

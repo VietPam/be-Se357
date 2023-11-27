@@ -17,8 +17,11 @@ import {
 
 
 router.post("/");
+router.use("/",NotAllowedMethodHandler);
+
 router.get("/:orderId");
 router.patch("/:orderId");
+router.use("/:orderId",NotAllowedMethodHandler);
 
 router.use(URLNotExistHandler);
 

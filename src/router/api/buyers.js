@@ -16,6 +16,8 @@ import {
 } from "../../middleware/errorHandler.js";
 
 router.get("/");
+router.use("/",NotAllowedMethodHandler);
+
 router.use(URLNotExistHandler);
 
 export default router;
