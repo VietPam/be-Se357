@@ -2,10 +2,10 @@
 import { NotAllowedMethodError, NotFoundError } from "../common/errors.js";
 
 const NOT_FOUND_URL = "URL is not found";
-const NOT_ALLOWED_HTTP_METHOD = "This http method is not allowed";
+const NOT_ALLOWED_METHOD = "This method is not allowed";
 
 export const NotAllowedMethodHandler = (request, response, next) => {
-  const error = new NotAllowedMethodError(NOT_ALLOWED_HTTP_METHOD);
+  const error = new NotAllowedMethodError(NOT_ALLOWED_METHOD);
   return next(error);
 }
 

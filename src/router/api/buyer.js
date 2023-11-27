@@ -16,8 +16,14 @@ import {
 } from "../../middleware/errorHandler.js";
 
 router.post("/");
+router.use("/",NotAllowedMethodHandler);
+
 router.get("/info");
+router.use("/info",NotAllowedMethodHandler);
+
 router.get("/:buyerId");
+router.use("/:buyerId",NotAllowedMethodHandler);
+
 router.patch("/password");
 router.patch("/:buyerId/password");
 router.patch("/:buyerId/activation-status");
