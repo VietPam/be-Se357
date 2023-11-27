@@ -35,7 +35,7 @@ async function getBuyerByEmail(email) {
     throw e
   }
 }
-async function getBuyers(limit?) {
+async function getBuyers(limit) {
   try{
     const buyerRepository = new BuyerDAO();
     const buyers = await buyerRepository.getBuyers(limit);

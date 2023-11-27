@@ -9,7 +9,7 @@ export class BuyerDAO {
     this.#databaseConnection = new PrismaClient();
   }
 
-  async getBuyers(limit?)
+  async getBuyers(limit)
   {
     try{
       await this.#databaseConnection.$connect();
