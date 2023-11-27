@@ -38,13 +38,6 @@ router.post(
 );
 router.use("/buyer/register", NotAllowedMethodHandler);
 
-router.post(
-  "/seller/register",
-  checkUserValidation,
-  standarlizeBirthday,
-  AuthController.registerSeller
-);
-router.use("/seller/register", NotAllowedMethodHandler);
 
 // router.post("/admin/register",checkUserValidation,);
 // router.use("/admin/register", NotAllowedMethodHandler);
