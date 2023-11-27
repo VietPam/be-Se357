@@ -9,12 +9,27 @@ export class BuyerDAO {
     this.#databaseConnection = new PrismaClient();
   }
 
+  async getBuyers(limit?)
+  {
+    try{
+      await this.#databaseConnection.$connect();
+      const buyers = await this.#databaseConnection.buyer.findMany({
+        take:limit
+      });
+      await this.#databaseConnection.$disconnect();
+      return buyers;
+    }
+    catch(e){
+      throw e;
+    }
+  }
+
   async getBuyerByID(id) {
     try {
       await this.#databaseConnection.$connect();
       const buyer = await this.#databaseConnection.buyer.findUnique({
         where: {
-          id: id,
+          id:id
         },
       });
       await this.#databaseConnection.$disconnect();
@@ -66,10 +81,16 @@ export class BuyerDAO {
       });
       await this.#databaseConnection.$disconnect();
     } catch (e) {
+      const error = new ConflictError(e.message);
       throw e;
     }
   }
-
+/**
+ * 
+ * @param {string} id
+ * @param {string[]} updatedColumns 
+ * @param {string[]} values 
+ */
   async updateBuyer(id, updatedColumns, values) {
     try {
       const updatedDatas = {};

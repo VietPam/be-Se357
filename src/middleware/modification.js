@@ -16,61 +16,65 @@ import {
 import cache from "../config/connect_redis.js";
 
 //-----Utils-----//
-import { isEmailValid } from "../util/check_email_validation.js";
-import { isDateValid } from "../util/check_date_validation.js";
 
 const EXPIRED_TOKEN = "Expired token";
 const NOT_LEGITIMATE_TOKEN = "Token is not legit";
 
-
-export const standarlizeUserData = (request, response, next) => {
-  request.body.data.birthday = new Date(
-    request.body.data.birthday
-  ).toISOString();
+export const standarlizeBirthday = (request, response, next) => {
+  if (request.body.data.birthday) {
+    try {
+      request.body.data.birthday = new Date(
+        request.body.data.birthday
+      ).toISOString();
+    } catch (e) {
+      const error = new BadRequestError(e.message);
+      throw error;
+    }
+  }
   return next();
 };
 
-export const convertAccessTokenToUserID = async (request, response, next) => {
-    const token = request.headers["authorization"];
-    const key = fs.readFileSync(
-      path.join(accessTokenKeysFolderPath, "key.pem.pub"),
-      "utf8"
-    );
+export const convertAccessTokenToUserPayload = async (request, response, next) => {
+  const token = request.headers["authorization"];
+  const key = fs.readFileSync(
+    path.join(accessTokenKeysFolderPath, "key.pem.pub"),
+    "utf8"
+  );
+
+  jwt.verify(token, key, { algorithms: ["RS256"] }, async (err, decoded) => {
+    if (err) {
+      console.error("Err:", err.message);
+      const error = new ForbiddenError(NOT_LEGITIMATE_TOKEN);
+      return next(error);
+    } else if (token !== (await cache.get(`${decoded.id}:accessToken`))) {
+      const error = new UnauthorizedError(EXPIRED_TOKEN);
+      return next(error);
+    } else {
+      request.headers["authorization"] = decoded;
+      return next();
+    }
+  });
+};
+
+export const convertRefreshTokenToUserPayload = async (request, response, next) => {
+  const token = request.headers["authorization"];
+  const key = fs.readFileSync(
+    path.join(refreshTokenKeysFolderPath, "key.pem.pub"),
+    "utf8"
+  );
   
-    jwt.verify(token, key, { algorithms: ["RS256"] }, async (err, decoded) => {
-      if (err) {
-        console.error("Err:", err.message);
-        const error = new ForbiddenError(NOT_LEGITIMATE_TOKEN);
-        return next(error);
-      } else if (token !== (await cache.get(`${decoded}:accessToken`))) {
-        const error = new UnauthorizedError(EXPIRED_TOKEN);
-        return next(error);
-      } else {
-        request.headers["authorization"] = decoded;
-        return next();
-      }
-    });
-  };
-  
-  export const convertRefreshTokenToUserID = async (request, response, next) => {
-    const token = request.headers["authorization"];
-    const key = fs.readFileSync(
-      path.join(refreshTokenKeysFolderPath, "key.pem.pub"),
-      "utf8"
-    );
-  
-    jwt.verify(token, key, { algorithms: ["RS256"] }, async (err, decoded) => {
-      if (err) {
-        console.error(err);
-        const error = new ForbiddenError(NOT_LEGITIMATE_TOKEN);
-        return next(error);
-      } else if (token !== (await cache.get(`${decoded}:refreshToken`))) {
-        const error = new UnauthorizedError(EXPIRED_TOKEN);
-        return next(error);
-      } else {
-        request.headers["authorization"] = decoded;
-        return next();
-      }
-    });
-  };
-  
+
+  jwt.verify(token, key, { algorithms: ["RS256"] }, async (err, decoded) => {
+    if (err) {
+      console.error(err);
+      const error = new ForbiddenError(NOT_LEGITIMATE_TOKEN);
+      return next(error);
+    } else if (token !== (await cache.get(`${decoded.id}:refreshToken`))) {
+      const error = new UnauthorizedError(EXPIRED_TOKEN);
+      return next(error);
+    } else {
+      request.headers["authorization"] = decoded;
+      return next();
+    }
+  });
+};

@@ -10,10 +10,10 @@ import {
   refreshTokenKeysFolderPath,
 } from "../common/tokenKeysFolderPaths.js";
 
-export const generateAccessToken = (userID) => {
+export const generateAccessToken = (userID,userRole) => {
   try {
     console.log(userID);
-    const payload = userID;
+    const payload = {id:userID,role:userRole};
     console.log(payload)
     const key = fs.readFileSync(
       path.join(accessTokenKeysFolderPath, "key.pem"),
@@ -26,9 +26,9 @@ export const generateAccessToken = (userID) => {
   }
 };
 
-export const generateRefreshToken = (userID) => {
+export const generateRefreshToken = (userID,userRole) => {
   try {
-    const payload=userID;
+    const payload={id:userID,role:userRole};
     const key = fs.readFileSync(
       path.join(refreshTokenKeysFolderPath, "key.pem"),
       "utf8"

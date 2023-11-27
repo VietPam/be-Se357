@@ -14,28 +14,55 @@ const USER_IS_NOT_FOUND = "The user is not found";
 const WRONG_PASSWORD = "Wrong password";
 const ACCESS_TOKEN_EXPIRATION_IN_SECONDS = 10 * 60;
 const REFRESH_TOKEN_EXPIRATION_IN_SECONDS = 30 * 24 * 60 * 60;
+const USER_ROLE = { BUYER: "buyer", SELLER: "seller", ADMIN: "admin" };
 //public
 async function getCredentialByEmailAndPassword(email, password) {
   try {
+    let user;
     const DBconnection = new PrismaClient();
-    const [user] = await DBconnection.$transaction([
-      DBconnection.$queryRaw`SELECT "id", "password" from  public."Admin" where email = ${email} Union SELECT "id", "password" from  public."Buyer" where email = ${email} Union SELECT "id", "password" from  public."Seller" where email = ${email} `,
+    const [buyer, seller, admin] = await DBconnection.$transaction([
+      DBconnection.buyer.findUnique({
+        where: {
+          email: email,
+        },
+      }),
+      DBconnection.seller.findUnique({
+        where: {
+          email: email,
+        },
+      }),
+      DBconnection.admin.findUnique({
+        where: {
+          email: email,
+        },
+      }),
     ]);
-    if (user) {
-      console.log(user)
-      if (await comparePasswords(password, user[0].password)) {
+
+    if (buyer || seller || admin) {
+      if (buyer) {
+        user = buyer;
+        user.role = USER_ROLE.BUYER;
+      } else if (seller) {
+        user = seller;
+        user.role = USER_ROLE.SELLER;
+      } else {
+        user = admin;
+        user.role = USER_ROLE.ADMIN;
+      }
+
+      if (await comparePasswords(password, user.password)) {
         //create credential
-        console.log("password: ",user[0].password);
-        console.log("id: ",user[0].id)
-        await removeCredentialInCacheByUserID(user[0].id);
-        return await getCredentialByUserID(user[0].id);
+        console.log("password: ", user.password);
+        console.log("id: ", user.id);
+        await removeCredentialInCacheByUserID(user.id);
+        return await generateCredentials(user.id, user.role);
       } else {
         const error = new UnauthorizedError(WRONG_PASSWORD);
         throw error;
       }
     } else {
-      const error = new NotFoundError(USER_IS_NOT_FOUND);
-      throw error;
+      const exeption = new NotFoundError(USER_IS_NOT_FOUND);
+      throw exeption;
     }
   } catch (e) {
     throw e;
@@ -44,13 +71,11 @@ async function getCredentialByEmailAndPassword(email, password) {
 
 /**
  * WARNING: ONLY use this with valid userID
- * @param {string} userID 
- * @returns 
  */
-async function getCredentialByUserID(userID) {
+async function generateCredentials(userID, role) {
   try {
-    const accessToken = generateAccessToken(userID);
-    const refreshToken = generateRefreshToken(userID);
+    const accessToken = generateAccessToken(userID, role);
+    const refreshToken = generateRefreshToken(userID, role);
     await storeTokensToCache(userID, accessToken, refreshToken);
     return { accessToken, refreshToken };
   } catch (e) {
@@ -68,23 +93,21 @@ async function removeCredentialInCacheByUserID(userID) {
 
 /**
  * WARNING: ONLY use this with valid userID
- * @param {string} userID 
- * @returns 
+ * @param {string} userID
+ * @returns
  */
-async function generateNewAccessToken(userID) 
-{
+async function generateNewAccessToken(userID, role) {
   try {
-    const accessToken = generateAccessToken(userID);
+    const accessToken = generateAccessToken(userID, role);
     await storeAccessTokenToCache(userID, accessToken);
-    return accessToken
+    return accessToken;
   } catch (e) {
     throw e;
   }
 }
 
 //private
-async function storeAccessTokenToCache(userID,accessToken)
-{
+async function storeAccessTokenToCache(userID, accessToken) {
   try {
     await Cache.setEx(
       `${userID}:accessToken`,
@@ -117,5 +140,5 @@ export default {
   getCredentialByEmailAndPassword,
   removeCredentialInCacheByUserID,
   generateNewAccessToken,
-  getCredentialByUserID,
+  generateCredentials,
 };

@@ -37,8 +37,7 @@ export const checkUserValidation = (request, response, next) => {
   if (
     !request.body.data.email ||
     !request.body.data.password ||
-    !request.body.data.name ||
-    !request.body.data.birthday
+    !request.body.data.name
   ) {
     const error = new BadRequestError(MISSING_PARAMETERS);
     return next(error);
@@ -46,8 +45,7 @@ export const checkUserValidation = (request, response, next) => {
   if (
     !isEmailValid(request.body.data.email) ||
     !(typeof request.body.data.password === "string") ||
-    !(typeof request.body.data.name === "string") ||
-    !isDateValid(request.body.data.birthday)
+    !(typeof request.body.data.name === "string")
   ) {
     const error = new BadRequestError(INVALID_PARAMETERS);
     return next(error);

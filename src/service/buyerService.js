@@ -12,7 +12,17 @@ async function createNewBuyer(newBuyerData) {
   }
 }
 
-async function getBuyerByID(buyerID) {}
+async function getBuyerByID(buyerID) {
+  try{
+    const buyerRepository = new BuyerDAO();
+    const buyer = await buyerRepository.getBuyerByID(buyerID);
+    return buyer;
+  }
+  catch(e)
+  {
+    throw e
+  }
+}
 
 async function getBuyerByEmail(email) {
   try{
@@ -25,8 +35,21 @@ async function getBuyerByEmail(email) {
     throw e
   }
 }
+async function getBuyers(limit?) {
+  try{
+    const buyerRepository = new BuyerDAO();
+    const buyers = await buyerRepository.getBuyers(limit);
+    return buyers;
+  }
+  catch(e)
+  {
+    throw e
+  }
+}
+
 function updatePassword(buyerID, newPassword) {}
 function updateName(buyerID, newName) {}
+function updateGender(buyerID,newGender){}
 function updateBirthday(buyerID, newBirthday) {}
 function addNewItemToShoppingCart(buyerID, newItem) {}
 function removeItemFromShoppingCart(buyerID, item) {}
@@ -44,6 +67,7 @@ export default {
   updatePassword,
   updateBirthday,
   updateName,
+  updateGender,
   addNewAddress,
   removeAddress,
   addNewItemToShoppingCart,
@@ -51,5 +75,5 @@ export default {
   addNewOrder,
   removeOrder,
   addNewReview,
-  updateActivationStatus,
+  updateActivationStatus,getBuyers
 };
