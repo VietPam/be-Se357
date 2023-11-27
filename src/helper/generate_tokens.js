@@ -10,6 +10,9 @@ import {
   refreshTokenKeysFolderPath,
 } from "../common/tokenKeysFolderPaths.js";
 
+const ACCESS_TOKEN_EXPIRATION='30m';
+const REFRESH_TOKEN_EXPIRATION='30d';
+
 export const generateAccessToken = (userID,userRole) => {
   try {
     console.log(userID);
@@ -19,9 +22,10 @@ export const generateAccessToken = (userID,userRole) => {
       path.join(accessTokenKeysFolderPath, "key.pem"),
       "utf8"
     );
-    const accessToken = jwt.sign(payload, key, { algorithm: "RS256" });
+    const accessToken = jwt.sign(payload, key, { algorithm: "RS256",expiresIn:ACCESS_TOKEN_EXPIRATION });
     return accessToken;
-  } catch (e) {
+  } 
+  catch (e) {
     throw e;
   }
 };
@@ -33,7 +37,7 @@ export const generateRefreshToken = (userID,userRole) => {
       path.join(refreshTokenKeysFolderPath, "key.pem"),
       "utf8"
     );
-    const refreshToken = jwt.sign(payload, key, { algorithm: "RS256" });
+    const refreshToken = jwt.sign(payload, key, { algorithm: "RS256",expiresIn:REFRESH_TOKEN_EXPIRATION });
     return refreshToken;
   } catch (e) {
     throw e;
