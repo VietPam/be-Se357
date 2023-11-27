@@ -7,7 +7,7 @@ import {
   checkUserValidation,
 } from "../../middleware/validation.js";
 import {
-  convertAccessTokenToUserID,
+  convertAccessTokenToUserPayload,
   standarlizeUserData,
 } from "../../middleware/modification.js";
 import {

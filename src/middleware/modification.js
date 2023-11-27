@@ -15,7 +15,8 @@ import {
 //-----Config-----//
 import cache from "../config/connect_redis.js";
 
-//-----Utils-----//
+//-----Helper-----//
+import { standardlizeDay } from "../helper/standardlize_data.js";
 
 const EXPIRED_TOKEN = "Expired token";
 const NOT_LEGITIMATE_TOKEN = "Token is not legit";
@@ -23,9 +24,7 @@ const NOT_LEGITIMATE_TOKEN = "Token is not legit";
 export const standarlizeBirthday = (request, response, next) => {
   if (request.body.data.birthday) {
     try {
-      request.body.data.birthday = new Date(
-        request.body.data.birthday
-      ).toISOString();
+      request.body.data.birthday = standardlizeDay(request.body.data.birthday);
     } catch (e) {
       const error = new BadRequestError(e.message);
       throw error;
