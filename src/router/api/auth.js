@@ -23,7 +23,7 @@ router.use("/login", NotAllowedMethodHandler);
 // router.use("/seller/login", NotAllowedMethodHandler,);
 
 router.post(
-  "/logout", 
+  "/logout",
   checkTokenAppearance,
   convertAccessTokenToUserPayload,
   AuthController.logout
@@ -37,10 +37,6 @@ router.post(
   AuthController.registerBuyer
 );
 router.use("/buyer/register", NotAllowedMethodHandler);
-
-
-// router.post("/admin/register",checkUserValidation,);
-// router.use("/admin/register", NotAllowedMethodHandler);
 
 router.post(
   "/accessToken/refresh",

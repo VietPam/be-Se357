@@ -16,6 +16,7 @@ import {
 } from "../../middleware/errorHandler.js";
 
 router.get("/");
+
 router.use(URLNotExistHandler);
 
 export default router;

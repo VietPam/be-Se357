@@ -1,55 +1,52 @@
 import { BuyerDAO } from "../model/private/DAO/buyerDAO.js";
 import { hashPassword } from "../helper/working_with_password.js";
 async function createNewBuyer(newBuyerData) {
-  try{
+  try {
     const buyerRepository = new BuyerDAO();
-    newBuyerData.password=await hashPassword(newBuyerData.password);
+    newBuyerData.password = await hashPassword(newBuyerData.password);
     await buyerRepository.createBuyer(newBuyerData);
-  }
-  catch(e)
-  {
-    throw e
+  } catch (e) {
+    throw e;
   }
 }
 
 async function getBuyerByID(buyerID) {
-  try{
+  try {
     const buyerRepository = new BuyerDAO();
     const buyer = await buyerRepository.getBuyerByID(buyerID);
     return buyer;
-  }
-  catch(e)
-  {
-    throw e
+  } catch (e) {
+    throw e;
   }
 }
 
 async function getBuyerByEmail(email) {
-  try{
+  try {
     const buyerRepository = new BuyerDAO();
     const buyer = await buyerRepository.getBuyerByEmail(email);
     return buyer;
-  }
-  catch(e)
-  {
-    throw e
+  } catch (e) {
+    throw e;
   }
 }
-async function getBuyers(limit?) {
-  try{
+/**
+ * 
+ * @param {number} limit 
+ * @returns 
+ */
+async function getBuyers(limit) {
+  try {
     const buyerRepository = new BuyerDAO();
     const buyers = await buyerRepository.getBuyers(limit);
     return buyers;
-  }
-  catch(e)
-  {
-    throw e
+  } catch (e) {
+    throw e;
   }
 }
 
 function updatePassword(buyerID, newPassword) {}
 function updateName(buyerID, newName) {}
-function updateGender(buyerID,newGender){}
+function updateGender(buyerID, newGender) {}
 function updateBirthday(buyerID, newBirthday) {}
 function addNewItemToShoppingCart(buyerID, newItem) {}
 function removeItemFromShoppingCart(buyerID, item) {}
@@ -75,5 +72,6 @@ export default {
   addNewOrder,
   removeOrder,
   addNewReview,
-  updateActivationStatus,getBuyers
+  updateActivationStatus,
+  getBuyers,
 };

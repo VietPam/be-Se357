@@ -18,7 +18,7 @@ import {
 
 router.post("/");
 router.get("/:productId");
-router.patch("/:productId");
+router.patch("/:productId/quantity");
 
 router.use(URLNotExistHandler);
 
