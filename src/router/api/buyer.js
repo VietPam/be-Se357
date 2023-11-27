@@ -15,10 +15,11 @@ import {
   URLNotExistHandler,
 } from "../../middleware/errorHandler.js";
 
-router.get("/");
 router.post("/");
+router.get("/account/edit");
+router.get("/:buyerId");
 router.patch("/:buyerId/password");
-router.patch("/:buyerId/status");
+router.patch("/:buyerId/activation-status");
 router.get("/:buyerId/gender");
 router.put("/:buyerId/gender");
 router.get("/:buyerId/phones");
@@ -38,6 +39,7 @@ router.patch("/:buyerId/cart-item/:cartItemId");
 router.delete("/:buyerId/cart-item/:cartItemId");
 
 //---------------------------//
+
 router.use(URLNotExistHandler);
 
 export default router;

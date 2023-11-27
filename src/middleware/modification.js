@@ -34,7 +34,11 @@ export const standarlizeBirthday = (request, response, next) => {
   return next();
 };
 
-export const convertAccessTokenToUserPayload = async (request, response, next) => {
+export const convertAccessTokenToUserPayload = async (
+  request,
+  response,
+  next
+) => {
   const token = request.headers["authorization"];
   const key = fs.readFileSync(
     path.join(accessTokenKeysFolderPath, "key.pem.pub"),
@@ -56,13 +60,16 @@ export const convertAccessTokenToUserPayload = async (request, response, next) =
   });
 };
 
-export const convertRefreshTokenToUserPayload = async (request, response, next) => {
+export const convertRefreshTokenToUserPayload = async (
+  request,
+  response,
+  next
+) => {
   const token = request.headers["authorization"];
   const key = fs.readFileSync(
     path.join(refreshTokenKeysFolderPath, "key.pem.pub"),
     "utf8"
   );
-  
 
   jwt.verify(token, key, { algorithms: ["RS256"] }, async (err, decoded) => {
     if (err) {
