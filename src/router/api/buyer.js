@@ -16,27 +16,31 @@ import {
 } from "../../middleware/errorHandler.js";
 
 router.post("/");
-router.get("/");
+router.get("/info");
 router.get("/:buyerId");
+router.patch("/password");
 router.patch("/:buyerId/password");
 router.patch("/:buyerId/activation-status");
-router.get("/:buyerId/gender");
-router.put("/:buyerId/gender");
+router.put("/gender");
+router.get("/phones");
+router.put("/phones");
 router.get("/:buyerId/phones");
-router.put("/:buyerId/phones");
-router.get("/:buyerId/addresses");
-router.put("/:buyerId/addresses");
+router.get("/addresses");
+router.put("/addresses");
+router.get("/favourite-products");
 router.get("/:buyerId/favourite-products");
-router.put("/:buyerId/favourite-products");
-router.post("/:buyerId/favourite-products/product");
-router.delete("/:buyerId/favourite-products/product/:productId");
+router.put("/favourite-products");
+router.post("/favourite-products/product");
+router.delete("/favourite-products/product/:productId");
+router.get("/orders");
 router.get("/:buyerId/orders");
+router.get("/reviews");
 router.get("/:buyerId/reviews");
-router.get("/:buyerId/shopping-cart");
-router.put("/:buyerId/shopping-cart");
-router.post("/:buyerId/shopping-cart/item");
-router.patch("/:buyerId/shopping-cart/item/:itemId");
-router.delete("/:buyerId/shopping-cart/item/:itemId");
+router.get("/shopping-cart");
+router.put("/shopping-cart");
+router.post("/shopping-cart/item");
+router.patch("/shopping-cart/item/:itemId/quantity");
+router.delete("/shopping-cart/item/:itemId");
 
 //---------------------------//
 

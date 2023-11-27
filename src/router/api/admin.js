@@ -18,8 +18,9 @@ import {
 
 router.post("/");
 router.get("/");
+router.patch("/password");
 router.patch("/:adminId/password");
-router.patch("/:adminId/name");
+router.patch("/name");
 router.patch("/:adminId/activation-status");
 
 router.use(URLNotExistHandler);
