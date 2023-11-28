@@ -19,9 +19,9 @@ import {
 router.post("/");
 router.use("/",NotAllowedMethodHandler);
 
-router.get("/:productId");
-router.patch("/:productId");
-router.use("/:productId",NotAllowedMethodHandler);
+router.get("/public/:productId");
+router.patch("/public/:productId");
+router.use("/public/:productId",NotAllowedMethodHandler);
 
 router.use(URLNotExistHandler);
 

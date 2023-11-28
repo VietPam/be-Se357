@@ -17,6 +17,7 @@ import {
 
 //-----Service-----//
 import buyersController from "../../controller/buyersController.js";
+
 /**
  * with get method return all except password, orders, reviews, favourite products,shopping cart
  */
@@ -79,6 +80,25 @@ router.put(
   addUserIdFromRequestHeaderToRequestParams,
   buyersController.setFavouriteProducts
 );
+router.use("/favourite-products", NotAllowedMethodHandler);
+
+
+router.get(
+  "/following-sellers",
+  checkTokenAppearance,
+  convertAccessTokenToUserPayload,
+  addUserIdFromRequestHeaderToRequestParams,
+  buyersController.getFollowingSellers
+);
+router.put(
+  "/following-sellers",
+  checkTokenAppearance,
+  convertAccessTokenToUserPayload,
+  checkFollowingSellersDataValidation,
+  addUserIdFromRequestHeaderToRequestParams,
+  buyersController.setFollowingSellers
+
+)
 router.use("/favourite-products", NotAllowedMethodHandler);
 
 router.get(
