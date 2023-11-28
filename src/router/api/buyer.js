@@ -16,23 +16,22 @@ import {
 } from "../../middleware/errorHandler.js";
 
 //-----Service-----//
-import buyerController from "../../controller/buyerController.js";
-
+import buyersController from "../../controller/buyersController.js";
 /**
- * return all except password, orders, reviews, favourite products,shopping cart
+ * with get method return all except password, orders, reviews, favourite products,shopping cart
  */
 router.get(
   "/",
   checkTokenAppearance,
   convertAccessTokenToUserPayload,
   addUserIdFromRequestHeaderToRequestParams,
-  buyerController.getBuyerByID
+  buyersController.getBuyerByID
 );
 router.post(
   "/",
   checkUserValidation,
   standarlizeBirthday,
-  buyerController.createNewBuyer
+  buyersController.createNewBuyer
 );
 router.patch(
   "/",
@@ -41,7 +40,7 @@ router.patch(
   checkPartialBuyerDataValidation,
   standarlizeBirthday,
   addUserIdFromRequestHeaderToRequestParams,
-  buyerController.updateBuyer
+  buyersController.updateBuyer
 );
 router.use("/", NotAllowedMethodHandler);
 
@@ -51,7 +50,7 @@ router.get(
   convertAccessTokenToUserPayload,
   standarlizeBirthday,
   checkAccess,
-  buyerController.getBuyerByID
+  buyersController.getBuyerByID
 );
 
 router.patch(
@@ -61,7 +60,7 @@ router.patch(
   checkPartialBuyerDataValidation,
   standarlizeBirthday,
   checkAccess,
-  buyerController.updateBuyer
+  buyersController.updateBuyer
 );
 router.use("/:buyerId", NotAllowedMethodHandler);
 
@@ -70,7 +69,7 @@ router.get(
   checkTokenAppearance,
   convertAccessTokenToUserPayload,
   addUserIdFromRequestHeaderToRequestParams,
-  buyerController.
+  buyersController.getFavouriteProducts
 );
 router.put(
   "/favourite-products",
@@ -78,7 +77,7 @@ router.put(
   convertAccessTokenToUserPayload,
   checkFavouriteProductDataValidation,
   addUserIdFromRequestHeaderToRequestParams,
-  buyerController.
+  buyersController.setFavouriteProducts
 );
 router.use("/favourite-products", NotAllowedMethodHandler);
 
@@ -87,7 +86,7 @@ router.get(
   checkTokenAppearance,
   convertAccessTokenToUserPayload,
   checkAccess,
-  buyerController.
+  buyersController.getFavouriteProducts
 );
 router.use("/:buyerId/favourite-products", NotAllowedMethodHandler);
 
@@ -97,7 +96,7 @@ router.post(
   convertAccessTokenToUserPayload,
   checkProductIdValidation,
   addUserIdFromRequestHeaderToRequestParams,
-  buyerController. 
+  buyersController.addProductToFavouriteProducts
 );
 router.use("/favourite-products/product", NotAllowedMethodHandler);
 
@@ -107,64 +106,82 @@ router.delete(
   convertAccessTokenToUserPayload,
   checkProductIdValidation,
   addUserIdFromRequestHeaderToRequestParams,
-  buyerController.
+  buyersController.deleteProductFromFavouriteProducts
 );
 router.use("/favourite-products/product/:productId", NotAllowedMethodHandler);
 
-router.get("/orders",
-checkTokenAppearance,
-convertAccessTokenToUserPayload,
-addUserIdFromRequestHeaderToRequestParams,
-buyerController.);
+router.get(
+  "/orders",
+  checkTokenAppearance,
+  convertAccessTokenToUserPayload,
+  addUserIdFromRequestHeaderToRequestParams,
+  buyersController.getOrders
+);
 router.use("/orders", NotAllowedMethodHandler);
 
-router.get("/:buyerId/orders",checkTokenAppearance,
-convertAccessTokenToUserPayload,
-checkAccess,
-buyerController.);
+router.get(
+  "/:buyerId/orders",
+  checkTokenAppearance,
+  convertAccessTokenToUserPayload,
+  checkAccess,
+  buyersController.getOrders
+);
 router.use("/:buyerId/orders", NotAllowedMethodHandler);
 
-router.get("/reviews",
-checkTokenAppearance,
-convertAccessTokenToUserPayload,
-addUserIdFromRequestHeaderToRequestParams,
-buyerController.);
+router.get(
+  "/reviews",
+  convertAccessTokenToUserPayload,
+  addUserIdFromRequestHeaderToRequestParams,
+  buyersController.getReviews
+);
 router.use("/reviews", NotAllowedMethodHandler);
 
-router.get("/:buyerId/reviews",checkTokenAppearance,
-convertAccessTokenToUserPayload,
-checkAccess,
-buyerController.);
+router.get("/:buyerId/reviews", buyersController.getReviews);
 router.use("/:buyerId/reviews", NotAllowedMethodHandler);
 
-router.get("/shopping-cart",
-checkTokenAppearance,
-convertAccessTokenToUserPayload,
-addUserIdFromRequestHeaderToRequestParams,
-buyerController.);
-router.put("/shopping-cart",
-checkTokenAppearance,
-convertAccessTokenToUserPayload,
-checkShoppingCartDataValidation,
-addUserIdFromRequestHeaderToRequestParams,
-buyerController.);
+router.get(
+  "/shopping-cart",
+  checkTokenAppearance,
+  convertAccessTokenToUserPayload,
+  addUserIdFromRequestHeaderToRequestParams,
+  buyersController.getCart
+);
+router.put(
+  "/shopping-cart",
+  checkTokenAppearance,
+  convertAccessTokenToUserPayload,
+  checkShoppingCartDataValidation,
+  addUserIdFromRequestHeaderToRequestParams,
+  buyersController.setCart
+);
 router.use("/shopping-cart", NotAllowedMethodHandler);
 
-router.post("/shopping-cart/item",
-checkTokenAppearance,
-convertAccessTokenToUserPayload,
-checkCartItemDataValidation,
-addUserIdFromRequestHeaderToRequestParams,
-buyerController.);
+router.post(
+  "/shopping-cart/item",
+  checkTokenAppearance,
+  convertAccessTokenToUserPayload,
+  checkCartItemDataValidation,
+  addUserIdFromRequestHeaderToRequestParams,
+  buyersController.addItemToCart
+);
 router.use("/shopping-cart/item", NotAllowedMethodHandler);
 
-router.patch("/shopping-cart/item/:itemId",
-checkTokenAppearance,
-convertAccessTokenToUserPayload,
-checkPartialCartItemDataValidation,
-addUserIdFromRequestHeaderToRequestParams,
-buyerController.);
-router.delete("/shopping-cart/item/:itemId");
+router.patch(
+  "/shopping-cart/item/:itemId",
+  checkTokenAppearance,
+  convertAccessTokenToUserPayload,
+  checkPartialCartItemDataValidation,
+  addUserIdFromRequestHeaderToRequestParams,
+  buyersController.updateItemInCart
+);
+router.delete(
+  "/shopping-cart/item/:itemId",
+  checkTokenAppearance,
+  convertAccessTokenToUserPayload,
+  checkPartialCartItemDataValidation,
+  addUserIdFromRequestHeaderToRequestParams,
+  buyersController.deleteItemInCart
+);
 router.use("/shopping-cart/item/:itemId", NotAllowedMethodHandler);
 
 //---------------------------//

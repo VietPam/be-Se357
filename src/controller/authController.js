@@ -1,6 +1,6 @@
-import buyerService from "../service/buyerService.js";
+import buyerService from "../service/buyersService.js";
 import operationService from "../service/operationService.js";
-import sellerService from "../service/sellerService.js";
+import sellerService from "../service/sellersService.js";
 import StatusCodes from "http-status-codes";
 import { ConflictError, NotFoundError } from "../../src/common/errors.js";
 

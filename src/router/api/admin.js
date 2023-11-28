@@ -15,14 +15,49 @@ import {
   NotAllowedMethodHandler,
   URLNotExistHandler,
 } from "../../middleware/errorHandler.js";
+import adminsController from "../../controller/adminsController.js";
 
-router.get("/");
-router.post("/");
-router.patch("/");
-router.use("/",NotAllowedMethodHandler);
+router.get(
+  "/",
+  checkTokenAppearance,
+  convertAccessTokenToUserPayload,
+  addUserIdFromRequestHeaderToRequestParams,
+  adminsController.getAdminByID
+);
+router.post(
+  "/",
+  checkUserValidation,
+  standarlizeBirthday,
+  adminsController.createNewAdmin
+);
+router.patch(
+  "/",
+  checkTokenAppearance,
+  convertAccessTokenToUserPayload,
+  checkPartialAdminDataValidation,
+  standarlizeBirthday,
+  addUserIdFromRequestHeaderToRequestParams,
+  adminsController.updateAdmin
+);
+router.use("/", NotAllowedMethodHandler);
 
-router.patch("/:adminId");
-router.use("/:adminId",NotAllowedMethodHandler)
+router.get(
+  "/:adminId",
+  checkTokenAppearance,
+  convertAccessTokenToUserPayload,
+  checkAccess,
+  adminsController.getAdminByID
+);
+router.patch(
+  "/:adminId",
+  checkTokenAppearance,
+  convertAccessTokenToUserPayload,
+  checkPartialAdminDataValidation,
+  standarlizeBirthday,
+  checkAccess,
+  adminsController.updateAdmin
+);
+router.use("/:adminId", NotAllowedMethodHandler);
 
 router.use(URLNotExistHandler);
 

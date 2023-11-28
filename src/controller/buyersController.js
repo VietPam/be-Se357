@@ -1,8 +1,8 @@
-import buyerService from "../service/buyerService.js";
+import buyerService from "../service/buyersService.js";
 import StatusCodes from "http-status-codes";
-import { ConflictError, NotFoundError } from "../../src/common/errors.js";
+import { ConflictError, NotFoundError } from "../common/errors.js";
 
-export default class BuyerController {
+export default class BuyersController {
   static async createNewBuyer(request, response, next) {
     try {
       const buyerData = request.body.data;
