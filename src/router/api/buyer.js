@@ -18,16 +18,16 @@ import {
 //-----Service-----//
 import buyersController from "../../controller/buyersController.js";
 
-/**
- * with get method return all except password, orders, reviews, favourite products,shopping cart
- */
+
 router.get(
-  "/",
+  "/public",
   checkTokenAppearance,
   convertAccessTokenToUserPayload,
   addUserIdFromRequestHeaderToRequestParams,
-  buyersController.getBuyerByID
+  buyersController.getPublicBuyerDataByID
 );
+router.use("/public", NotAllowedMethodHandler);
+
 router.post(
   "/",
   checkUserValidation,
@@ -53,7 +53,6 @@ router.get(
   checkAccess,
   buyersController.getBuyerByID
 );
-
 router.patch(
   "/:buyerId",
   checkTokenAppearance,

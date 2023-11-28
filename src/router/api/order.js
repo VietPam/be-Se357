@@ -19,7 +19,9 @@ import {
 router.post("/");
 router.use("/",NotAllowedMethodHandler);
 
-router.get("/:orderId");
+router.get("/public/:orderId");
+router.use("/public/:orderId",NotAllowedMethodHandler);
+
 router.patch("/:orderId");
 router.use("/:orderId",NotAllowedMethodHandler);
 

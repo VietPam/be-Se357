@@ -22,12 +22,14 @@ import sellersController from "../../controller/sellersController.js";
  */
 
 router.get(
-  "/",
+  "/public",
   checkTokenAppearance,
   convertAccessTokenToUserPayload,
   addUserIdFromRequestHeaderToRequestParams,
-  sellersController.getSellerByID
+  sellersController.getPublicSellerDataByID
 );
+router.use("/public",NotAllowedMethodHandler);
+
 router.post(
   "/",
   checkUserValidation,
@@ -66,7 +68,10 @@ router.use("/:sellerId", NotAllowedMethodHandler);
 router.get("/:sellerId/public", sellersController.getPublicSellerDataByID);
 router.use("/:sellerId/public", NotAllowedMethodHandler);
 
-router.get("/:sellerId/public/products", sellersController.getPublishedProducts);
+router.get(
+  "/:sellerId/public/products",
+  sellersController.getPublishedProducts
+);
 router.use("/:sellerId/public/products", NotAllowedMethodHandler);
 
 router.get(

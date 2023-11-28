@@ -68,7 +68,7 @@ model Seller {
   products  Product[]
   orders    Order[]
   phones    String[]
-  addresses String[]              @db.Text
+  addresses String[]             @db.Text
   followers Buyer_Follow_Seller[]
 }
 
