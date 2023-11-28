@@ -7,13 +7,11 @@ import {
   ForbiddenError,
   UnauthorizedError,
 } from "../common/errors.js";
-import {
-  refreshTokenKeysFolderPath,
-  accessTokenKeysFolderPath,
-} from "../common/tokenKeysFolderPaths.js";
+
 
 //-----Config-----//
 import cache from "../config/connect_redis.js";
+import {ACCESS_TOKEN_KEYS_FOLDER_PATH,REFRESH_TOKEN_KEYS_FOLDER_PATH} from "../config/config_tokens.js"
 
 //-----Helper-----//
 import { standardlizeDay } from "../helper/standardlize_data.js";
@@ -40,7 +38,7 @@ export const convertAccessTokenToUserPayload = async (
 ) => {
   const token = request.headers["authorization"];
   const key = fs.readFileSync(
-    path.join(accessTokenKeysFolderPath, "key.pem.pub"),
+    path.join(ACCESS_TOKEN_KEYS_FOLDER_PATH, "key.pem.pub"),
     "utf8"
   );
 
@@ -66,7 +64,7 @@ export const convertRefreshTokenToUserPayload = async (
 ) => {
   const token = request.headers["authorization"];
   const key = fs.readFileSync(
-    path.join(refreshTokenKeysFolderPath, "key.pem.pub"),
+    path.join(REFRESH_TOKEN_KEYS_FOLDER_PATH, "key.pem.pub"),
     "utf8"
   );
 

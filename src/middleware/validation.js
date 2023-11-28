@@ -33,6 +33,8 @@ export const checkLoginValidation = (request, response, next) => {
   return next();
 };
 
+
+
 export const checkUserValidation = (request, response, next) => {
   if (
     !request.body.data.email ||

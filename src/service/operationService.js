@@ -3,18 +3,25 @@ import { BuyerDAO } from "../model/private/DAO/buyerDAO.js";
 import { SellerDAO } from "../model/private/DAO/sellerDAO.js";
 import { AdminDAO } from "../model/private/DAO/adminDAO.js";
 import { NotFoundError, UnauthorizedError } from "../common/errors.js";
+
+//-----Helper-----//
 import { comparePasswords } from "../helper/working_with_password.js";
 import {
   generateAccessToken,
   generateRefreshToken,
 } from "../helper/generate_tokens.js";
+
+//-----Config-----//
 import Cache from "../config/connect_redis.js";
+import {
+  ACCESS_TOKEN_EXPIRATION_IN_SECONDS,
+  REFRESH_TOKEN_EXPIRATION_IN_SECONDS,
+} from "../config/config_tokens.js";
 
 const USER_IS_NOT_FOUND = "The user is not found";
 const WRONG_PASSWORD = "Wrong password";
-const ACCESS_TOKEN_EXPIRATION_IN_SECONDS = 10 * 60;
-const REFRESH_TOKEN_EXPIRATION_IN_SECONDS = 30 * 24 * 60 * 60;
 const USER_ROLE = { BUYER: "buyer", SELLER: "seller", ADMIN: "admin" };
+
 //public
 async function getCredentialByEmailAndPassword(email, password) {
   try {

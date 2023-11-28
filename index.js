@@ -13,8 +13,8 @@ import { generateKeyPairAndSave } from "./src/util/generate-keypair.js";
 
 //-----Common-----//
 import {
-  accessTokenKeysFolderPath,
-  refreshTokenKeysFolderPath,
+  ACCESS_TOKEN_KEYS_FOLDER_PATH,
+  REFRESH_TOKEN_KEYS_FOLDER_PATH,
 } from "./src/common/tokenKeysFolderPaths.js";
 
 //-----Middleware-----//
@@ -36,21 +36,21 @@ const MODULUS_LENGTH = 2048;
 
 async function startServer() {
   try {
-    console.log("Lojo: ", path.join(refreshTokenKeysFolderPath, "key.pem"));
+    console.log("Lojo: ", path.join(REFRESH_TOKEN_KEYS_FOLDER_PATH, "key.pem"));
     if (
-      !existsSync(path.join(refreshTokenKeysFolderPath, "key.pem")) ||
-      !existsSync(path.join(refreshTokenKeysFolderPath, "key.pem.pub"))
+      !existsSync(path.join(REFRESH_TOKEN_KEYS_FOLDER_PATH, "key.pem")) ||
+      !existsSync(path.join(REFRESH_TOKEN_KEYS_FOLDER_PATH, "key.pem.pub"))
     ) {
       console.log("Creating refresh token keys pair...");
-      await generateKeyPairAndSave(refreshTokenKeysFolderPath, MODULUS_LENGTH);
+      await generateKeyPairAndSave(REFRESH_TOKEN_KEYS_FOLDER_PATH, MODULUS_LENGTH);
       console.log("Refresh token keys pair created successfully!");
     }
     if (
-      !existsSync(path.join(accessTokenKeysFolderPath, "key.pem")) ||
-      !existsSync(path.join(accessTokenKeysFolderPath, "key.pem.pub"))
+      !existsSync(path.join(ACCESS_TOKEN_KEYS_FOLDER_PATH, "key.pem")) ||
+      !existsSync(path.join(ACCESS_TOKEN_KEYS_FOLDER_PATH, "key.pem.pub"))
     ) {
       console.log("Creating access token keys pair...");
-      generateKeyPairAndSave(accessTokenKeysFolderPath, MODULUS_LENGTH);
+      generateKeyPairAndSave(ACCESS_TOKEN_KEYS_FOLDER_PATH, MODULUS_LENGTH);
       console.log("Access token keys pair created successfully!");
     }
     await redisClient.connect();
