@@ -5,7 +5,7 @@ import StatusCodes from "http-status-codes";
 import { ConflictError, NotFoundError } from "../../src/common/errors.js";
 
 const USER_NOT_FOUND = "This user is not found";
-const USER_ROLE={BUYER:"buyer",SELLER:"seller",ADMIN:"admin"};
+const USER_ROLE = { BUYER: "buyer", SELLER: "seller", ADMIN: "admin" };
 export default class AuthController {
   static async login(request, response, next) {
     try {
@@ -29,7 +29,7 @@ export default class AuthController {
 
   static async logout(request, response, next) {
     try {
-      const userID = request.headers["authorization"].id;
+      const userID = JSON.parse(request.headers["authorization"]).id;
       await operationService.removeCredentialInCacheByUserID(userID);
       return response.status(StatusCodes.OK).json({
         message: "Logout successfully",
@@ -83,8 +83,11 @@ export default class AuthController {
 
   static async generateNewAccessToken(request, response, next) {
     try {
-      const user = request.headers["authorization"];
-      const accessToken = await operationService.generateNewAccessToken(user.id,user.role);
+      const user = JSON.parse(request.headers["authorization"]);
+      const accessToken = await operationService.generateNewAccessToken(
+        user.id,
+        user.role
+      );
       return response.status(StatusCodes.OK).json({
         data: {
           accessToken: accessToken,

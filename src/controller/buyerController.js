@@ -19,7 +19,7 @@ export default class BuyerController {
   }
   static async getBuyerByID(request, response, next) {
     try {
-      const buyerID = request.query.id;
+      const buyerID = request.params.id;
       const buyer = await buyerService.getBuyerByID(buyerID);
       response.status(StatusCodes.OK).json({
         data: {

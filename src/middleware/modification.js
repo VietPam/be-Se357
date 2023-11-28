@@ -51,7 +51,7 @@ export const convertAccessTokenToUserPayload = async (
       const error = new UnauthorizedError(EXPIRED_TOKEN);
       return next(error);
     } else {
-      request.headers["authorization"] = decoded;
+      request.headers["authorization"] = JSON.stringify(decoded);
       return next();
     }
   });
@@ -77,7 +77,7 @@ export const convertRefreshTokenToUserPayload = async (
       const error = new UnauthorizedError(EXPIRED_TOKEN);
       return next(error);
     } else {
-      request.headers["authorization"] = decoded;
+      request.headers["authorization"] =JSON.stringify(decoded);
       return next();
     }
   });
