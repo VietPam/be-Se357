@@ -1,5 +1,11 @@
+import { response } from "express";
 //-----Common-----//
-import { UnauthorizedError, BadRequestError } from "../common/errors.js";
+import {
+  UnauthorizedError,
+  BadRequestError,
+  ForbiddenError,
+} from "../common/errors.js";
+import { USER_ROLE } from "../common/userRoles.js";
 
 //-----Util-----//
 import { isDateValid } from "../util/check_date_validation.js";
@@ -8,6 +14,7 @@ import { isEmailValid } from "../util/check_email_validation.js";
 const MISSING_TOKEN = "Missing token";
 const MISSING_PARAMETERS = "Missing some parameters";
 const INVALID_PARAMETERS = "Some parameter is invalid";
+const INVALID_ACCESS_RIGHT = "User do not have access right";
 
 export const checkTokenAppearance = (request, response, next) => {
   const token = request.headers["authorization"];
@@ -33,17 +40,7 @@ export const checkLoginValidation = (request, response, next) => {
   return next();
 };
 
-
-
 export const checkUserValidation = (request, response, next) => {
-  if (
-    !request.body.data.email ||
-    !request.body.data.password ||
-    !request.body.data.name
-  ) {
-    const error = new BadRequestError(MISSING_PARAMETERS);
-    return next(error);
-  }
   if (
     !isEmailValid(request.body.data.email) ||
     !(typeof request.body.data.password === "string") ||
@@ -53,4 +50,34 @@ export const checkUserValidation = (request, response, next) => {
     return next(error);
   }
   return next();
+};
+
+export const checkPartialBuyerDataValidation = (request, response, next) => {
+  if (
+    request.body.data &&
+    !(typeof request.body.data.password === "string") &&
+    !(typeof request.body.data.name === "string") &&
+    !isDateValid(request.body.data.birthday) &&
+    !(typeof request.body.data.gender === "string") &&
+    !(typeof request.body.data.isActive === "boolean") &&
+    !Array.isArray(request.body.data.birthday) &&
+    !Array.isArray(request.body.data.phones)
+  ) {
+    const error = new BadRequestError(INVALID_PARAMETERS);
+    return next(error);
+  }
+  next();
+};
+
+export const checkAccess = (request, response, next) => {
+  const userPayload = JSON.parse(request.headers["authorization"]);
+  if (
+    userPayload.id != request.params.buyerId &&
+    userPayload.id != request.params.sellerId &&
+    userPayload.role != USER_ROLE.ADMIN
+  ) {
+    const error = new ForbiddenError(INVALID_ACCESS_RIGHT);
+    return next(error);
+  }
+  next();
 };

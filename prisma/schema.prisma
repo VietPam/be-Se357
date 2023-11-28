@@ -28,7 +28,7 @@ model Buyer {
   isActive     Boolean    @default(true)
   shoppingCart CartItem[]
   orders       Order[]
-  addresses    String[]   @db.Text
+  addresses    String[] 
 
   phones            String[]
   reviews           Review[]

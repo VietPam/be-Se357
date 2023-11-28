@@ -18,9 +18,11 @@ import {
   REFRESH_TOKEN_EXPIRATION_IN_SECONDS,
 } from "../config/config_tokens.js";
 
+//-----Common-----//
+import {USER_ROLE} from "../common/userRoles.js"
+
 const USER_IS_NOT_FOUND = "The user is not found";
 const WRONG_PASSWORD = "Wrong password";
-const USER_ROLE = { BUYER: "buyer", SELLER: "seller", ADMIN: "admin" };
 
 //public
 async function getCredentialByEmailAndPassword(email, password) {

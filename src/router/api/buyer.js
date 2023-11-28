@@ -5,10 +5,13 @@ const router = express.Router();
 import {
   checkTokenAppearance,
   checkUserValidation,
+  checkPartialBuyerDataValidation,
+  checkAccess,
 } from "../../middleware/validation.js";
 import {
   convertAccessTokenToUserPayload,
   standarlizeBirthday,
+  addUserIdFromRequestHeaderToRequestParams,
 } from "../../middleware/modification.js";
 import {
   NotAllowedMethodHandler,
@@ -17,7 +20,6 @@ import {
 
 //-----Service-----//
 import buyersController from "../../controller/buyersController.js";
-
 
 router.get(
   "/public",
@@ -28,6 +30,13 @@ router.get(
 );
 router.use("/public", NotAllowedMethodHandler);
 
+router.get(
+  "/",
+  checkTokenAppearance,
+  convertAccessTokenToUserPayload,
+  addUserIdFromRequestHeaderToRequestParams,
+  buyersController.getBuyerByID
+);
 router.post(
   "/",
   checkUserValidation,
@@ -75,12 +84,11 @@ router.put(
   "/favourite-products",
   checkTokenAppearance,
   convertAccessTokenToUserPayload,
-  checkFavouriteProductDataValidation,
+  checkFavouriteProductsDataValidation,
   addUserIdFromRequestHeaderToRequestParams,
   buyersController.setFavouriteProducts
 );
 router.use("/favourite-products", NotAllowedMethodHandler);
-
 
 router.get(
   "/following-sellers",
@@ -96,9 +104,11 @@ router.put(
   checkFollowingSellersDataValidation,
   addUserIdFromRequestHeaderToRequestParams,
   buyersController.setFollowingSellers
+);
+router.use("/following-sellers", NotAllowedMethodHandler);
 
-)
-router.use("/favourite-products", NotAllowedMethodHandler);
+router.post("/following-sellers/seller");
+router.use("/following-sellers/seller", NotAllowedMethodHandler);
 
 router.get(
   "/:buyerId/favourite-products",
@@ -197,7 +207,6 @@ router.delete(
   "/shopping-cart/item/:itemId",
   checkTokenAppearance,
   convertAccessTokenToUserPayload,
-  checkPartialCartItemDataValidation,
   addUserIdFromRequestHeaderToRequestParams,
   buyersController.deleteItemInCart
 );
