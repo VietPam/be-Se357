@@ -63,7 +63,7 @@ model Seller {
   name      String
   avatar    Bytes? //protected,public
   isActive  Boolean               @default(false)
-  bio       String
+  bio       String?
   products  Product[]
   orders    Order[]
   phones    String[]
@@ -87,7 +87,7 @@ model Order {
   quantity  Int
   product   Product     @relation(fields: [productId], references: [id])
   productId String      @db.Uuid
-  status    OrderStatus
+  status    OrderStatus @default(PENDING)
   Seller    Seller      @relation(fields: [sellerId], references: [id])
   sellerId  String      @db.Uuid
   createAt  DateTime    @default(now())
@@ -100,12 +100,12 @@ model Product {
   images     String[] //protected,public
   price      Int //protected,public
   stock      Int //protected
-  saleOff    Int //protected,public
+  saleOff    Int @default(0)//protected,public 
   desciption String //protected,public
   seller     Seller               @relation(fields: [sellerId], references: [id])
   sellerId   String               @db.Uuid //protected,public
   category   Category //protected,public
-  status     ProductStatus //protected-->get only
+  status     ProductStatus @default(PENDING) //protected-->get only
   cartItem   CartItem[]
   orderItem  Order[]
   reviews    Review[]
