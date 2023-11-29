@@ -9,17 +9,15 @@ export class BuyerDAO {
     this.#databaseConnection = new PrismaClient();
   }
 
-  async getBuyers(limit)
-  {
-    try{
+  async getBuyers(limit) {
+    try {
       await this.#databaseConnection.$connect();
       const buyers = await this.#databaseConnection.buyer.findMany({
-        take:limit
+        take: limit,
       });
       await this.#databaseConnection.$disconnect();
       return buyers;
-    }
-    catch(e){
+    } catch (e) {
       throw e;
     }
   }
@@ -29,7 +27,7 @@ export class BuyerDAO {
       await this.#databaseConnection.$connect();
       const buyer = await this.#databaseConnection.buyer.findUnique({
         where: {
-          id:id
+          id: id,
         },
       });
       await this.#databaseConnection.$disconnect();
@@ -68,16 +66,11 @@ export class BuyerDAO {
     }
   }
 
-  async createBuyer(newBuyer) {
+  async createBuyer(newBuyerData) {
     try {
       await this.#databaseConnection.$connect();
       await this.#databaseConnection.buyer.create({
-        data: {
-          email: newBuyer.email,
-          name: newBuyer.name,
-          password: newBuyer.password,
-          birthday: newBuyer.birthday,
-        },
+        data: { newBuyerData },
       });
       await this.#databaseConnection.$disconnect();
     } catch (e) {
@@ -85,24 +78,21 @@ export class BuyerDAO {
       throw e;
     }
   }
-/**
- * 
- * @param {string} id
- * @param {string[]} updatedColumns 
- * @param {string[]} values 
- */
-  async updateBuyer(id, updatedColumns, values) {
+  /**
+   *
+   * @param {string} id
+   * @param {string[]} updatedColumns
+   * @param {string[]} values
+   */
+  async updateBuyer(id, updatedDatasObject) {
     try {
-      const updatedDatas = {};
-      for (let i = 0; i < updatedColumns.length; i++) {
-        updatedDatas[updatedColumns[i]] = values[i];
-      }
+
       await this.#databaseConnection.$connect();
       await this.#databaseConnection.buyer.update({
         where: {
           id: id,
         },
-        data: updatedDatas,
+        data: updatedDatasObject,
       });
       await this.#databaseConnection.$disconnect();
     } catch (e) {

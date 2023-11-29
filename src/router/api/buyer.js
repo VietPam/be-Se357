@@ -14,7 +14,7 @@ import {
   checkProductIdValidation,
   checkCartItemDataValidation,
   checkShoppingCartDataValidation,
-  checkPartialCartItemDataValidation
+  checkPartialCartItemDataValidation,
 } from "../../middleware/validation.js";
 import {
   convertAccessTokenToUserPayload,
@@ -37,17 +37,10 @@ router.get(
   buyersController.getProtectedBuyerDataByID
 );
 router.use("/protected", NotAllowedMethodHandler);
-
-router.get(
-  "/protected",
-  checkTokenAppearance,
-  convertAccessTokenToUserPayload,
-  addUserIdFromRequestHeaderToRequestParams,
-  buyersController.getBuyerByID
-);
 router.post(
   "/protected",
   checkUserValidation,
+  checkProtectedPartialBuyerDataValidation,
   standarlizeBirthday,
   buyersController.createNewBuyer
 );

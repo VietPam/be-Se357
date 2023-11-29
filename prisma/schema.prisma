@@ -11,30 +11,31 @@ datasource db {
 }
 
 model Admin {
-  id       String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  email    String  @unique @db.VarChar(255)
-  password String
-  name     String
-  isActive Boolean @default(false)
+  id       String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid //protected,public
+  email    String  @unique @db.VarChar(255) //protected,public
+  password String //protected
+  name     String //protected,public
+  avatar   Bytes? //protected,public
+  isActive Boolean @default(true)
 }
 
 model Buyer {
-  id           String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  email        String     @unique @db.VarChar(255)
-  password     String
-  name         String
-  birthday     DateTime?
-  gender       Gender?
-  isActive     Boolean    @default(true)
-  shoppingCart CartItem[]
-  orders       Order[]
-  addresses    String[]
-
-  phones            String[]
+  id                String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid //protected,public
+  email             String                @unique @db.VarChar(255) //protected,public
+  password          String //protected
+  name              String //protected,public
+  avatar            Bytes? //protected,public
+  birthday          DateTime? //protected
+  gender            Gender? //protected
+  isActive          Boolean               @default(true)
+  shoppingCart      CartItem[]
+  orders            Order[]
+  addresses         String[] //protected
+  phones            String[] //protected
   reviews           Review[]
   following         Buyer_Follow_Seller[]
   favouriteProducts Buyer_Like_Product[]
-  createAt          DateTime              @default(now()) @ignore
+  createAt          DateTime              @default(now())
 }
 
 model Buyer_Like_Product {
@@ -42,7 +43,7 @@ model Buyer_Like_Product {
   buyerId    String   @db.Uuid
   product    Product  @relation(fields: [productId], references: [id])
   productId  String   @db.Uuid
-  assignedAt DateTime @default(now()) @ignore
+  assignedAt DateTime @default(now())
 
   @@id([buyerId, productId])
 }
@@ -53,7 +54,7 @@ model Buyer_Follow_Seller {
   seller   Seller @relation(fields: [sellerId], references: [id])
   sellerId String @db.Uuid
 
-  assignedAt DateTime @default(now()) @ignore
+  assignedAt DateTime @default(now())
 
   @@id([buyerId, sellerId])
 }
@@ -63,12 +64,13 @@ model Seller {
   email     String                @unique @db.VarChar(255)
   password  String
   name      String
+  avatar    Bytes? //protected,public
   isActive  Boolean               @default(false)
   bio       String
   products  Product[]
   orders    Order[]
   phones    String[]
-  addresses String[]              
+  addresses String[]
   followers Buyer_Follow_Seller[]
 }
 
@@ -91,8 +93,8 @@ model Order {
   status    OrderStatus
   Seller    Seller      @relation(fields: [sellerId], references: [id])
   sellerId  String      @db.Uuid
-  createAt  DateTime    @default(now()) @ignore
-  updateAt  DateTime    @updatedAt @ignore
+  createAt  DateTime    @default(now())
+  updateAt  DateTime    @updatedAt
 }
 
 model Product {
@@ -112,26 +114,26 @@ model Product {
   reviews    Review[]
   options    ProductOption[]
   likers     Buyer_Like_Product[]
-  createAt   DateTime             @default(now()) @ignore
-  updateAt   DateTime             @updatedAt @ignore
+  createAt   DateTime             @default(now())
+  updateAt   DateTime             @updatedAt
 }
 
 model ProductOption {
-  id        Int     @id @default(autoincrement()) @ignore
+  id        Int     @id @default(autoincrement())
   option    String
   product   Product @relation(fields: [productId], references: [id])
   productId String  @db.Uuid
 }
 
 model Review {
-  id        Int      @id @default(autoincrement()) @ignore
+  id        Int      @id @default(autoincrement())
   product   Product  @relation(fields: [productID], references: [id])
   productID String   @db.Uuid
   Buyer     Buyer    @relation(fields: [buyerId], references: [id])
   buyerId   String   @db.Uuid
   rating    Int
   content   String
-  createAt  DateTime @default(now()) @ignore
+  createAt  DateTime @default(now())
 }
 
 enum Category {

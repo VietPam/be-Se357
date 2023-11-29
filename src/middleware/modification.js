@@ -84,5 +84,5 @@ export const convertRefreshTokenToUserPayload = async (
 };
 
 export const addUserIdFromRequestHeaderToRequestParams=async(request,response,next)=>{
-  request.params.id=JSON.parse(request.headers["authorization"])
+  request.params.id=JSON.parse(request.headers["authorization"]).id
 }

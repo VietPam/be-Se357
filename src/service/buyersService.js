@@ -20,6 +20,27 @@ async function getBuyerByID(buyerID) {
   }
 }
 
+async function getProtectedBuyerByID(buyerID) {
+  try {
+    const buyerRepository = new BuyerDAO();
+    const buyer = await buyerRepository.getBuyerByID(buyerID);
+    const protectedBuyerData = {
+      id: buyer.id,
+      email: buyer.email,
+      password: buyer.password,
+      name: buyer.name,
+      avatar: buyer.avatar,
+      birthday: buyer.birthday,
+      gender: buyer.gender,
+      addresses: buyer.addresses,
+      phones: buyer.phones,
+    };
+    return protectedBuyerData;
+  } catch (e) {
+    throw e;
+  }
+}
+
 async function getBuyerByEmail(email) {
   try {
     const buyerRepository = new BuyerDAO();
@@ -30,15 +51,24 @@ async function getBuyerByEmail(email) {
   }
 }
 /**
- * 
- * @param {number} limit 
- * @returns 
+ *
+ * @param {number} limit
+ * @returns
  */
 async function getBuyers(limit) {
   try {
     const buyerRepository = new BuyerDAO();
     const buyers = await buyerRepository.getBuyers(limit);
     return buyers;
+  } catch (e) {
+    throw e;
+  }
+}
+
+async function updateBuyer(buyerID, updatedDatas) {
+  try {
+    const buyerRepository = new BuyerDAO();
+    await buyerRepository.updateBuyer(buyerID,updatedDatas);
   } catch (e) {
     throw e;
   }
@@ -74,4 +104,5 @@ export default {
   addNewReview,
   updateActivationStatus,
   getBuyers,
+  getProtectedBuyerByID,updateBuyer
 };

@@ -13,6 +13,7 @@ import { isDateValid } from "../util/check_date_validation.js";
 import { isEmailValid } from "../util/check_email_validation.js";
 import { isStringArray } from "../util/check_string_array_validation.js";
 import { isValidPropertiesObject } from "../util/check_valid_properties_validation.js";
+import { isBase64 } from "../util/check_base64_validation.js";
 
 const MISSING_TOKEN = "Missing token";
 const MISSING_PARAMETERS = "Missing some parameters";
@@ -79,6 +80,7 @@ export const checkProtectedPartialBuyerDataValidation = (
     "gender",
     "phones",
     "addresses",
+    "avatar",
   ];
   if (
     !isValidPropertiesObject(request.body.data, propertiesToKeep) ||
@@ -93,7 +95,9 @@ export const checkProtectedPartialBuyerDataValidation = (
     (!isStringArray(request.body.data.addresses) &&
       request.body.data.hasOwnProperty("addresses")) ||
     (!isStringArray(request.body.data.phones) &&
-      request.body.data.hasOwnProperty("phones"))
+      request.body.data.hasOwnProperty("phones")) ||
+    (!isBase64(request.body.data.avatar) &&
+      request.body.data.hasOwnProperty("avatar"))
   ) {
     const error = new BadRequestError(INVALID_PARAMETERS);
     return next(error);
@@ -105,6 +109,7 @@ export const checkPartialBuyerDataValidation = (request, response, next) => {
   const propertiesToKeep = [
     "password",
     "name",
+    "avatar",
     "birthday",
     "gender",
     "phones",
@@ -126,7 +131,9 @@ export const checkPartialBuyerDataValidation = (request, response, next) => {
     (!isStringArray(request.body.data.phones) &&
       request.body.data.hasOwnProperty("phones")) ||
     (!(typeof request.body.data.isActive === "boolean") &&
-      request.body.data.hasOwnProperty("isActive"))
+      request.body.data.hasOwnProperty("isActive")) ||
+    (!isBase64(request.body.data.avatar) &&
+      request.body.data.hasOwnProperty("avatar"))
   ) {
     const error = new BadRequestError(INVALID_PARAMETERS);
     return next(error);
