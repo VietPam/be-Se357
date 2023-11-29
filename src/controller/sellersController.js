@@ -129,7 +129,7 @@ export default class SellersController {
       const activeProducts = products.filter(
         (item) => item.status == PRODUCT_STATUS.VERIFIED
       );
-      const publishedProducts = products.map((item) => {
+      const publishedProducts = activeProducts.map((item) => {
         return {
           id: item.id,
           name: item.name,
@@ -141,7 +141,7 @@ export default class SellersController {
         };
       });
       return response.status(StatusCodes.OK).json({
-        data: publicSellerData,
+        data: publishedProducts,
       });
     } catch (e) {
       return next(e);
