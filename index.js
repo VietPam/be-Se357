@@ -15,7 +15,7 @@ import { generateKeyPairAndSave } from "./src/util/generate-keypair.js";
 import {
   ACCESS_TOKEN_KEYS_FOLDER_PATH,
   REFRESH_TOKEN_KEYS_FOLDER_PATH,
-} from "./src/common/tokenKeysFolderPaths.js";
+} from "./src/config/config_tokens.js";
 
 //-----Middleware-----//
 import { errorHandler } from "./src/middleware/errorHandler.js";

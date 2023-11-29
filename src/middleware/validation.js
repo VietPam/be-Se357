@@ -20,17 +20,7 @@ const MISSING_PARAMETERS = "Missing some parameters";
 const INVALID_PARAMETERS = "Some parameter is invalid";
 const INVALID_ACCESS_RIGHT = "User do not have access right";
 
-function isStringArray(arr) {
-  if (!Array.isArray(arr)) {
-    return false; // Not an array
-  }
-  for (let i = 0; i < arr.length; i++) {
-    if (typeof arr[i] !== "string") {
-      return false; // Element at index i is not a string
-    }
-  }
-  return true; // All elements are strings
-}
+
 
 export const checkTokenAppearance = (request, response, next) => {
   const token = request.headers["authorization"];

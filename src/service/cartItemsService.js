@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { CartItemDAO } from "../model/private/DAO/cartItemDAO";
+import { CartItemDAO } from "../model/private/DAO/cartItemDAO.js";
 
 async function createCartItem(buyerID, newCartItem) {
   try {
