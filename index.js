@@ -2,7 +2,7 @@
 import express from "express";
 
 //-----config-----//
-import redisClient from "./src/config/connect_redis.js";
+import cache from "./src/config/connect_redis.js";
 
 //-----Internal modules-----//
 import { existsSync } from "fs";
@@ -36,7 +36,6 @@ const MODULUS_LENGTH = 2048;
 
 async function startServer() {
   try {
-    console.log("Lojo: ", path.join(REFRESH_TOKEN_KEYS_FOLDER_PATH, "key.pem"));
     if (
       !existsSync(path.join(REFRESH_TOKEN_KEYS_FOLDER_PATH, "key.pem")) ||
       !existsSync(path.join(REFRESH_TOKEN_KEYS_FOLDER_PATH, "key.pem.pub"))
@@ -53,15 +52,15 @@ async function startServer() {
       generateKeyPairAndSave(ACCESS_TOKEN_KEYS_FOLDER_PATH, MODULUS_LENGTH);
       console.log("Access token keys pair created successfully!");
     }
-    await redisClient.connect();
-    await redisClient.ping().then((res) => console.log(res));
+    await cache.connect();
+    await cache.ping().then((res) => console.log(res));
     app.listen(port, () => {
       console.log(`Server is running on port ${port}`);
     });
   } catch (error) {
     console.error("We gonna close this server", error);
-    await redisClient.flushAll();
-    await redisClient.disconnect();
+    await cache.flushAll();
+    await cache.disconnect();
     process.exit(1);
   }
 }

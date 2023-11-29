@@ -6,7 +6,8 @@ import {
   checkTokenAppearance,
   checkUserValidation,
   checkPartialBuyerDataValidation,
-  checkAccess,
+  checkAccessRight,
+  checkAdminRight,
 } from "../../middleware/validation.js";
 import {
   convertAccessTokenToUserPayload,
@@ -59,7 +60,7 @@ router.get(
   checkTokenAppearance,
   convertAccessTokenToUserPayload,
   standarlizeBirthday,
-  checkAccess,
+  checkAccessRight,
   buyersController.getBuyerByID
 );
 router.patch(
@@ -68,10 +69,20 @@ router.patch(
   convertAccessTokenToUserPayload,
   checkPartialBuyerDataValidation,
   standarlizeBirthday,
-  checkAccess,
+  checkAccessRight,
   buyersController.updateBuyer
 );
 router.use("/:buyerId", NotAllowedMethodHandler);
+
+router.patch(
+  "/:buyerId/activation-status",
+  checkTokenAppearance,
+  convertAccessTokenToUserPayload,
+  checkUserActivationStatus,
+  checkAdminRight,
+  buyersController.updateBuyer
+);
+router.use("/:buyerId/activation-status", NotAllowedMethodHandler);
 
 router.get(
   "/favourite-products",
@@ -114,7 +125,7 @@ router.get(
   "/:buyerId/favourite-products",
   checkTokenAppearance,
   convertAccessTokenToUserPayload,
-  checkAccess,
+  checkAccessRight,
   buyersController.getFavouriteProducts
 );
 router.use("/:buyerId/favourite-products", NotAllowedMethodHandler);
@@ -152,7 +163,7 @@ router.get(
   "/:buyerId/orders",
   checkTokenAppearance,
   convertAccessTokenToUserPayload,
-  checkAccess,
+  checkAccessRight,
   buyersController.getOrders
 );
 router.use("/:buyerId/orders", NotAllowedMethodHandler);
@@ -217,3 +228,4 @@ router.use("/shopping-cart/item/:itemId", NotAllowedMethodHandler);
 router.use(URLNotExistHandler);
 
 export default router;
+

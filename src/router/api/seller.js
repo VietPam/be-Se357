@@ -28,7 +28,7 @@ router.get(
   addUserIdFromRequestHeaderToRequestParams,
   sellersController.getPublicSellerDataByID
 );
-router.use("/public",NotAllowedMethodHandler);
+router.use("/public", NotAllowedMethodHandler);
 
 router.post(
   "/",
@@ -51,7 +51,7 @@ router.get(
   "/:sellerId",
   checkTokenAppearance,
   convertAccessTokenToUserPayload,
-  checkAccess,
+  checkAccessRight,
   sellersController.getSellerByID
 );
 router.patch(
@@ -60,7 +60,7 @@ router.patch(
   convertAccessTokenToUserPayload,
   checkPartialSellerDataValidation,
   standarlizeBirthday,
-  checkAccess,
+  checkAccessRight,
   sellersController.updateSeller
 );
 router.use("/:sellerId", NotAllowedMethodHandler);
@@ -73,6 +73,9 @@ router.get(
   sellersController.getPublishedProducts
 );
 router.use("/:sellerId/public/products", NotAllowedMethodHandler);
+
+router.patch(":sellerId/activation-status",);
+router.use("/:sellerId/activation-status", NotAllowedMethodHandler);
 
 router.get(
   "/products",
@@ -87,7 +90,7 @@ router.get(
   "/:sellerId/products",
   checkTokenAppearance,
   convertAccessTokenToUserPayload,
-  checkAccess,
+  checkAccessRight,
   sellersController.getProducts
 );
 router.use("/:sellerId/products", NotAllowedMethodHandler);
@@ -105,7 +108,7 @@ router.get(
   "/:sellerId/orders",
   checkTokenAppearance,
   convertAccessTokenToUserPayload,
-  checkAccess,
+  checkAccessRight,
   sellersController.getOrders
 );
 router.use("/:sellerId/orders", NotAllowedMethodHandler);

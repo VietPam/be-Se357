@@ -45,7 +45,7 @@ router.get(
   "/:adminId",
   checkTokenAppearance,
   convertAccessTokenToUserPayload,
-  checkAccess,
+  checkAccessRight,
   adminsController.getAdminByID
 );
 router.patch(
@@ -54,7 +54,7 @@ router.patch(
   convertAccessTokenToUserPayload,
   checkPartialAdminDataValidation,
   standarlizeBirthday,
-  checkAccess,
+  checkAccessRight,
   adminsController.updateAdmin
 );
 router.use("/:adminId", NotAllowedMethodHandler);
