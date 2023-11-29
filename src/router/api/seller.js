@@ -6,11 +6,14 @@ import {
   checkTokenAppearance,
   checkUserValidation,
   checkAccessRight,
-  checkPartialSellerDataValidation
+  checkPartialSellerDataValidation,
+  checkProtectedPartialBuyerDataValidation,
+  checkAdminRight,
 } from "../../middleware/validation.js";
 import {
   convertAccessTokenToUserPayload,
-  standarlizeBirthday,addUserIdFromRequestHeaderToRequestParams
+  standarlizeBirthday,
+  addUserIdFromRequestHeaderToRequestParams,
 } from "../../middleware/modification.js";
 import {
   NotAllowedMethodHandler,
@@ -30,6 +33,15 @@ router.get(
   addUserIdFromRequestHeaderToRequestParams,
   sellersController.getProtectedSellerDataByID
 );
+router.patch(
+  "/protected",
+  checkTokenAppearance,
+  convertAccessTokenToUserPayload,
+  checkProtectedPartialBuyerDataValidation,
+  standarlizeBirthday,
+  addUserIdFromRequestHeaderToRequestParams,
+  sellersController.updateSeller
+);
 router.use("/protected", NotAllowedMethodHandler);
 
 router.post(
@@ -38,22 +50,13 @@ router.post(
   standarlizeBirthday,
   sellersController.createNewSeller
 );
-router.patch(
-  "/",
-  checkTokenAppearance,
-  convertAccessTokenToUserPayload,
-  checkPartialSellerDataValidation,
-  standarlizeBirthday,
-  addUserIdFromRequestHeaderToRequestParams,
-  sellersController.updateSeller
-);
 router.use("/", NotAllowedMethodHandler);
 
 router.get(
   "/:sellerId",
   checkTokenAppearance,
   convertAccessTokenToUserPayload,
-  checkAccessRight,
+  checkAdminRight,
   sellersController.getSellerByID
 );
 router.patch(
@@ -62,7 +65,7 @@ router.patch(
   convertAccessTokenToUserPayload,
   checkPartialSellerDataValidation,
   standarlizeBirthday,
-  checkAccessRight,
+  checkAdminRight,
   sellersController.updateSeller
 );
 router.use("/:sellerId", NotAllowedMethodHandler);
@@ -75,27 +78,6 @@ router.get(
   sellersController.getPublishedProducts
 );
 router.use("/:sellerId/public/products", NotAllowedMethodHandler);
-
-router.patch(":sellerId/activation-status",);
-router.use("/:sellerId/activation-status", NotAllowedMethodHandler);
-
-router.get(
-  "/products",
-  checkTokenAppearance,
-  convertAccessTokenToUserPayload,
-  addUserIdFromRequestHeaderToRequestParams,
-  sellersController.getProducts
-);
-router.use("/products", NotAllowedMethodHandler);
-
-router.get(
-  "/:sellerId/products",
-  checkTokenAppearance,
-  convertAccessTokenToUserPayload,
-  checkAccessRight,
-  sellersController.getProducts
-);
-router.use("/:sellerId/products", NotAllowedMethodHandler);
 
 router.get(
   "/orders",

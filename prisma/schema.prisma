@@ -57,13 +57,13 @@ model Buyer_Follow_Seller {
 }
 
 model Seller {
-  id        String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  email     String                @unique @db.VarChar(255)
+  id        String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid//protected,public
+  email     String                @unique @db.VarChar(255)//protected,public
   password  String
-  name      String
+  name      String//protected,public
   avatar    Bytes? //protected,public
   isActive  Boolean               @default(false)
-  bio       String?
+  bio       String?//protected,public
   products  Product[]
   orders    Order[]
   phones    String[]

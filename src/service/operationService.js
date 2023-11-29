@@ -2,7 +2,11 @@ import { PrismaClient } from "@prisma/client";
 import { BuyerDAO } from "../model/private/DAO/buyerDAO.js";
 import { SellerDAO } from "../model/private/DAO/sellerDAO.js";
 import { AdminDAO } from "../model/private/DAO/adminDAO.js";
-import { NotFoundError, UnauthorizedError } from "../common/errors.js";
+import {
+  ForbiddenError,
+  NotFoundError,
+  UnauthorizedError,
+} from "../common/errors.js";
 
 //-----Helper-----//
 import { comparePasswords } from "../helper/working_with_password.js";
@@ -19,10 +23,11 @@ import {
 } from "../config/config_tokens.js";
 
 //-----Common-----//
-import {USER_ROLE} from "../common/userRoles.js"
+import { USER_ROLE } from "../common/userRoles.js";
 
 const USER_IS_NOT_FOUND = "The user is not found";
 const WRONG_PASSWORD = "Wrong password";
+const INACTIVE_USER = "This user is inactive";
 
 //public
 async function getCredentialByEmailAndPassword(email, password) {
@@ -58,11 +63,13 @@ async function getCredentialByEmailAndPassword(email, password) {
         user = admin;
         user.role = USER_ROLE.ADMIN;
       }
-
+      if (!user.isActive) {
+        const error = new ForbiddenError(INACTIVE_USER);
+        throw error;
+      }
       if (await comparePasswords(password, user.password)) {
         //create credential
-        console.log("password: ", user.password);
-        console.log("id: ", user.id);
+
         await removeCredentialInCacheByUserID(user.id);
         return await generateCredentials(user.id, user.role);
       } else {

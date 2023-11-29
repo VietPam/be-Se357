@@ -286,3 +286,36 @@ export const checkPartialSellerDataValidation = (request, response, next) => {
   }
   next();
 };
+
+
+export const checkProtectedPartialSellerDataValidation = (request, response, next) => {
+  const propertiesToKeep = [
+    "password",
+    "name",
+    "avatar",
+    "bio",
+    "phones",
+    "addresses",
+  ];
+  if (
+    !isValidPropertiesObject(request.body.data, propertiesToKeep) ||
+    (request.body.data.hasOwnProperty("password") &&
+      !(typeof request.body.data.password === "string")) ||
+    (!(typeof request.body.data.name === "string") &&
+      request.body.data.hasOwnProperty("name")) ||
+    (!isDateValid(request.body.data.birthday) &&
+      request.body.data.hasOwnProperty("bio")) ||
+    (!(typeof request.body.data.gender === "string") &&
+      request.body.data.gender) ||
+    (!isStringArray(request.body.data.addresses) &&
+      request.body.data.hasOwnProperty("addresses")) ||
+    (!isStringArray(request.body.data.phones) &&
+      request.body.data.hasOwnProperty("phones")) ||
+    (!isBase64(request.body.data.avatar) &&
+      request.body.data.hasOwnProperty("avatar"))
+  ) {
+    const error = new BadRequestError(INVALID_PARAMETERS);
+    return next(error);
+  }
+  next();
+};

@@ -202,6 +202,7 @@ async function setFavouriteProducts(buyerID, newFavouriteProducts) {
   }
 }
 
+
 export default {
   createNewBuyer,
   getBuyerByID,

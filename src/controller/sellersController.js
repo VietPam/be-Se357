@@ -90,8 +90,6 @@ export default class SellersController {
     }
   }
 
-
-
   static async getOrders(request, response, next) {
     try {
       const SellerID = request.params.id;
@@ -104,4 +102,22 @@ export default class SellersController {
     }
   }
 
+  static async getPublicSellerDataByID(request,response,next){
+    try {
+      const SellerID = request.params.id;
+      const seller = await sellersService.getSellerByID(SellerID);
+      const publicSellerData={
+        id:seller.id,
+        name:seller.name,
+        email:seller.email,
+        bio:seller.bio,
+        avatar:seller.avatar
+      }
+      return response.status(StatusCodes.OK).json({
+        data: publicSellerData,
+      });
+    } catch (e) {
+      return next(e);
+    }
+  }
 }
