@@ -1,1 +1,1 @@
-export const USER_ROLE = { BUYER: "buyer", SELLER: "seller", ADMIN: "admin" };
+export const USER_ROLE = { BUYER: "BUYER", SELLER: "SELLER", ADMIN: "ADMIN" };
