@@ -11,7 +11,9 @@ function updateCategory(productID, newCategory) {}
 function updateStatus(productID, newStatus) {}
 function addNewReview(productID, newReview) {}
 
-module.exports = {
+async function getProductsBySellerID(sellerID) {}
+
+export default {
   createProduct,
   getProducts,
   getProductByID,
@@ -24,4 +26,5 @@ module.exports = {
   updateCategory,
   updateStatus,
   addNewReview,
+  getProductsBySellerID,
 };

@@ -4,7 +4,8 @@ import StatusCodes from "http-status-codes";
 import { ConflictError, NotFoundError } from "../common/errors.js";
 import reviewsService from "../service/reviewsService.js";
 import cartItemsService from "../service/cartItemsService.js";
-
+import productsService from "../service/productsService.js";
+import { PRODUCT_STATUS } from "../common/productStatus.js";
 const CREATE_SUCCESSFULLY = "Created successfully";
 const UPDATE_SUCCESSFULLY = "Updated successfully";
 
@@ -26,7 +27,7 @@ export default class SellersController {
       const seller = await sellersService.getSellerByID(sellerID);
       response.status(StatusCodes.OK).json({
         data: {
-            seller,
+          seller,
         },
       });
     } catch (e) {
@@ -102,17 +103,43 @@ export default class SellersController {
     }
   }
 
-  static async getPublicSellerDataByID(request,response,next){
+  static async getPublicSellerDataByID(request, response, next) {
     try {
       const SellerID = request.params.id;
       const seller = await sellersService.getSellerByID(SellerID);
-      const publicSellerData={
-        id:seller.id,
-        name:seller.name,
-        email:seller.email,
-        bio:seller.bio,
-        avatar:seller.avatar
-      }
+      const publicSellerData = {
+        id: seller.id,
+        name: seller.name,
+        email: seller.email,
+        bio: seller.bio,
+        avatar: seller.avatar,
+      };
+      return response.status(StatusCodes.OK).json({
+        data: publicSellerData,
+      });
+    } catch (e) {
+      return next(e);
+    }
+  }
+
+  static async getPublishedProducts(request, response, next) {
+    try {
+      const SellerID = request.params.id;
+      const products = await productsService.getProductsBySellerID(SellerID);
+      const activeProducts = products.filter(
+        (item) => item.status == PRODUCT_STATUS.VERIFIED
+      );
+      const publishedProducts = products.map((item) => {
+        return {
+          id: item.id,
+          name: item.name,
+          images: item.images,
+          price: item.price,
+          saleOff: item.saleOff,
+          desciption: item.desciption,
+          sellerId: item.sellerId,
+        };
+      });
       return response.status(StatusCodes.OK).json({
         data: publicSellerData,
       });
