@@ -5,7 +5,7 @@ const router = express.Router();
 import {
   checkTokenAppearance,
   checkUserValidation,
-  checkPartialBuyerDataValidation,
+  checkProtectedPartialBuyerDataValidation,
   checkAccessRight,
   checkAdminRight,
 } from "../../middleware/validation.js";
@@ -23,44 +23,43 @@ import {
 import buyersController from "../../controller/buyersController.js";
 
 router.get(
-  "/public",
+  "/protected",
   checkTokenAppearance,
   convertAccessTokenToUserPayload,
   addUserIdFromRequestHeaderToRequestParams,
-  buyersController.getPublicBuyerDataByID
+  buyersController.getProtectedBuyerDataByID
 );
-router.use("/public", NotAllowedMethodHandler);
+router.use("/protected", NotAllowedMethodHandler);
 
 router.get(
-  "/",
+  "/protected",
   checkTokenAppearance,
   convertAccessTokenToUserPayload,
   addUserIdFromRequestHeaderToRequestParams,
   buyersController.getBuyerByID
 );
 router.post(
-  "/",
+  "/protected",
   checkUserValidation,
   standarlizeBirthday,
   buyersController.createNewBuyer
 );
 router.patch(
-  "/",
+  "/protected",
   checkTokenAppearance,
   convertAccessTokenToUserPayload,
-  checkPartialBuyerDataValidation,
+  checkProtectedPartialBuyerDataValidation,
   standarlizeBirthday,
   addUserIdFromRequestHeaderToRequestParams,
   buyersController.updateBuyer
 );
-router.use("/", NotAllowedMethodHandler);
+router.use("/protected", NotAllowedMethodHandler);
 
 router.get(
   "/:buyerId",
   checkTokenAppearance,
   convertAccessTokenToUserPayload,
-  standarlizeBirthday,
-  checkAccessRight,
+  checkAdminRight,
   buyersController.getBuyerByID
 );
 router.patch(
@@ -69,20 +68,11 @@ router.patch(
   convertAccessTokenToUserPayload,
   checkPartialBuyerDataValidation,
   standarlizeBirthday,
-  checkAccessRight,
+  checkAdminRight,
   buyersController.updateBuyer
 );
 router.use("/:buyerId", NotAllowedMethodHandler);
 
-router.patch(
-  "/:buyerId/activation-status",
-  checkTokenAppearance,
-  convertAccessTokenToUserPayload,
-  checkUserActivationStatus,
-  checkAdminRight,
-  buyersController.updateBuyer
-);
-router.use("/:buyerId/activation-status", NotAllowedMethodHandler);
 
 router.get(
   "/favourite-products",

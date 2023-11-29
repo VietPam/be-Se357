@@ -66,7 +66,7 @@ export const checkUserValidation = (request, response, next) => {
   return next();
 };
 
-export const checkPartialBuyerDataValidation = (request, response, next) => {
+export const checkProtectedPartialBuyerDataValidation = (request, response, next) => {
   const propertiesToKeep = [
     "password",
     "name",
@@ -84,6 +84,33 @@ export const checkPartialBuyerDataValidation = (request, response, next) => {
       !(typeof request.body.data.gender === "string") &&
       !isStringArray(request.body.data.addresses) &&
       !isStringArray(request.body.data.phones))
+  ) {
+    const error = new BadRequestError(INVALID_PARAMETERS);
+    return next(error);
+  }
+  next();
+};
+
+export const checkPartialBuyerDataValidation=(request, response, next) => {
+  const propertiesToKeep = [
+    "password",
+    "name",
+    "birthday",
+    "gender",
+    "phones",
+    "addresses",
+    "isActive"
+  ];
+  if (
+    isInvalidPropertiesObject(request.body.data) ||
+    (request.body.data &&
+      !(typeof request.body.data.password === "string") &&
+      !(typeof request.body.data.name === "string") &&
+      !isDateValid(request.body.data.birthday) &&
+      !(typeof request.body.data.gender === "string") &&
+      !isStringArray(request.body.data.addresses) &&
+      !isStringArray(request.body.data.phones))&&
+      
   ) {
     const error = new BadRequestError(INVALID_PARAMETERS);
     return next(error);
@@ -121,3 +148,4 @@ export const checkFavouriteProductsDataValidation = (
   if (request.body.data.favouriteProducts) {
   }
 };
+
