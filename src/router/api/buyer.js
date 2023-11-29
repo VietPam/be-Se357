@@ -90,28 +90,42 @@ router.put(
 );
 router.use("/favourite-products", NotAllowedMethodHandler);
 
-router.get(
-  "/following-sellers",
-  checkTokenAppearance,
-  convertAccessTokenToUserPayload,
-  addUserIdFromRequestHeaderToRequestParams,
-  buyersController.getFollowingSellers
-);
-router.put(
-  "/following-sellers",
-  checkTokenAppearance,
-  convertAccessTokenToUserPayload,
-  checkFollowingSellersDataValidation,
-  addUserIdFromRequestHeaderToRequestParams,
-  buyersController.setFollowingSellers
-);
-router.use("/following-sellers", NotAllowedMethodHandler);
+// router.get(
+//   "/following-sellers",
+//   checkTokenAppearance,
+//   convertAccessTokenToUserPayload,
+//   addUserIdFromRequestHeaderToRequestParams,
+//   buyersController.getFollowingSellers
+// );
+// router.put(
+//   "/following-sellers",
+//   checkTokenAppearance,
+//   convertAccessTokenToUserPayload,
+//   checkSellerIdValidation,
+//   addUserIdFromRequestHeaderToRequestParams,
+//   buyersController.setFollowingSellers
+// );
+// router.use("/following-sellers", NotAllowedMethodHandler);
 
-router.post("/following-sellers/seller");
-router.use("/following-sellers/seller", NotAllowedMethodHandler);
+// router.post(
+//   "/following-sellers/seller",
+//   checkTokenAppearance,
+//   convertAccessTokenToUserPayload,
+//   checkSellerIdValidation,
+//   addUserIdFromRequestHeaderToRequestParams,
+//   buyersController.followSeller
+// );
+// router.use("/following-sellers/seller", NotAllowedMethodHandler);
 
-router.delete("/following-sellers/seller/:sellerId");
-router.use("/following-sellers/seller/:sellerId", NotAllowedMethodHandler);
+// router.delete(
+//   "/following-sellers/seller/:sellerId",
+//   checkTokenAppearance,
+//   convertAccessTokenToUserPayload,
+//   checkSellerIdValidation,
+//   addUserIdFromRequestHeaderToRequestParams,
+//   buyersController.deleteFollowingSeller
+// );
+// router.use("/following-sellers/seller/:sellerId", NotAllowedMethodHandler);
 
 router.get(
   "/:buyerId/favourite-products",
@@ -197,14 +211,6 @@ router.post(
 );
 router.use("/shopping-cart/item", NotAllowedMethodHandler);
 
-router.patch(
-  "/shopping-cart/item/:itemId",
-  checkTokenAppearance,
-  convertAccessTokenToUserPayload,
-  checkPartialCartItemDataValidation,
-  addUserIdFromRequestHeaderToRequestParams,
-  buyersController.updateItemInCart
-);
 router.delete(
   "/shopping-cart/item/:itemId",
   checkTokenAppearance,

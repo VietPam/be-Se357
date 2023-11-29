@@ -5,10 +5,12 @@ import {
   checkLoginValidation,
   checkTokenAppearance,
   checkUserValidation,
+  checkAccessRight,
+  checkPartialSellerDataValidation
 } from "../../middleware/validation.js";
 import {
   convertAccessTokenToUserPayload,
-  standarlizeBirthday,
+  standarlizeBirthday,addUserIdFromRequestHeaderToRequestParams
 } from "../../middleware/modification.js";
 import {
   NotAllowedMethodHandler,
@@ -22,13 +24,13 @@ import sellersController from "../../controller/sellersController.js";
  */
 
 router.get(
-  "/public",
+  "/protected",
   checkTokenAppearance,
   convertAccessTokenToUserPayload,
   addUserIdFromRequestHeaderToRequestParams,
-  sellersController.getPublicSellerDataByID
+  sellersController.getProtectedSellerDataByID
 );
-router.use("/public", NotAllowedMethodHandler);
+router.use("/protected", NotAllowedMethodHandler);
 
 router.post(
   "/",

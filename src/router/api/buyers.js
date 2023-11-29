@@ -5,6 +5,7 @@ import {
   checkLoginValidation,
   checkTokenAppearance,
   checkUserValidation,
+  checkAdminRight
 } from "../../middleware/validation.js";
 import {
   convertAccessTokenToUserID,
@@ -14,8 +15,10 @@ import {
   NotAllowedMethodHandler,
   URLNotExistHandler,
 } from "../../middleware/errorHandler.js";
+import BuyersController from "../../controller/buyersController.js";
 
-router.get("/public");
+router.get("/public",
+checkAdminRight,BuyersController.getPublicBuyers);
 router.use("/public",NotAllowedMethodHandler);
 
 router.use(URLNotExistHandler);

@@ -5,7 +5,7 @@ import {
   BadRequestError,
   ForbiddenError,
 } from "../common/errors.js";
-import { isCartItem, isValidCart } from "../common/dataType.js";
+import { isCartItem, isValidCart } from "../helper/check_some_cart.js";
 import { USER_ROLE } from "../common/userRoles.js";
 
 //-----Util-----//
@@ -250,4 +250,39 @@ export const checkPartialCartItemDataValidation = (request, response, next) => {
     return next(error);
   }
   return next();
+};
+
+export const checkPartialSellerDataValidation = (request, response, next) => {
+  const propertiesToKeep = [
+    "password",
+    "name",
+    "avatar",
+    "bio",
+    "phones",
+    "addresses",
+    "isActive",
+  ];
+  if (
+    !isValidPropertiesObject(request.body.data, propertiesToKeep) ||
+    (request.body.data.hasOwnProperty("password") &&
+      !(typeof request.body.data.password === "string")) ||
+    (!(typeof request.body.data.name === "string") &&
+      request.body.data.hasOwnProperty("name")) ||
+    (!isDateValid(request.body.data.birthday) &&
+      request.body.data.hasOwnProperty("bio")) ||
+    (!(typeof request.body.data.gender === "string") &&
+      request.body.data.gender) ||
+    (!isStringArray(request.body.data.addresses) &&
+      request.body.data.hasOwnProperty("addresses")) ||
+    (!isStringArray(request.body.data.phones) &&
+      request.body.data.hasOwnProperty("phones")) ||
+    (!(typeof request.body.data.isActive === "boolean") &&
+      request.body.data.hasOwnProperty("isActive")) ||
+    (!isBase64(request.body.data.avatar) &&
+      request.body.data.hasOwnProperty("avatar"))
+  ) {
+    const error = new BadRequestError(INVALID_PARAMETERS);
+    return next(error);
+  }
+  next();
 };

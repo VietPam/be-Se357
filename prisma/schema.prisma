@@ -28,13 +28,13 @@ model Buyer {
   birthday          DateTime? //protected
   gender            Gender? //protected
   isActive          Boolean               @default(true)
-  shoppingCart      CartItem[]
-  orders            Order[]
+  shoppingCart      CartItem[] //skip
+  orders            Order[] //skip
   addresses         String[] //protected
   phones            String[] //protected
-  reviews           Review[]
-  following         Buyer_Follow_Seller[]
-  favouriteProducts Buyer_Like_Product[]
+  reviews           Review[] //skip
+  following         Buyer_Follow_Seller[] //skip
+  favouriteProducts Buyer_Like_Product[] //skip
   createAt          DateTime              @default(now())
 }
 
@@ -44,7 +44,6 @@ model Buyer_Like_Product {
   product    Product  @relation(fields: [productId], references: [id])
   productId  String   @db.Uuid
   assignedAt DateTime @default(now())
-
   @@id([buyerId, productId])
 }
 
@@ -53,9 +52,7 @@ model Buyer_Follow_Seller {
   buyerId  String @db.Uuid
   seller   Seller @relation(fields: [sellerId], references: [id])
   sellerId String @db.Uuid
-
   assignedAt DateTime @default(now())
-
   @@id([buyerId, sellerId])
 }
 
@@ -98,21 +95,21 @@ model Order {
 }
 
 model Product {
-  id         String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name       String
-  images     String[]
-  price      Int
-  stock      Int
-  saleOff    Int
-  desciption String
+  id         String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid //protected,public
+  name       String //protected,public
+  images     String[] //protected,public
+  price      Int //protected,public
+  stock      Int //protected
+  saleOff    Int //protected,public
+  desciption String //protected,public
   seller     Seller               @relation(fields: [sellerId], references: [id])
-  sellerId   String               @db.Uuid
-  category   Category
-  status     ProductStatus
+  sellerId   String               @db.Uuid //protected,public
+  category   Category //protected,public
+  status     ProductStatus //protected-->get only
   cartItem   CartItem[]
   orderItem  Order[]
   reviews    Review[]
-  options    ProductOption[]
+  options    ProductOption[]//protected,public
   likers     Buyer_Like_Product[]
   createAt   DateTime             @default(now())
   updateAt   DateTime             @updatedAt
@@ -127,8 +124,8 @@ model ProductOption {
 
 model Review {
   id        Int      @id @default(autoincrement())
-  product   Product  @relation(fields: [productID], references: [id])
-  productID String   @db.Uuid
+  product   Product  @relation(fields: [productId], references: [id])
+  productId String   @db.Uuid
   Buyer     Buyer    @relation(fields: [buyerId], references: [id])
   buyerId   String   @db.Uuid
   rating    Int

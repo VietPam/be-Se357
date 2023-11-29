@@ -32,7 +32,7 @@ export class BuyerDAO {
       });
       await this.#databaseConnection.$disconnect();
       return new Promise((resolve, reject) => {
-        if (user) {
+        if (buyer) {
           resolve(buyer);
         } else {
           const error = new NotFoundError(USER_NOT_FOUND);
@@ -70,7 +70,7 @@ export class BuyerDAO {
     try {
       await this.#databaseConnection.$connect();
       await this.#databaseConnection.buyer.create({
-        data: { newBuyerData },
+        data: newBuyerData,
       });
       await this.#databaseConnection.$disconnect();
     } catch (e) {

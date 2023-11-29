@@ -22,6 +22,9 @@ router.use("/",NotAllowedMethodHandler);
 router.get("/public/:productId");
 router.use("/public/:productId",NotAllowedMethodHandler);
 
+router.get("/protected/:productId");
+router.use("/protected/:productId",NotAllowedMethodHandler);
+
 router.get("/:productId");
 router.patch("/:productId");
 router.use("/:productId",NotAllowedMethodHandler);
