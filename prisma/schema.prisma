@@ -28,7 +28,7 @@ model Buyer {
   isActive     Boolean    @default(true)
   shoppingCart CartItem[]
   orders       Order[]
-  addresses    String[] 
+  addresses    String[]
 
   phones            String[]
   reviews           Review[]
@@ -68,7 +68,7 @@ model Seller {
   products  Product[]
   orders    Order[]
   phones    String[]
-  addresses String[]             @db.Text
+  addresses String[]              
   followers Buyer_Follow_Seller[]
 }
 

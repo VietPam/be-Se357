@@ -5,13 +5,14 @@ import {
   BadRequestError,
   ForbiddenError,
 } from "../common/errors.js";
+import { isCartItem, isValidCart } from "../common/dataType.js";
 import { USER_ROLE } from "../common/userRoles.js";
 
 //-----Util-----//
 import { isDateValid } from "../util/check_date_validation.js";
 import { isEmailValid } from "../util/check_email_validation.js";
 import { isStringArray } from "../util/check_string_array_validation.js";
-import { isInvalidPropertiesObject } from "../util/check_has_invalid_properties_validation.js";
+import { isValidPropertiesObject } from "../util/check_valid_properties_validation.js";
 
 const MISSING_TOKEN = "Missing token";
 const MISSING_PARAMETERS = "Missing some parameters";
@@ -66,7 +67,11 @@ export const checkUserValidation = (request, response, next) => {
   return next();
 };
 
-export const checkProtectedPartialBuyerDataValidation = (request, response, next) => {
+export const checkProtectedPartialBuyerDataValidation = (
+  request,
+  response,
+  next
+) => {
   const propertiesToKeep = [
     "password",
     "name",
@@ -76,14 +81,19 @@ export const checkProtectedPartialBuyerDataValidation = (request, response, next
     "addresses",
   ];
   if (
-    isInvalidPropertiesObject(request.body.data) ||
-    (request.body.data &&
-      !(typeof request.body.data.password === "string") &&
-      !(typeof request.body.data.name === "string") &&
-      !isDateValid(request.body.data.birthday) &&
-      !(typeof request.body.data.gender === "string") &&
-      !isStringArray(request.body.data.addresses) &&
-      !isStringArray(request.body.data.phones))
+    !isValidPropertiesObject(request.body.data, propertiesToKeep) ||
+    (request.body.data.hasOwnProperty("password") &&
+      !(typeof request.body.data.password === "string")) ||
+    (!(typeof request.body.data.name === "string") &&
+      request.body.data.hasOwnProperty("name")) ||
+    (!isDateValid(request.body.data.birthday) &&
+      request.body.data.hasOwnProperty("birthday")) ||
+    (!(typeof request.body.data.gender === "string") &&
+      request.body.data.gender) ||
+    (!isStringArray(request.body.data.addresses) &&
+      request.body.data.hasOwnProperty("addresses")) ||
+    (!isStringArray(request.body.data.phones) &&
+      request.body.data.hasOwnProperty("phones"))
   ) {
     const error = new BadRequestError(INVALID_PARAMETERS);
     return next(error);
@@ -91,7 +101,7 @@ export const checkProtectedPartialBuyerDataValidation = (request, response, next
   next();
 };
 
-export const checkPartialBuyerDataValidation=(request, response, next) => {
+export const checkPartialBuyerDataValidation = (request, response, next) => {
   const propertiesToKeep = [
     "password",
     "name",
@@ -99,18 +109,24 @@ export const checkPartialBuyerDataValidation=(request, response, next) => {
     "gender",
     "phones",
     "addresses",
-    "isActive"
+    "isActive",
   ];
   if (
-    isInvalidPropertiesObject(request.body.data) ||
-    (request.body.data &&
-      !(typeof request.body.data.password === "string") &&
-      !(typeof request.body.data.name === "string") &&
-      !isDateValid(request.body.data.birthday) &&
-      !(typeof request.body.data.gender === "string") &&
-      !isStringArray(request.body.data.addresses) &&
-      !isStringArray(request.body.data.phones))&&
-      
+    !isValidPropertiesObject(request.body.data, propertiesToKeep) ||
+    (request.body.data.hasOwnProperty("password") &&
+      !(typeof request.body.data.password === "string")) ||
+    (!(typeof request.body.data.name === "string") &&
+      request.body.data.hasOwnProperty("name")) ||
+    (!isDateValid(request.body.data.birthday) &&
+      request.body.data.hasOwnProperty("birthday")) ||
+    (!(typeof request.body.data.gender === "string") &&
+      request.body.data.gender) ||
+    (!isStringArray(request.body.data.addresses) &&
+      request.body.data.hasOwnProperty("addresses")) ||
+    (!isStringArray(request.body.data.phones) &&
+      request.body.data.hasOwnProperty("phones")) ||
+    (!(typeof request.body.data.isActive === "boolean") &&
+      request.body.data.hasOwnProperty("isActive"))
   ) {
     const error = new BadRequestError(INVALID_PARAMETERS);
     return next(error);
@@ -145,7 +161,86 @@ export const checkFavouriteProductsDataValidation = (
   response,
   next
 ) => {
-  if (request.body.data.favouriteProducts) {
+  const propertiesToKeep = ["favouriteProducts"];
+  if (
+    (request.body.data.hasOwnProperty("favouriteProducts") &&
+      !isStringArray(request.body.data.favouriteProducts)) ||
+    !isValidPropertiesObject(request.body.data, propertiesToKeep)
+  ) {
+    const error = new BadRequestError(INVALID_PARAMETERS);
+    return next(error);
   }
+  return next();
 };
 
+export const checkFollowingSellersDataValidation = (
+  request,
+  response,
+  next
+) => {
+  const propertiesToKeep = ["followingSellers"];
+  if (
+    (request.body.data.hasOwnProperty("followingSellers") &&
+      !isStringArray(request.body.data.followingSellers)) ||
+    !isValidPropertiesObject(request.body.data, propertiesToKeep)
+  ) {
+    const error = new BadRequestError(INVALID_PARAMETERS);
+    return next(error);
+  }
+  return next();
+};
+
+export const checkProductIdValidation = (request, response, next) => {
+  const propertiesToKeep = ["productId"];
+  if (
+    (request.body.data.hasOwnProperty("productId") &&
+      !(typeof request.body.data.productId === "string")) ||
+    !isValidPropertiesObject(request.body.data, propertiesToKeep)
+  ) {
+    const error = new BadRequestError(INVALID_PARAMETERS);
+    return next(error);
+  }
+  return next();
+};
+
+export const checkCartItemDataValidation = (request, response, next) => {
+  const propertiesToKeep = ["quantity", "productId"];
+  if (
+    (request.body.data.hasOwnProperty("cartItem") &&
+      !isCartItem(request.body.data)) ||
+    !isValidPropertiesObject(request.body.data, propertiesToKeep)
+  ) {
+    const error = new BadRequestError(INVALID_PARAMETERS);
+    return next(error);
+  }
+  return next();
+};
+
+export const checkShoppingCartDataValidation = (request, response, next) => {
+  const propertiesToKeep = ["shoppingCart"];
+  if (
+    (request.body.data.hasOwnProperty("shoppingCart") &&
+      !isValidCart(request.body.data.shoppingCart)) ||
+    !isValidPropertiesObject(request.body.data, propertiesToKeep)
+  ) {
+    const error = new BadRequestError(INVALID_PARAMETERS);
+    return next(error);
+  }
+  return next();
+};
+
+export const checkPartialCartItemDataValidation = (request, response, next) => {
+  const propertiesToKeep = ["quantity"];
+  if (
+    (request.body.data.hasOwnProperty("quantity") &&
+      !(
+        Number.isInteger(request.body.data.quantity) &&
+        request.body.data.quantity > 0
+      )) ||
+    !isValidPropertiesObject(request.body.data, propertiesToKeep)
+  ) {
+    const error = new BadRequestError(INVALID_PARAMETERS);
+    return next(error);
+  }
+  return next();
+};

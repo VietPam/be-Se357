@@ -8,6 +8,13 @@ import {
   checkProtectedPartialBuyerDataValidation,
   checkAccessRight,
   checkAdminRight,
+  checkPartialBuyerDataValidation,
+  checkFavouriteProductsDataValidation,
+  checkFollowingSellersDataValidation,
+  checkProductIdValidation,
+  checkCartItemDataValidation,
+  checkShoppingCartDataValidation,
+  checkPartialCartItemDataValidation
 } from "../../middleware/validation.js";
 import {
   convertAccessTokenToUserPayload,
@@ -73,7 +80,6 @@ router.patch(
 );
 router.use("/:buyerId", NotAllowedMethodHandler);
 
-
 router.get(
   "/favourite-products",
   checkTokenAppearance,
@@ -111,6 +117,9 @@ router.use("/following-sellers", NotAllowedMethodHandler);
 router.post("/following-sellers/seller");
 router.use("/following-sellers/seller", NotAllowedMethodHandler);
 
+router.delete("/following-sellers/seller/:sellerId");
+router.use("/following-sellers/seller/:sellerId", NotAllowedMethodHandler);
+
 router.get(
   "/:buyerId/favourite-products",
   checkTokenAppearance,
@@ -134,7 +143,6 @@ router.delete(
   "/favourite-products/product/:productId",
   checkTokenAppearance,
   convertAccessTokenToUserPayload,
-  checkProductIdValidation,
   addUserIdFromRequestHeaderToRequestParams,
   buyersController.deleteProductFromFavouriteProducts
 );
@@ -218,4 +226,3 @@ router.use("/shopping-cart/item/:itemId", NotAllowedMethodHandler);
 router.use(URLNotExistHandler);
 
 export default router;
-
