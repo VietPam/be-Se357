@@ -19,8 +19,6 @@ import {
 router.post("/login", checkLoginValidation, AuthController.login);
 router.use("/login", NotAllowedMethodHandler);
 
-// router.post("/seller/login",checkLoginValidation,);
-// router.use("/seller/login", NotAllowedMethodHandler,);
 
 router.post(
   "/logout",
