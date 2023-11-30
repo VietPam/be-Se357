@@ -17,32 +17,9 @@ class UserController{
         }
     }
     
-    //users?role=admin,customer
-    // async getAllUser(req,res) {
-    //     let query =req.query;
-
-    //     if(req.query.role){
-    //         query.role = req.query.role.toUpperCase().split(',')
-    //     }
-
-    //     if(req.query.textSearch){
-    //         query.nameAccount ={
-    //             $regex: req.query.textSearch
-    //         };
-    //     };
-
-    //     try {
-    //         const user = await userModel.find(query)
-    //         res.send(user)
-    //     } catch(err){
-    //         res.send({message: err.message})
-    //     }
-    // }
-
     async Register(req,res){
         const {email,password, nameAccount,phone,role} = req.body;
 
-        // simple vadidate
         if(!email || !password){
             return res  
                     .status(400)
@@ -50,7 +27,6 @@ class UserController{
         }
 
         try{
-            // check for existing user
             const user = await userModel.findOne({email});
 
             if(user){
@@ -58,11 +34,6 @@ class UserController{
                         .status(400)
                         .json({success: false, message:'Email already taken'});
             }
-            //All good til now
-
-            const hashedPassword = await argon2.hash(password)
-            //khong hashed
-            //const newUser = new userModel({email,password:hashedPassword, nameAccount, phone, role})
             const newUser = new userModel({email,password, nameAccount, phone, role})
             await newUser.save();
             

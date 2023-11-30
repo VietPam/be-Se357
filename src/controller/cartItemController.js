@@ -133,7 +133,7 @@ class CartItemController {
         }
     }
     async deleteById(req, res) {
-        const cartItemId = req.params.id;
+        const cartItemId = req.query.id;
         console.log(cartItemId);
         try {
             const cartItem = await cartItemSchema.findByIdAndDelete(cartItemId);

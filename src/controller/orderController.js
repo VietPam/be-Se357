@@ -1,28 +1,20 @@
 //implement controller for order
 const orderSchema = require('../model/order')
-const axios = require('axios');
-const cartItemSchema = require('../model/cartItem')
-
 class orderController {
 
-    //bấm thanh toán thì tạo order
-    async createOrder(req, res) {//chưa xong
-        if(req.body.cartItemsId==null){
+    async createOrder(req, res) {
+        if(req.body.cartItemId==null){
             res.status(500).json({ errCode: 500, errMessage: "Internal server error" })
         }
-        const { cartItemsId, addressId } = req.body
+        const { cartItemId, addressId, userId } = req.body
         const order = await new orderSchema({
-            cartItemsId: cartItemsId,
+            cartItemId: cartItemId,
             address: addressId,
+            userId: userId,
         })
         try {
-            const temp = await order.save()
-            // sau khi lưu thành công thì xóa các cartitems khỏi giỏ hàng
-            //xóa các cartitem
-            // cartItemsId.forEach(async (item) => {
-            //     await cartItemSchema.findByIdAndDelete(item._id)
-            // })
-            res.status(200).json({ message: "Add new order successfully", temp })
+            const data = await order.save()
+            res.status(200).json({ message: "Create new order successfully", data })
         } catch (e) {
             res.status(500).json({ errCode: 500, errMessage: "Internal server error" })
         }

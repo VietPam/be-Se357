@@ -25,17 +25,16 @@ class ProductController {
         try {
             const product = await new productSchema({
                 typeId: "65572eec3632afc337bd1b04",
-                productName:req.body.title,
-                productPrice:parseInt(req.body.price_discount),
+                productName:req.body.productName,
+                productPrice:parseInt(req.body.productPrice),
                 discount:parseInt(req.body.discount),
                 productSalePrice:req.body.productSalePrice,
-                productImgList:req.body.imgs,
+                productImgList:req.body.productImgList,
                 sold:5000,
-                productImg:req.body.img,
-                description:req.body.highlight,
+                productImg:req.body.productImg,
+                description:req.body.description,
                 option:req.body.option,
                 details:req.body.details,
-                productStatus:req.body.productStatus,
                 avrRating:4.5,
                 productInventory:200,
             })

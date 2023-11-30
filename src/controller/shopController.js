@@ -1,5 +1,6 @@
-const { default: mongoose } = require('mongoose')
+const { default: mongoose } = require('mongoose');
 const shopSchema = require('../model/shop')
+const userSchema = require('../model/user')
 class ShopDTO {
     constructor(nameShop, bossId) {
         this.nameShop = nameShop;
@@ -9,7 +10,7 @@ class ShopDTO {
 class ShopController {
     async getAll(req,res){
         try {
-            const data = await shopSchema.find();
+            const data = await shopSchema.find({isDeleted:false}).select('-isDeleted -__v');
             res.status(200).json({ message: "Find shop successfully", data });
         } catch (err) {
             res.status(500).json({ message: "Error from the server" });
@@ -17,7 +18,7 @@ class ShopController {
     }
     async createNew(req,res){
         try {
-            if (req.body.nameShop==null){
+            if (req.body.nameShop==null || req.body.bossId==null){
                 return res.status(500).json({message: "empty params"});
             }
             const duplicateShop = await shopSchema.findOne({nameShop:req.body.nameShop})

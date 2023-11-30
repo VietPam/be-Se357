@@ -22,7 +22,7 @@ let cartItemSchema = new Schema({
         type: Number,
         default: 1
     },
-    productAmount :{
+    productAmount: {
         type: Number,
     },
     productDelivery: { // ngày giao hàng
@@ -44,17 +44,9 @@ let cartItemSchema = new Schema({
         default: 0,
     },
     option: {
-        type: Map,
-        of: String,
-        default: {
-            "Size": "S"
-        }
+        type: String,
+        default: "S"
     },
-    productInventory: {
-        type: Number,
-        //ref từ product qua
-    }
-
 });
 //truoc khi luu thi ghep' productName + image display 
 cartItemSchema.pre('save', async function (next) {
@@ -68,17 +60,14 @@ cartItemSchema.pre('save', async function (next) {
             cartItem.productImg = product.productImg;
             cartItem.productInventory = product.productInventory;
         }
-        cartItem.productAmount = cartItem.productQuantity* cartItem.productSalePrice;
+        cartItem.productAmount = cartItem.productQuantity * cartItem.productSalePrice;
         next();
     } catch (error) {
         next("Lỗi middleware pre save in cart item .js, " + error);
     }
 });
 
-/**
- * pre update => check lai productPrice
 
- */
 cartItemSchema.pre('save', async function (next) {
     try {
         const cartItem = this;
@@ -98,7 +87,7 @@ cartItemSchema.pre('save', async function (next) {
                 cartItem.productName = product.productName;
                 cartItem.productPrice = product.productPrice * cartItem.productQuantity;
                 cartItem.productImg = product.productImg;
-                cartItem.productSalePrice= product.productSalePrice;
+                cartItem.productSalePrice = product.productSalePrice;
                 cartItem.productInventory = product.productInventory;
             }
         }
@@ -108,7 +97,7 @@ cartItemSchema.pre('save', async function (next) {
         next("Lỗi middleware pre save in cart item .js, " + error);
     }
 });
-cartItemSchema.post('findOneAndUpdate', function(cartitem) {
+cartItemSchema.post('findOneAndUpdate', function (cartitem) {
     if (cartitem.productQuantity || cartitem.productSalePrice) {
         cartitem.productAmount = cartitem.productQuantity * cartitem.productSalePrice;
     }

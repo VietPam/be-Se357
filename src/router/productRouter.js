@@ -7,4 +7,4 @@ const productController = require('../controller/productController')
 router.get('/homepage',productController.getProductInHomePage)
 router.get('/detail',productController.findProductByProductId)
 router.post('/new',productController.createProduct)
-module.exports = router;
+module.exports  = router;

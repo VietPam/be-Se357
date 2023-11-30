@@ -8,7 +8,7 @@ const shopRouter = require('./shopRouter')
 function route(app){
   
     app.use('/user',userRouter)
-    app.use('/cartItem',cartItemRouter)
+    app.use('/cart',cartItemRouter)
     app.use('/shop',shopRouter) 
     app.use('/product',productRouter)
     app.use('/typeproduct',typeProductRouter)
