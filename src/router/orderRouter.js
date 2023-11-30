@@ -4,8 +4,8 @@ const router = express.Router();
 const orderController = require('../controller/orderController')
 
 router.post('/createOrder',orderController.createOrder)
-router.get('/getAllOrderByUserId/:id',orderController.getAllOrderByUserId)
-router.get('/getAllOrderByShopId/:id',orderController.getAllOrderByShopId)
+router.get('/getAllOrderByUserId',orderController.getAllOrderByUserId)
+router.get('/getAllOrderByShopId',orderController.getAllOrderByShopId)
 
 
 module.exports = router;

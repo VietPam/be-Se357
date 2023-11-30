@@ -17,15 +17,16 @@ let orderSchema= new Schema({
         required: true,
         ref: "Address"
     },
-
-
+    shopId:{
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref:"Shop"
+    },
     total:{
         type:Number,
         required:true,
         default:0
     },
-
-
 
 
 

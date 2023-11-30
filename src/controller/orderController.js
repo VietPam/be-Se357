@@ -6,11 +6,12 @@ class orderController {
         if(req.body.cartItemId==null){
             res.status(500).json({ errCode: 500, errMessage: "Internal server error" })
         }
-        const { cartItemId, addressId, userId } = req.body
+        const { cartItemId, addressId, userId, shopId } = req.body
         const order = await new orderSchema({
             cartItemId: cartItemId,
             address: addressId,
             userId: userId,
+            shopId: shopId,
         })
         try {
             const data = await order.save()
@@ -21,7 +22,7 @@ class orderController {
     }
     //
     async getAllOrderByUserId(req, res) {
-        const userId = req.params.id;
+        const userId = req.query.id;
         try{
             const orders = await orderSchema.find({userId:userId})
             res.status(200).json(orders);
@@ -31,7 +32,7 @@ class orderController {
 
     }
     async getAllOrderByShopId(req, res) {
-        const shopId = req.params.id;
+        const shopId = req.query.id;
         try{
             const orders = await orderSchema.find({shopId:shopId})
             res.status(200).json(orders);
